@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png">
+    <title>RZGate - HTTP Proxy for Roomzin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comfortaa', sans-serif;
+        }
+
+        b {
+            font-weight: bold !important;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f0f8ff;
+        }
+
+        section {
+            margin: 1em auto !important;
+            padding: 25px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Consistent Header with Navigation Links -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo text-2xl font-semibold">
+                <img src="img/logo.png" style="float: left; margin-top:10px; width: 200px;" alt="Roomzin Logo" />
+            </div>
+            <div class="space-x-8">
+                <a href="index.html" class="font-semibold hover:text-blue-600">Home</a>
+                <a href="architecture.html" class="font-semibold hover:text-blue-600">Architecture</a>
+                <a href="benchmarks.html" class="font-semibold hover:text-blue-600">Benchmarks</a>
+                <a href="rzgate.html" class="font-semibold hover:text-blue-600">RzGate</a>
+                <a href="docs.html" class="font-semibold hover:text-blue-600">Docs</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-800 text-white text-center py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-3xl font-bold tracking-tight mb-6" style="color: white !important;">
+                RZGate: Instant HTTP Access to Roomzin
+            </h2>
+            <p class="text-xl max-w-3xl mx-auto opacity-90 mb-6">
+                A lightweight, high-performance HTTP/JSON proxy that lets any system tap into Roomzin's sub-millisecond
+                inventory engine — without native SDK integration.
+            </p>
+        </div>
+    </div>
+
+    <section class="mb-12 bg-gradient-to-br from-white to-indigo-50/30 shadow-xl rounded-2xl p-8">
+
+        <!-- Main content -->
+        <div class="max-w-4xl mx-auto">
+            <p class="text-gray-700 leading-relaxed mb-6 text-lg">
+                Many teams love Roomzin's speed but work with existing HTTP-based platforms or legacy booking engines
+                that
+                aren't ready for a native SDK yet.
+                <strong class="font-semibold text-indigo-700">RZGate</strong> is our lightweight HTTP/JSON proxy that
+                makes
+                adoption instant and risk-free.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <!-- Left column -->
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Immediate access</p>
+                            <p class="text-sm text-gray-600">Use Roomzin today with simple REST/JSON calls — no SDK
+                                changes required
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Separate scaling & monitoring</p>
+                            <p class="text-sm text-gray-600">Run RZGate independently — isolate traffic, add auth
+                                layers, or scale
+                                horizontally</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right column -->
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Perfect for testing & staging</p>
+                            <p class="text-sm text-gray-600">Quick integration in CI/CD, QA environments, or third-party
+                                systems</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Performance</p>
+                            <p class="text-sm text-gray-600">Rzgate is highly tuned and adds a tiny overhead vs
+                                native protocol in real-world
+                                benchmarks</p>
+                            <p>The client read buffer affects the throughput per second. Tuning the client for fast-read
+                                is the key.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr />
+
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-indigo-600 mb-2">Single</div>
+                    <p class="text-gray-700 font-medium">Endpoint design</p>
+                    <p class="text-sm text-gray-600">JSON-RPC style — one URL, command-based</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-emerald-600 mb-2">Independent</div>
+                    <p class="text-gray-700 font-medium">Scaling & monitoring</p>
+                    <p class="text-sm text-gray-600">Deploy separately from Roomzin cluster</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Key Features -->
+    <section class="bg-gradient-to-br from-blue-50 to-white py-16">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Key Features</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">HTTPS + HTTP/2 + CORS</h3>
+                        <p class="text-gray-700">Production-ready TLS, full CORS, and HTTP/2 for maximum performance.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Token-Based RBAC</h3>
+                        <p class="text-gray-700">Full-access and read-only tokens — hot-reloadable without restart.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Prometheus Metrics</h3>
+                        <p class="text-gray-700"><code>GET /metrics</code> — full observability.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Minimal & Scalable</h3>
+                        <p class="text-gray-700">Single lightweight binary — easy horizontal scaling.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr />
+    <section>
+        <p class="text-xl opacity-80" style="text-align: center;padding-top: 10px;">
+            <b>HTTP/2 is fully supported and strongly recommended</b> <br />
+            it delivers significantly higher throughput
+            and lower latency than HTTP/1.1.
+        </p>
+    </section>
+    <hr />
+
+    <!-- Why RZGate -->
+    <section class="bg-gradient-to-br from-blue-50 to-white py-16">
+        <div class="container mx-auto px-4 max-w-6xl text-center">
+            <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-1 bg-indigo-600 rounded-full"></div>
+                <h2 class="text-2xl font-bold text-gray-800">Perfect For</h2>
+                <div class="w-12 h-1 bg-indigo-600 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-white rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Legacy & Monolithic Platforms</h3>
+                    <p class="text-gray-700 text-center">Add Roomzin power to existing HTTP-based OTAs without a full
+                        rewrite.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Edge, Serverless & Geo-Distribution
+                    </h3>
+                    <p class="text-gray-700 text-center">Deploy RZGate close to users, scale independently, isolate
+                        metrics.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0V8a3 3 0 013-3h4a3 3 0 013 3v10">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Partners, Aggregators & Testing</h3>
+                    <p class="text-gray-700 text-center">Simple token auth with read-only mode for safe external access.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr />
+
+    <!-- Full API Reference - Now pointing to the GitHub repository -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-1 bg-indigo-600 rounded-full"></div>
+                <h2 class="text-2xl font-bold text-gray-800">API Reference</h2>
+                <div class="w-12 h-1 bg-indigo-600 rounded-full"></div>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-8 mb-8">
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Documentation Hosted on GitHub</h3>
+                        <p class="text-gray-700 mb-4">
+                            The complete RzGate API reference, including all commands, request/response formats,
+                            authentication details, and configuration options, is maintained in the official repository.
+                        </p>
+                        <a href="https://github.com/m-javani/rzgate"
+                            class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.15 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.62.24 2.85.12 3.15.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-6">
+                <h4 class="font-semibold text-amber-800 mb-2">What's in the Repository</h4>
+                <ul class="space-y-2 text-sm text-amber-700">
+                    <li>• <strong>Complete command list</strong> — all 18 Roomzin commands with request/response
+                        examples</li>
+                    <li>• <strong>Configuration reference</strong> — every `rzgate.yml` option with defaults</li>
+                    <li>• <strong>Authentication guide</strong> — full-access and read-only token setup</li>
+                    <li>• <strong>CLI options</strong> — all command-line flags for running RzGate</li>
+                    <li>• <strong>Metrics reference</strong> — Prometheus metrics for monitoring</li>
+                    <li>• <strong>Installation instructions</strong> — download and run the binary</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <hr />
+
+    <section class="bg-white py-16">
+        <div class="max-w-4xl mx-auto px-6">
+
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Run RZGate</h2>
+
+            <!-- Binary -->
+            <div class="mb-10">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">1. Get the binary</h3>
+                <p class="text-gray-700">
+                    Request the single-file executable from the Roomzin support team (Linux x86_64,&nbsp;3&nbsp;MB).
+                    No dependencies, no package manager, no Docker.
+                </p>
+            </div>
+
+            <!-- Minimal quick-start -->
+            <div class="mb-10">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">2. Start the gateway</h3>
+                <pre
+                    class="bg-gray-100 text-gray-900 px-4 py-3 rounded border text-sm overflow-x-auto">./rzgate --https true</pre>
+                <p class="text-sm text-gray-600 mt-2">
+                    RZGate expects TLS certificates and will exit if they are missing when https enabled.
+                </p>
+            </div>
+
+            <!-- CLI flags -->
+            <div class="mb-10">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">3. Optional flags</h3>
+                <table class="w-full text-sm border-t border-gray-200">
+                    <thead class="text-left text-gray-500">
+                        <tr>
+                            <th class="py-2 font-normal">Flag</th>
+                            <th class="py-2 font-normal">Meaning</th>
+                            <th class="py-2 font-normal">Default</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-800">
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">-c, --config</td>
+                            <td class="py-2">Path to <code>rzgate.yml</code></td>
+                            <td class="py-2 text-gray-500">./rzgate.yml → /etc/rzgate/rzgate.yml</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">--auth_enabled</td>
+                            <td class="py-2">Enables authentication/access control</td>
+                            <td class="py-2 text-gray-500">false</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">--http</td>
+                            <td class="py-2">Enables http protocol access</td>
+                            <td class="py-2 text-gray-500">false</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">--https</td>
+                            <td class="py-2">Enables https protocol access</td>
+                            <td class="py-2 text-gray-500">false</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">-t, --tokens_path</td>
+                            <td class="py-2">Path to <code>auth.yml</code></td>
+                            <td class="py-2 text-gray-500">./auth.yml → /etc/rzgate/auth.yml</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">--tls-cert</td>
+                            <td class="py-2">PEM certificate file</td>
+                            <td class="py-2 text-gray-500">value from rzgate.yml</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-mono text-indigo-700">--tls-key</td>
+                            <td class="py-2">PEM private-key file</td>
+                            <td class="py-2 text-gray-500">value from rzgate.yml</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- File checklist -->
+            <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">4. Required files</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                    <li><code class="bg-white px-2 py-0.5 rounded border">rzgate.yml</code> – port, Roomzin cluster
+                        endpoints, TLS paths, log level</li>
+                    <li><code class="bg-white px-2 py-0.5 rounded border">auth.yml</code> – full-access and read-only
+                        bearer tokens (auto-reloaded)</li>
+                    <li><code class="bg-white px-2 py-0.5 rounded border">cert.pem / key.pem</code> – TLS assets (no
+                        plain-HTTP mode)</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+    <hr>
+    <section class="bg-white py-16">
+        <div class="max-w-4xl mx-auto px-6">
+
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Configuration file (<code>rzgate.yml</code>)</h2>
+
+            <p class="text-gray-700 mb-6">
+                A single YAML file controls every runtime setting.
+                Keys are optional unless marked required; defaults are shown.
+            </p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm border-t border-gray-200">
+                    <thead class="text-left text-gray-500">
+                        <tr>
+                            <th class="py-3 font-normal">Key</th>
+                            <th class="py-3 font-normal">Purpose</th>
+                            <th class="py-3 font-normal">Default / Example</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-800">
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">auth_enabled</td>
+                            <td class="py-3">Enables auth/access control check for RZGate</td>
+                            <td class="py-3 font-mono text-gray-600">false</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">http_enabled</td>
+                            <td class="py-3">Enables http access to RZGate</td>
+                            <td class="py-3 font-mono text-gray-600">false</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">https_enabled</td>
+                            <td class="py-3">Enables https access to RZGate</td>
+                            <td class="py-3 font-mono text-gray-600">false</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">http_port</td>
+                            <td class="py-3">Port RZGate listens on for http</td>
+                            <td class="py-3 font-mono text-gray-600">8777</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">https_port</td>
+                            <td class="py-3">Port RZGate listens on for https</td>
+                            <td class="py-3 font-mono text-gray-600">3443</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">roomzin_api_port</td>
+                            <td class="py-3">Roomzin cluster HTTP health/portfolio port</td>
+                            <td class="py-3 font-mono text-gray-600">8080</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">roomzin_tcp_port</td>
+                            <td class="py-3">Roomzin native TCP protocol port</td>
+                            <td class="py-3 font-mono text-gray-600">7777</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">seed_hosts</td>
+                            <td class="py-3">Comma-separated list of initial Roomzin nodes (no port)</td>
+                            <td class="py-3 font-mono text-gray-600">"roomzin-0,roomzin-1,roomzin-2"</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">tokens_path</td>
+                            <td class="py-3">Path to bearer-token file (auto-reloaded)</td>
+                            <td class="py-3 font-mono text-gray-600">"./auth.yml"</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">tls_cert_path</td>
+                            <td class="py-3">PEM certificate for HTTPS</td>
+                            <td class="py-3 font-mono text-gray-600">"./certs/cert.pem"</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono text-indigo-700">tls_key_path</td>
+                            <td class="py-3">PEM private key</td>
+                            <td class="py-3 font-mono text-gray-600">"./certs/key.pem"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-8 bg-gray-50 rounded-lg p-5 border border-gray-200 text-sm text-gray-700">
+                <strong class="text-gray-900">Tip:</strong>
+                <code>seed_hosts</code> are host-names only—ports are taken from <code>roomzin_api_port</code> and
+                <code>roomzin_tcp_port</code>.
+                RZGate discovers the rest of the cluster automatically.
+            </div>
+
+        </div>
+    </section>
+    <hr>
+
+    <section class="bg-white py-16">
+        <div class="max-w-4xl mx-auto px-6">
+
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Auth file (<code>auth.yml</code>)</h2>
+
+            <p class="text-gray-700 mb-6">
+                Bearer tokens are loaded once at start-up and watched for changes—no restart required.
+            </p>
+
+            <div class="bg-gray-50 rounded-lg p-5 border border-gray-200 font-mono text-sm text-gray-800">
+                # Token RZGate itself uses to talk to the Roomzin cluster<br>
+                roomzin_token: "abc123"<br>
+                <br>
+                # Client tokens that can read AND write<br>
+                full_access_tokens:<br>
+                &nbsp;&nbsp;- "rzgate123"<br>
+                &nbsp;&nbsp;- "rzgate456"<br>
+                <br>
+                # Client tokens that can only query/search<br>
+                read_only_tokens:<br>
+                &nbsp;&nbsp;- "partner789"<br>
+                &nbsp;&nbsp;- "externalABC"
+            </div>
+
+            <ul class="list-disc list-inside space-y-2 text-gray-700 text-sm mt-6">
+                <li><code>roomzin_token</code> must match the token configured on your Roomzin nodes.</li>
+                <li>Any string is valid; rotate by editing the file—RZGate reloads within seconds.</li>
+                <li>Returning <code>401 Unauthorized</code>? The supplied bearer token is missing or not listed above.
+                </li>
+            </ul>
+
+        </div>
+    </section>
+    <hr>
+
+    <section class="bg-white py-16">
+        <div class="max-w-4xl mx-auto px-6">
+
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Metrics</h2>
+
+            <p class="text-gray-700 mb-6">
+                A single <code>/metrics</code> endpoint exports everything Prometheus needs—no extra exporters required.
+                <strong>The endpoint is protected by the same bearer-token auth as every other route;</strong>
+                any valid token (read-only or full-access) will work.
+            </p>
+
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Exported series</h3>
+
+            <ul class="space-y-3 text-gray-800">
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">api_commands_total</code>
+                    – total JSON commands processed by RZGate
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">api_bytes_received_total</code>
+                    – HTTP request body bytes
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">api_bytes_sent_total</code>
+                    – HTTP response body bytes
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">api_client_errors_total</code>
+                    – 4xx / 5xx responses sent
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">api_client_login_fail_total</code>
+                    – rejected bearer tokens
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">backend_followers_total</code>
+                    – live Roomzin follower nodes RZGate is connected to (gauge)
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">backend_leader_change_total</code>
+                    – leader elections detected since startup
+                </li>
+                <li>
+                    <code class="bg-gray-100 px-2 py-0.5 rounded">backend_disconnect_total</code>
+                    – TCP disconnects from any Roomzin node
+                </li>
+            </ul>
+
+            <div class="mt-8 bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-900">
+                <strong>Ops note:</strong> RZGate does not restrict access to <code>/metrics</code> by IP or token type.
+                If you want to hide it from the internet, block the path at your load balancer, firewall, or
+                Prometheus-agent sidecar.
+            </div>
+
+        </div>
+    </section>
+    <hr>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-6">
+        <p>&copy; 2026 Roomzin. All rights reserved.</p>
+        <p class="mt-2">
+            <a href="index.html" class="hover:text-blue-400">Back to Roomzin Home</a>
+        </p>
+    </footer>
+</body>
+
+</html>
