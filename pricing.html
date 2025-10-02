@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png">
+    <title>Simple pricing for booking platforms</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="bg-white">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo text-2xl font-semibold">
+                <img src="img/logo.png" style="float: left;margin-top:10px; width: 200px;" />
+            </div>
+            <div class="space-x-4">
+                <a href="index.html" class="menu-link">Roomzin</a>
+                <a href="rzgate.html" class="menu-link">RzGate</a>
+                <a href="sdks.html" class="menu-link">SDKs</a>
+                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
+                <a href="download.html" class="menu-link">Download</a>
+                <a href="pricing.html" class="menu-link menu-active">Pricing</a>
+                <a href="docs.html" class="menu-link">Docs</a>
+                <a href="architecture.html" class="menu-link">Architecture</a>
+                <a href="contact.html" class="menu-link">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-6xl">
+
+        <!-- HERO SECTION -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-3">Simple, Transparent Pricing</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Annual per-shard license. No hidden fees. No per-request charges.
+                <br>What you see is what you pay.
+            </p>
+        </section>
+
+        <!-- PRICING CARDS -->
+        <section class="grid md:grid-cols-3 gap-6 mb-12">
+
+            <!-- Standalone -->
+            <div class="pricing-card bg-white rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Standalone</h3>
+                    <div class="mt-2">
+                        <span class="text-3xl font-bold text-gray-900">$4,000</span>
+                        <span class="text-gray-500 text-sm">/ year</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Single node · No HA</p>
+                </div>
+
+                <ul class="space-y-2 text-sm text-gray-600 flex-grow">
+                    <li><span class="check-icon">✓</span>Full feature set</li>
+                    <li><span class="check-icon">✓</span>Software updates</li>
+                    <li><span class="check-icon">✓</span>Email support</li>
+                    <li><span class="check-icon">✓</span>1 cluster / shard</li>
+                    <li class="text-gray-400"><span class="check-icon">✗</span>High availability</li>
+                    <li class="text-gray-400"><span class="check-icon">✗</span>Production SLA</li>
+                </ul>
+
+                <div class="mt-6">
+                    <a href="contact.html"
+                        class="inline-block bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-lg transition shadow-md">
+                        📧 Contact Sale
+                    </a>
+                </div>
+                <p class="text-sm text-gray-500 text-center mt-2">Best for non-critical workloads</p>
+            </div>
+
+            <!-- Standard (Popular) -->
+            <div
+                class="pricing-card popular bg-white rounded-2xl shadow-lg border-2 border-blue-600 p-6 flex flex-col relative">
+                <div class="absolute top-0 right-0 -mt-2 -mr-2">
+                    <span class="badge-popular">Most Popular</span>
+                </div>
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Standard</h3>
+                    <div class="mt-2">
+                        <span class="text-3xl font-bold text-gray-900">$6,000</span>
+                        <span class="text-gray-500 text-sm">/ year</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Per shard · 1–4 shards</p>
+                </div>
+
+                <ul class="space-y-2 text-sm text-gray-600 flex-grow">
+                    <li><span class="check-icon">✓</span>Full feature set</li>
+                    <li><span class="check-icon">✓</span>High availability (TiKV Raft)</li>
+                    <li><span class="check-icon">✓</span>Software updates</li>
+                    <li><span class="check-icon">✓</span>Email support</li>
+                    <li><span class="check-icon">✓</span>Production-ready</li>
+                    <li><span class="check-icon">✓</span>Sub-millisecond latency</li>
+                </ul>
+
+                <div class="mt-6">
+                    <a href="mailto:mehdy.javany@gmail.com?subject=Roomzin%20Standard%20License%20Inquiry"
+                        class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition shadow-md">
+                        Get Started
+                    </a>
+                </div>
+                <p class="text-sm text-gray-500 text-center mt-2">90%+ savings vs. complex HA stacks</p>
+            </div>
+
+            <!-- Enterprise -->
+            <div class="pricing-card bg-white rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col">
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Enterprise</h3>
+                    <div class="mt-2">
+                        <span class="text-3xl font-bold text-gray-900">Custom</span>
+                        <span class="text-gray-500 text-sm">/ year</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">5+ shards · Volume pricing</p>
+                </div>
+
+                <ul class="space-y-2 text-sm text-gray-600 flex-grow">
+                    <li><span class="check-icon">✓</span>Full feature set</li>
+                    <li><span class="check-icon">✓</span>High availability (TiKV Raft)</li>
+                    <li><span class="check-icon">✓</span>Software updates</li>
+                    <li><span class="check-icon">✓</span><strong>Priority</strong> support with guaranteed response
+                        times</li>
+                    <li><span class="check-icon">✓</span>Custom feature development</li>
+                    <li><span class="check-icon">✓</span>Multi-year commitments</li>
+                    <li><span class="check-icon">✓</span>Volume pricing for 5+ shards</li>
+                </ul>
+
+                <div class="mt-6">
+                    <a href="mailto:mehdy.javany@gmail.com?subject=Roomzin%20Enterprise%20License%20Inquiry"
+                        class="block text-center bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2.5 px-4 rounded-lg transition shadow-md">
+                        Contact Enterprise Sales
+                    </a>
+                </div>
+                <p class="text-sm text-gray-500 text-center mt-2">Pricing starts at $5,000/shard/year for 10+ shards</p>
+            </div>
+
+        </section>
+
+        <!-- VOLUME DISCOUNT TABLE -->
+        <section class="bg-white shadow-xl rounded-2xl p-8 border border-gray-100 mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Volume Discounts</h2>
+            <p class="text-gray-600 text-sm mb-6">Pricing scales with your deployment size. The more shards, the lower
+                the per-shard cost.</p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Shards / Clusters</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Price / Shard / Year</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Total Annual Cost</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Savings vs. Standard</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="py-3 px-4 font-medium text-gray-800">1–4</td>
+                            <td class="py-3 px-4 text-gray-700">$6,000</td>
+                            <td class="py-3 px-4 text-gray-700">$6,000 – $24,000</td>
+                            <td class="py-3 px-4 text-gray-400">—</td>
+                        </tr>
+                        <tr class="bg-blue-50/50">
+                            <td class="py-3 px-4 font-medium text-gray-800">5–9</td>
+                            <td class="py-3 px-4 text-gray-700">$5,500</td>
+                            <td class="py-3 px-4 text-gray-700">$27,500 – $49,500</td>
+                            <td class="py-3 px-4 text-green-600 font-medium">Save $500/shard</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium text-gray-800">10+</td>
+                            <td class="py-3 px-4 text-gray-700">$5,000</td>
+                            <td class="py-3 px-4 text-gray-700">$50,000+</td>
+                            <td class="py-3 px-4 text-green-600 font-medium">Save $1,000/shard</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-gray-500 mt-4">* All prices are annual per-shard licenses. Enterprise pricing
+                includes support and SLAs.</p>
+        </section>
+
+        <!-- PILOT PROGRAM -->
+        <section class="bg-gradient-to-br from-amber-50 to-yellow-50/30 border border-amber-200 rounded-2xl p-8 mb-12">
+            <div class="flex items-start gap-4">
+                <div class="text-3xl">🚀</div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800">Early Adopter Pilot Program</h3>
+                    <p class="text-gray-700 mt-1">
+                        <span class="font-semibold">30% off</span> your first year — just <span
+                            class="font-semibold">$4,200</span> for a Standard shard.
+                    </p>
+                    <ul class="text-sm text-gray-600 mt-3 space-y-1 list-disc list-inside">
+                        <li>Limited to <span class="font-semibold">10 pilot slots</span> (first come, first served)</li>
+                        <li>3–6 month pilot period</li>
+                        <li>Case study &amp; detailed feedback required</li>
+                        <li>Pricing reverts to standard at renewal</li>
+                    </ul>
+                    <a href="contact.html"
+                        class="inline-block mt-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                        Apply for Pilot →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROI CALCULATOR (Visual) -->
+        <section class="bg-white shadow-xl rounded-2xl p-8 border border-gray-100 mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">What You Save</h2>
+            <p class="text-gray-600 text-sm mb-6">Roomzin replaces any search+cache stack — Elasticsearch, Redis, or
+                custom solutions. Here's what customers
+                typically save.</p>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gray-50 rounded-xl p-5 text-center border border-gray-200">
+                    <div class="text-2xl font-bold text-gray-400 line-through">$20,000+</div>
+                    <div class="text-lg font-bold text-green-600">→ $6,000</div>
+                    <p class="text-sm text-gray-600 mt-1">Startup · 1 shard</p>
+                    <p class="text-xs text-gray-400">Save <span class="font-semibold text-green-600">$14,000+</span> /
+                        year</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-5 text-center border border-gray-200">
+                    <div class="text-2xl font-bold text-gray-400 line-through">$80,000+</div>
+                    <div class="text-lg font-bold text-green-600">→ $18,000</div>
+                    <p class="text-sm text-gray-600 mt-1">Mid-sized OTA · 3 shards</p>
+                    <p class="text-xs text-gray-400">Save <span class="font-semibold text-green-600">$62,000+</span> /
+                        year</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-5 text-center border border-gray-200">
+                    <div class="text-2xl font-bold text-gray-400 line-through">$400,000+</div>
+                    <div class="text-lg font-bold text-green-600">→ $75,000</div>
+                    <p class="text-sm text-gray-600 mt-1">Global OTA · 15 shards</p>
+                    <p class="text-xs text-gray-400">Save <span class="font-semibold text-green-600">$325,000+</span> /
+                        year</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <h4 class="font-semibold text-gray-700">What's a "shard"?</h4>
+                    <p class="text-gray-600">A shard is an independent, fully-replicated Roomzin cluster. Large OTAs
+                        typically have one shard per region (e.g., Paris, New York, Tokyo).</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700">Can I use Roomzin in production without a license?</h4>
+                    <p class="text-gray-600">No. The binary is fully functional for evaluation, but a commercial license
+                        is required for production use under BUSL-1.1.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700">What's included in the license?</h4>
+                    <p class="text-gray-600">Full feature set, software updates, email support, and the right to use
+                        Roomzin in production for one year.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700">Do you offer discounts for non-profits or open-source
+                        projects?</h4>
+                    <p class="text-gray-600">Yes — contact us with your use case and we'll discuss options.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700">How do I get started?</h4>
+                    <p class="text-gray-600">Download the binary from our <a href="download.html"
+                            class="text-blue-600 hover:underline">Download page</a>, run it in evaluation mode, and
+                        contact us when you're ready for a commercial license.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-12">
+        <p>&copy; 2025 Roomzin. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

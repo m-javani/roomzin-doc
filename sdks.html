@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png">
+    <title>Official SDKs for Roomzin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        b {
+            font-weight: bold !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="bg-white">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo text-2xl font-semibold">
+                <img src="img/logo.png" style="float: left;margin-top:10px; width: 200px;" />
+            </div>
+            <div class="space-x-4">
+                <a href="index.html" class="menu-link">Roomzin</a>
+                <a href="rzgate.html" class="menu-link">RzGate</a>
+                <a href="sdks.html" class="menu-link menu-active">SDKs</a>
+                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
+                <a href="download.html" class="menu-link">Download</a>
+                <a href="pricing.html" class="menu-link ">Pricing</a>
+                <a href="docs.html" class="menu-link">Docs</a>
+                <a href="architecture.html" class="menu-link">Architecture</a>
+                <a href="contact.html" class="menu-link">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-5xl">
+
+        <section class="content-section">
+            <div class="container mx-auto px-4 py-8">
+                <h2 class="text-2xl font-semibold mb-4">SDKs & Integration</h2>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <p class="text-blue-700">
+                        <span class="font-semibold">Why use an SDK?</span><br>
+                        Roomzin SDKs provide automatic routing, failover, load balancing, and connection pooling.
+                        They handle cluster topology changes, retry logic, and serialization — so you can focus on
+                        your business logic. All SDKs implement the same <code>CacheClientAPI</code> interface and
+                        support both standalone and clustered modes.
+                    </p>
+                </div>
+
+                <!-- SDK List -->
+                <div class="grid md:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold flex items-center gap-2">
+                                <i class="fab fa-golang text-blue-600"></i>
+                                Go SDK
+                            </h3>
+                            <a href="https://github.com/m-javani/roomzin-go" target="_blank" rel="noopener noreferrer"
+                                class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                                <i class="fab fa-github mr-1"></i>GitHub
+                            </a>
+                        </div>
+                        <code
+                            class="text-xs bg-gray-100 px-2 py-1 rounded block mt-2">go get github.com/m-javani/roomzin-go</code>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold flex items-center gap-2">
+                                <i class="fab fa-java text-red-600"></i>
+                                Java SDK
+                            </h3>
+                            <a href="https://github.com/m-javani/roomzin-java" target="_blank" rel="noopener noreferrer"
+                                class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                                <i class="fab fa-github mr-1"></i>GitHub
+                            </a>
+                        </div>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded block mt-2 font-mono">
+                            Maven: io.github.m-javani:roomzin-java:1.0.0
+                        </code>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold flex items-center gap-2">
+                                <i class="fab fa-python text-yellow-500"></i>
+                                Python SDK
+                            </h3>
+                            <a href="https://github.com/m-javani/roomzin-py" target="_blank" rel="noopener noreferrer"
+                                class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                                <i class="fab fa-github mr-1"></i>GitHub
+                            </a>
+                        </div>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded block mt-2">pip install roomzin-py</code>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold flex items-center gap-2">
+                                <i class="fab fa-node-js text-green-600"></i>
+                                Node.js SDK
+                            </h3>
+                            <a href="https://github.com/m-javani/roomzin-js" target="_blank" rel="noopener noreferrer"
+                                class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                                <i class="fab fa-github mr-1"></i>GitHub
+                            </a>
+                        </div>
+                        <code class="text-xs bg-gray-100 px-2 py-1 rounded block mt-2">npm install roomzin-js</code>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold flex items-center gap-2">
+                                <i class="fas fa-code text-purple-600"></i>
+                                C# / .NET SDK
+                            </h3>
+                            <a href="https://github.com/m-javani/roomzin-csharp" target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                                <i class="fab fa-github mr-1"></i>GitHub
+                            </a>
+                        </div>
+                        <code
+                            class="text-xs bg-gray-100 px-2 py-1 rounded block mt-2">dotnet add package Roomzin.Sdk</code>
+                    </div>
+                </div>
+
+                <!-- HTTP Proxy Alternative -->
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-0.5">
+                            <i class="fas fa-exchange-alt text-amber-600 text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-amber-800">No SDK for your language? Use the HTTP Proxy</h4>
+                            <p class="text-amber-700 text-sm">
+                                If your platform cannot use one of the native SDKs — or you're integrating with a legacy
+                                system —
+                                Roomzin provides <strong>RzGate</strong>, a lightweight HTTP/JSON proxy.
+                            </p>
+                            <ul class="text-amber-700 text-sm mt-2 space-y-1">
+                                <li>✓ <strong>REST/JSON</strong> — works with any HTTP client</li>
+                                <li>✓ <strong>Separate scaling</strong> — run it alongside your cluster</li>
+                            </ul>
+                            <a href="rzgate.html"
+                                class="inline-block mt-3 text-sm font-medium text-amber-800 hover:text-amber-900 hover:underline">
+                                <i class="fas fa-arrow-right mr-1"></i>Learn more about RzGate
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 Roomzin. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

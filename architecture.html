@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png">
+    <title>Roomzin Architecture — Purpose-Built for Booking</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        section {
+            border-radius: 0 !important;
+            padding-bottom: 20px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="bg-white">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="logo text-2xl font-semibold">
+                <img src="img/logo.png" style="margin: auto; width: 150px;" />
+            </div>
+            <div class="space-x-4">
+                <a href="index.html" class="menu-link">Roomzin</a>
+                <a href="rzgate.html" class="menu-link">RzGate</a>
+                <a href="sdks.html" class="menu-link">SDKs</a>
+                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
+                <a href="download.html" class="menu-link">Download</a>
+                <a href="pricing.html" class="menu-link ">Pricing</a>
+                <a href="docs.html" class="menu-link">Docs</a>
+                <a href="architecture.html" class="menu-link menu-active">Architecture</a>
+                <a href="contact.html" class="menu-link">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="bg-gray-900 text-white text-center py-16">
+        <h1 class="text-4xl font-bold mb-4 tracking-tight">Architecture Overview</h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light">
+            How Roomzin achieves predictable sub-millisecond latency for booking inventory search
+        </p>
+    </div>
+
+    <div class="bg-white text-center py-12 md:py-16 border-b border-gray-200">
+        <img src="img/architecture.png" class="mx-auto max-w-[80%] pb-8" alt="Roomzin architecture diagram"
+            style="max-width: 1000px;" />
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+
+        <!-- ============================================================ -->
+        <!--  WHY BOOKING INVENTORY IS DIFFERENT                          -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Why Booking Inventory Is Different</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Generic search engines optimize for text relevance. Transactional databases optimize for
+                ACID compliance with flexible schemas. Caches optimize for repeated read patterns.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Booking inventory combines <strong>availability, pricing, room types, policies, dates, and
+                    geography</strong> in every request. Each query is a high-dimensional filter that must be
+                consistent—overbooking is unacceptable. This workload is not well-served by general-purpose
+                systems without substantial application-layer complexity.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Roomzin is purpose-built for this domain. The architecture that follows is a direct
+                consequence of these characteristics.
+            </p>
+            <div class="takeaway mt-4">
+                <strong>Why it matters:</strong> Specialization enables deterministic performance. Roomzin
+                trades general-purpose flexibility for predictable latency on booking workloads.
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  DESIGN PRINCIPLES                                            -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Design Decisions</h2>
+            <p class="text-gray-600 mb-8">Every architectural choice follows from the characteristics of booking
+                inventory search.</p>
+
+            <!-- 1. Fixed Schema -->
+            <div class="arch-principle">
+                <h3>Fixed Schema</h3>
+                <div class="why">Booking attributes are represented as a fixed bitmap rather than variable-length
+                    strings.</div>
+                <ul>
+                    <li>Bitwise filtering (single CPU cycle per attribute check)</li>
+                    <li>SIMD-friendly for batch processing</li>
+                    <li>No string comparisons or hash lookups during query execution</li>
+                    <li>Cache-friendly memory layout</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Filtering becomes a deterministic arithmetic operation rather than
+                    a variable-cost lookup.
+                </div>
+            </div>
+
+            <!-- 2. Numeric Encoding -->
+            <div class="arch-principle">
+                <h3>Numeric Encoding</h3>
+                <div class="why">All human-readable values (brand names, amenity labels, policy types) are converted to
+                    numeric identifiers during ingestion.</div>
+                <ul>
+                    <li>Query execution operates entirely on integers</li>
+                    <li>No runtime parsing or string interning</li>
+                    <li>Smaller memory footprint</li>
+                </ul>
+                <div class="code-example">
+                    <span class="comment">// Example: amenity encoding</span><br>
+                    "pool" &rarr; <span class="highlight">bit position 2</span><br>
+                    "Hilton" &rarr; <span class="highlight">16-bit ID: 142</span>
+                </div>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Numeric operations are deterministic and CPU-predictable.
+                </div>
+            </div>
+
+            <!-- 3. H3 Geospatial Indexing -->
+            <div class="arch-principle">
+                <h3>H3 Geospatial Indexing</h3>
+                <div class="why">Uber's H3 hexagonal grid provides constant-time radius lookups without tree traversal
+                    overhead.</div>
+                <ul>
+                    <li>O(1) radius search instead of O(log n) R-tree</li>
+                    <li>Hierarchical resolution for variable precision</li>
+                    <li>No index maintenance overhead during updates</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Location filtering does not degrade as the dataset grows.
+                </div>
+            </div>
+
+            <!-- 4. Segment-Based Execution -->
+            <div class="arch-principle">
+                <h3>Segment-Based Execution</h3>
+                <div class="why">Data is partitioned into independent segments (e.g., by geographic zone) that execute
+                    in parallel without coordination.</div>
+                <ul>
+                    <li>Each segment processes on a dedicated core</li>
+                    <li>No cross-segment locking or synchronization</li>
+                    <li>Linear CPU scaling with dataset size</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Throughput scales predictably with hardware parallelism.
+                </div>
+            </div>
+
+            <!-- 5. Custom Binary Protocol -->
+            <div class="arch-principle">
+                <h3>Custom Binary Protocol</h3>
+                <div class="why">A zero-parsing wire format replaces HTTP/JSON for client-cluster communication.</div>
+                <ul>
+                    <li>No serialization overhead</li>
+                    <li>Compact payload size</li>
+                    <li>Deterministic parsing latency</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Network round-trips contribute minimal variable latency.
+                </div>
+            </div>
+
+            <!-- 6. Full Replication -->
+            <div class="arch-principle">
+                <h3>Full Replication</h3>
+                <div class="why">Every node in the cluster holds the complete dataset. No sharding or distributed joins.
+                </div>
+                <ul>
+                    <li>Any follower can serve any read query</li>
+                    <li>No cross-node coordination during reads</li>
+                    <li>Consistent 1–2ms read latency</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Read scaling is additive. Adding followers reduces per-node load
+                    without increasing complexity.
+                </div>
+            </div>
+
+            <!-- 7. Lock-Free Snapshots -->
+            <div class="arch-principle">
+                <h3>Lock-Free Snapshots</h3>
+                <div class="why">Rust's atomic references and copy-on-write enable snapshot creation without blocking
+                    queries.</div>
+                <ul>
+                    <li>Snapshot pause time: 4–10 ms</li>
+                    <li>60M record load time: ~3 seconds</li>
+                    <li>Snapshot size: ~15% of raw data</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Persistence does not impact query latency.
+                </div>
+            </div>
+
+            <!-- 8. Topology-Aware SDKs -->
+            <div class="arch-principle">
+                <h3>Topology-Aware SDKs</h3>
+                <div class="why">SDKs discover cluster layout and route requests directly to the appropriate node.</div>
+                <ul>
+                    <li>Writes go to the leader</li>
+                    <li>Reads go to the fastest available follower</li>
+                    <li>Automatic failover on node changes</li>
+                    <li>No proxy overhead for SDK clients</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Clients are part of the routing layer, eliminating a network hop
+                    and reducing tail latency.
+                </div>
+            </div>
+
+            <!-- 9. Decoupled Request/Response Channels -->
+            <div class="arch-principle">
+                <h3>Decoupled Request/Response Channels</h3>
+                <div class="why">Request streams and response streams are independent, allowing full pipeline
+                    utilization.</div>
+                <ul>
+                    <li>Clients can send multiple requests without blocking</li>
+                    <li>Responses arrive out-of-order and are demultiplexed by correlation ID</li>
+                    <li>No head-of-line blocking</li>
+                </ul>
+                <div class="takeaway">
+                    <strong>Why it matters:</strong> Network utilization is maximized even with mixed request sizes.
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  CLUSTER ARCHITECTURE                                        -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Cluster Architecture</h2>
+            <p class="text-gray-600 mb-6">A Raft-based consensus layer coordinates writes. Reads are distributed across
+                followers.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-2">Components</h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li><strong>Leader</strong> — handles all write operations</li>
+                        <li><strong>Followers</strong> — handle read operations</li>
+                        <li><strong>RzGate</strong> — HTTP/2 proxy for non-SDK clients</li>
+                        <li><strong>Discovery</strong> — node address resolution (static YAML or dynamic HTTP)</li>
+                    </ul>
+                </div>
+                <div class="bg-white border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-2">Connection Protocols</h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li><span class="badge-tech">TCP</span> SDK ↔ Cluster</li>
+                        <li><span class="badge-tech">QUIC</span> Node ↔ Node (Raft)</li>
+                        <li><span class="badge-tech">HTTP/2</span> RzGate API, Discovery</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 border border-gray-200 p-5">
+                <h4 class="font-semibold text-gray-900 mb-2">Routing</h4>
+                <p class="text-sm text-gray-700">
+                    SDKs and RzGate are topology-aware. They route write requests to the leader and
+                    read requests to followers based on current cluster state. No client-side
+                    configuration is required beyond the initial discovery endpoint.
+                </p>
+                <div class="takeaway mt-3">
+                    <strong>Why it matters:</strong> The routing layer is part of the client—not an external load
+                    balancer—reducing latency and eliminating a single point of failure.
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  CORE TECHNOLOGIES                                           -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Core Technologies</h2>
+            <p class="text-gray-600 mb-6">Roomzin reuses mature distributed systems components rather than reinventing
+                consensus or networking.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-1">TiKV Raft</h4>
+                    <p class="text-sm text-gray-600">CNCF-graduated consensus implementation. Same reliability as etcd.
+                        Single-digit ms leader election.</p>
+                </div>
+                <div class="border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-1">Tokio</h4>
+                    <p class="text-sm text-gray-600">Async runtime with custom thread pool configuration. 10k+
+                        concurrent connections per node.</p>
+                </div>
+                <div class="border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-1">QUIC</h4>
+                    <p class="text-sm text-gray-600">Encrypted, multiplexed transport for internal Raft communication.
+                        Avoids head-of-line blocking.</p>
+                </div>
+            </div>
+
+            <div class="takeaway mt-4">
+                <strong>Why it matters:</strong> Using battle-tested components reduces risk and allows the team to
+                focus on the storage and indexing layers that are specific to booking inventory.
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  INTELLIGENT DATA PARTITIONING                               -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Segment-Based Parallelism</h2>
+            <p class="text-gray-600 mb-6">Data is partitioned into logical segments that execute independently on CPU
+                cores.</p>
+
+            <div class="bg-gray-50 border border-gray-200 p-6 mb-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-2/5">
+                        <div class="bg-white border border-gray-200 p-4">
+                            <div class="text-center text-sm font-medium text-gray-500 mb-3">Segment Distribution</div>
+                            <div class="space-y-2">
+                                <div class="flex items-center text-sm">
+                                    <span
+                                        class="w-6 h-6 bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3">1</span>
+                                    <span class="text-gray-700">Paris North</span>
+                                    <span class="ml-auto text-xs text-gray-500">360 properties</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <span
+                                        class="w-6 h-6 bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3">2</span>
+                                    <span class="text-gray-700">Paris South</span>
+                                    <span class="ml-auto text-xs text-gray-500">420 properties</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <span
+                                        class="w-6 h-6 bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3">3</span>
+                                    <span class="text-gray-700">Paris Central</span>
+                                    <span class="ml-auto text-xs text-gray-500">510 properties</span>
+                                </div>
+                                <div class="text-center text-gray-400 text-xs">⋮</div>
+                                <div class="flex items-center text-sm">
+                                    <span
+                                        class="w-6 h-6 bg-gray-200 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3">N</span>
+                                    <span class="text-gray-700">Large Segment</span>
+                                    <span class="ml-auto text-xs text-gray-500">multiple processors</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-200 text-xs text-gray-500 text-center">
+                                Each segment maps to a CPU core
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-3/5">
+                        <h4 class="font-semibold text-gray-900 mb-2">How It Works</h4>
+                        <ul class="text-sm text-gray-700 space-y-2">
+                            <li>• Segments are defined by partition key (e.g., geographic zone)</li>
+                            <li>• Each segment has its own processing queue</li>
+                            <li>• No cross-segment synchronization or locking</li>
+                            <li>• Large segments can be split across multiple cores</li>
+                            <li>• Processors are pinned to cores for cache efficiency</li>
+                        </ul>
+                        <div class="takeaway mt-3">
+                            <strong>Why it matters:</strong> Throughput scales linearly with core count. Adding CPU
+                            resources improves performance without architectural changes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  DECOUPLED CHANNELS                                          -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Decoupled Request/Response Channels</h2>
+            <p class="text-gray-600 mb-6">Traditional blocking request/response limits throughput. Roomzin uses
+                independent streams.</p>
+
+            <div class="comparison-grid">
+                <div class="comparison-box traditional">
+                    <h4>Traditional Blocking</h4>
+                    <ul>
+                        <li>Client sends request</li>
+                        <li>Connection blocks waiting for response</li>
+                        <li>Server processes request</li>
+                        <li>Server sends response</li>
+                        <li>Client can send next request</li>
+                    </ul>
+                    <div class="text-xs text-gray-500 mt-2">Connection idle while processing</div>
+                </div>
+                <div class="comparison-box roomzin">
+                    <h4>Roomzin Decoupled</h4>
+                    <ul>
+                        <li><strong>Request Stream</strong> — client sends multiple requests</li>
+                        <li><strong>Processing</strong> — server processes in parallel</li>
+                        <li><strong>Demux</strong> — responses routed by correlation ID</li>
+                        <li><strong>Streaming</strong> — responses arrive out-of-order</li>
+                    </ul>
+                    <div class="text-xs text-blue-700 mt-2">Full pipeline utilization</div>
+                </div>
+            </div>
+
+            <div class="footnote">
+                <strong>How it works:</strong> Each request includes a correlation ID. The SDK maintains a
+                mapping; responses are delivered asynchronously. The server uses separate thread pools
+                for request processing and response transmission.
+            </div>
+
+            <div class="takeaway">
+                <strong>Why it matters:</strong> Eliminates head-of-line blocking. Throughput is limited by processing
+                capacity, not connection overhead.
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  DELIBERATE CONSTRAINTS                                      -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Deliberate Constraints</h2>
+            <p class="text-gray-600 mb-6">Roomzin makes intentional trade-offs. These are documented, not hidden.</p>
+
+            <div class="bg-gray-50 border border-gray-200 p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-gray-200 p-4">
+                        <h4 class="font-semibold text-gray-900 mb-1">Constraint</h4>
+                        <p class="text-sm text-gray-700">Maximum 24 boolean attributes per property</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-4">
+                        <h4 class="font-semibold text-gray-900 mb-1">Rationale</h4>
+                        <p class="text-sm text-gray-700">Booking systems rarely require hundreds of searchable boolean
+                            attributes. This limit allows all attributes to fit in a single 24-bit integer, enabling
+                            constant-time filtering.</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-white border border-gray-200 text-sm text-gray-700">
+                    <strong>Additional constraints:</strong> Fixed schema (no dynamic fields). Numeric-only query
+                    execution (no string operations). Full replication only (no sharding).
+                </div>
+                <div class="takeaway mt-3">
+                    <strong>Why it matters:</strong> Explicit constraints enable deterministic performance. There are no
+                    hidden scalability cliffs.
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  PRACTICAL BENEFITS                                          -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Practical Benefits</h2>
+            <p class="text-gray-600 mb-6">Observable engineering outcomes from the architecture described above.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-2">Operational</h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• No cache invalidation logic</li>
+                        <li>• No search index synchronization</li>
+                        <li>• Follower nodes scale reads naturally</li>
+                        <li>• Existing transactional database remains unchanged</li>
+                    </ul>
+                </div>
+                <div class="border border-gray-200 p-5">
+                    <h4 class="font-semibold text-gray-900 mb-2">Performance</h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Predictable sub-millisecond read latency</li>
+                        <li>• Strong consistency for inventory (no overbooking)</li>
+                        <li>• Lower tail latency during load spikes</li>
+                        <li>• No cross-node joins during query execution</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="takeaway mt-4">
+                <strong>Why it matters:</strong> Fewer moving parts reduce operational complexity. Predictable
+                performance removes the need for defensive caching.
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  DESIGN PHILOSOPHY                                           -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <div class="bg-gray-900 text-white p-8">
+                <p class="text-2xl font-bold mb-3 text-white">Design Philosophy</p>
+                <p class="text-gray-300 leading-relaxed">
+                    Roomzin is intentionally specialized. It trades general-purpose flexibility for
+                    predictable performance on booking workloads. Every architectural decision—from fixed
+                    schemas and bitmap filtering to segment-based parallelism and topology-aware SDKs—serves
+                    that single objective.
+                </p>
+                <p class="text-gray-300 leading-relaxed mt-3">
+                    Roomzin integrates mature distributed systems components with storage and indexing
+                    strategies designed specifically for booking inventory.
+                </p>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!--  CALL TO ACTION                                              -->
+        <!-- ============================================================ -->
+        <section class="text-center py-12 bg-gray-50 border border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Evaluate Roomzin</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-6">
+                Run your own benchmarks against real booking inventory data.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="benchmarks.html"
+                    class="bg-gray-900 text-white px-6 py-3 font-medium hover:bg-gray-800 transition-colors">
+                    View Benchmarks
+                </a>
+                <a href="docs.html#benchmark"
+                    class="bg-white text-gray-900 px-6 py-3 font-medium border border-gray-300 hover:bg-gray-50 transition-colors">
+                    Run Your Own
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="bg-gray-800 text-white text-center py-8">
+        <p>&copy; 2025 Roomzin. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
