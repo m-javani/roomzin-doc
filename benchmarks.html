@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png" />
+    <title>Performance benchmarks at booking scale</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black-50">
+    <header class="bg-white border-gray-200">
+        <nav class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+            <div class="logo">
+                <img src="img/logo.png" alt="Roomzin Logo" class="w-36" />
+            </div>
+            <div class="space-x-6 text-black-700 text-sm md:text-base">
+                <a href="index.html" class="menu-link">Roomzin</a>
+                <a href="rzgate.html" class="menu-link">RzGate</a>
+                <a href="sdks.html" class="menu-link">SDKs</a>
+                <a href="benchmarks.html" class="menu-link menu-active">Benchmarks</a>
+                <a href="download.html" class="menu-link">Download</a>
+                <a href="pricing.html" class="menu-link ">Pricing</a>
+                <a href="docs.html" class="menu-link">Docs</a>
+                <a href="architecture.html" class="menu-link">Architecture</a>
+                <a href="contact.html" class="menu-link">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-10 max-w-5xl">
+
+        <h3 class="text-2xl md:text-3xl font-bold text-blue-500">Production-grade Speed, Laptop Proof</h3>
+        <br />
+
+        <!-- 1. Benchmark at a Glance -->
+        <section class="mb-12 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-semibold mb-4 text-black-800">Benchmark at a Glance</h2>
+            <ul class="list-disc pl-6 text-black-600 space-y-1 pt11">
+                <li><strong>Dataset:</strong> 60M records (100k properties × 10 room types × 60 days)</li>
+                <li><strong>Data generation:</strong> 4 segments × 25k properties × 10 room types × 60 days</li>
+                <li><strong>Hardware:</strong> 4-core i7 laptop, 16 GB RAM</li>
+                <li><strong>Memory usage:</strong> ~4.1 GB for 60M records</li>
+                <li><strong>Load time:</strong> 3 seconds from compressed snapshot</li>
+            </ul>
+        </section>
+
+        <!-- 2. Roomzin Read Benchmark -->
+        <section class="mb-12 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-semibold mb-1 text-black-800">Roomzin Read Performance</h2>
+            <p class="text-md text-black-500 mb-4">Regular search · 1000 connections · 20k requests · 1s duration</p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-black-700">
+                    <thead class="bg-black-100 text-black-600 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">Metric</th>
+                            <th class="px-4 py-3 font-semibold text-right">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-black-100">
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Min</td>
+                            <td class="px-4 py-2.5 text-right">0.001 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P50</td>
+                            <td class="px-4 py-2.5 text-right">0.490 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P95</td>
+                            <td class="px-4 py-2.5 text-right">1.472 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P99</td>
+                            <td class="px-4 py-2.5 text-right">3.313 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P99.9</td>
+                            <td class="px-4 py-2.5 text-right">3.842 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Max</td>
+                            <td class="px-4 py-2.5 text-right">4.557 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Requests per second</td>
+                            <td class="px-4 py-2.5 text-right">20,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-black-400 mt-3">* Benchmark run with the official <a
+                    href="https://github.com/m-javani/roomzin-bench" target="_blank"
+                    class="text-blue-500 hover:underline">roomzin-bench</a> tool</p>
+        </section>
+
+        <!-- 3. Roomzin Spike Benchmark -->
+        <section class="mb-12 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-semibold mb-1 text-black-800">Roomzin Spike Performance</h2>
+            <p class="text-md text-black-500 mb-4">Simultaneous burst · 100 connections · 2,000 requests · 0s ramp-up
+            </p>
+
+            <div class="p-3 mb-4 text-sm text-black-700">
+                <strong>Spike:</strong> All 2,000 requests are sent at exactly the same time with no delay
+                between them.
+                This simulates a sudden traffic surge where all requests arrive simultaneously.
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-black-700">
+                    <thead class="bg-black-100 text-black-600 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">Metric</th>
+                            <th class="px-4 py-3 font-semibold text-right">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-black-100">
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Min</td>
+                            <td class="px-4 py-2.5 text-right">1.692 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P50</td>
+                            <td class="px-4 py-2.5 text-right">23.970 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P95</td>
+                            <td class="px-4 py-2.5 text-right">46.021 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P99</td>
+                            <td class="px-4 py-2.5 text-right">47.874 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P99.9</td>
+                            <td class="px-4 py-2.5 text-right">48.077 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Max</td>
+                            <td class="px-4 py-2.5 text-right">48.087 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Requests</td>
+                            <td class="px-4 py-2.5 text-right">2,000</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Concurrent connections</td>
+                            <td class="px-4 py-2.5 text-right">100</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. RzGate Read Benchmark -->
+        <section class="mb-12 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-semibold mb-1 text-black-800">RzGate Read Performance</h2>
+            <p class="text-md text-black-500 mb-4">HTTP proxy · 200 connections · 2s duration</p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-black-700">
+                    <thead class="bg-black-100 text-black-600 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">Metric</th>
+                            <th class="px-4 py-3 font-semibold text-right">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-black-100">
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Min</td>
+                            <td class="px-4 py-2.5 text-right">0.20 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P50</td>
+                            <td class="px-4 py-2.5 text-right">6.23 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P95</td>
+                            <td class="px-4 py-2.5 text-right">11.53 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">P99</td>
+                            <td class="px-4 py-2.5 text-right">13.81 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Mean</td>
+                            <td class="px-4 py-2.5 text-right">6.29 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Total requests</td>
+                            <td class="px-4 py-2.5 text-right">43,692</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2.5 font-medium">Achieved RPS</td>
+                            <td class="px-4 py-2.5 text-right">21,846</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="text-xs text-black-400 mt-3">* Benchmark run with the official <a
+                    href="https://github.com/m-javani/roomzin-bench" target="_blank"
+                    class="text-blue-500 hover:underline">roomzin-bench</a> tool</p>
+        </section>
+
+        <!-- 5. Snapshot Performance -->
+        <section class="mb-12 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-semibold mb-4 text-black-800">Snapshot Performance</h2>
+            <p class="text-black-600 mb-4 text-sm">Compact snapshots enable fast saves and reloads. Compressed snapshots
+                are ~92 MB for 60M records.</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-black-700">
+                    <thead class="bg-black-100 text-black-600 uppercase text-xs tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">Records</th>
+                            <th class="px-4 py-3 font-semibold text-right">Load Time</th>
+                            <th class="px-4 py-3 font-semibold text-right">Raw CSV Size</th>
+                            <th class="px-4 py-3 font-semibold text-right">Snapshot (compressed)</th>
+                            <th class="px-4 py-3 font-semibold text-right">Memory Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-black-100">
+                        <tr>
+                            <td class="px-4 py-2.5">60M records</td>
+                            <td class="px-4 py-2.5 text-right">3,041 ms</td>
+                            <td class="px-4 py-2.5 text-right">5.3 GB</td>
+                            <td class="px-4 py-2.5 text-right">92 MB</td>
+                            <td class="px-4 py-2.5 text-right">~4.1 GB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <p class="text-black-600 mb-4 text-sm">The in-memory footprint is <strong>4.1 GB</strong>, which is
+                <strong>~77%</strong> of
+                the raw CSV data
+                size (<strong>5.3 GB</strong>)
+            </p>
+        </section>
+
+        <!-- 6. Production Architecture -->
+        <section class="mb-12 bg-blue-50 p-6 rounded-lg shadow-sm border border-blue-100">
+            <h2 class="text-2xl font-semibold mb-3 text-black-800">In Production</h2>
+            <ul class="list-disc pl-6 text-black-700 space-y-1 pt11">
+                <li><strong>Multiple read replicas (follower nodes)</strong> provide better results</li>
+                <li><strong>RzGate independent scaling</strong> provides higher TPS for HTTP clients</li>
+                <li><strong>More cores</strong> provide better parallelism. Segments are processed in parallel.</li>
+            </ul>
+            <p class="text-black-700 mt-3">
+                <span class="font-medium">Benchmark tool:</span>
+                <a href="https://github.com/m-javani/roomzin-bench" target="_blank"
+                    class="text-blue-600 hover:underline font-medium">
+                    github.com/m-javani/roomzin-bench
+                </a>
+                — reproduce these results or test your own setup.
+            </p>
+            <a href="docs.html#benchmark"
+                class="inline-block bg-blue-600 text-white px-6 py-2.5 rounded hover:bg-blue-700 transition text-sm font-medium shadow-sm mt-2">
+                Get started with benchmarking →
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="bg-black-800 text-white text-center py-6 mt-8">
+        <p class="text-sm">&copy; 2025 Roomzin. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
