@@ -44,7 +44,7 @@
     <div class="bg-white text-center py-12 md:py-16 border-b border-gray-200">
         <img src="img/arch.png" class="mx-auto max-w-[80%] pb-8" alt="Roomzin platform architecture diagram"
             style="max-width: 1000px;" />
-        <p class="text-sm text-gray-500">SDK / RzGate → Edge Router → Zone Router → RzBridge → Roomzin Shard</p>
+        <p class="text-sm text-gray-500">SDK / RzProxy → Edge Router → Zone Router → RzBridge → Roomzin Shard</p>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 py-12">
@@ -137,7 +137,7 @@
                         <p class="text-xs text-gray-500 mt-1">Connect directly to Edge Routers</p>
                     </div>
                     <div>
-                        <p class="font-semibold text-gray-800 text-sm">RzGate</p>
+                        <p class="font-semibold text-gray-800 text-sm">RzProxy</p>
                         <p class="text-sm text-gray-600">HTTP/JSON proxy for existing platforms</p>
                         <p class="text-xs text-gray-500 mt-1">Deploy independently, scale horizontally</p>
                     </div>
@@ -148,7 +148,7 @@
             <div class="bg-white border border-gray-200 p-5">
                 <h4 class="font-semibold text-gray-900 mb-2">How a Request Travels</h4>
                 <p class="text-sm text-gray-700">
-                    SDK/RzGate → Edge Router (segment-based zone routing) → Zone Router (segment-based shard routing) →
+                    SDK/RzProxy → Edge Router (segment-based zone routing) → Zone Router (segment-based shard routing) →
                     RzBridge (leader/follower routing) → Roomzin
                 </p>
                 <p class="text-xs text-gray-500 mt-2">
@@ -324,7 +324,7 @@
                     <ul class="text-sm text-gray-700 space-y-1">
                         <li><span class="badge-tech">TCP</span> SDK/Proxy ↔ Cluster</li>
                         <li><span class="badge-tech">QUIC</span> Node ↔ Node (Raft)</li>
-                        <li><span class="badge-tech">HTTP/2</span> RzGate API, Discovery</li>
+                        <li><span class="badge-tech">HTTP/2</span> RzProxy API, Discovery</li>
                     </ul>
                 </div>
             </div>
