@@ -135,6 +135,17 @@
                         <span class="nav-label">Benchmark</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#rzpoint" class="nav-link top-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4 L20 4 L20 20 L4 20 Z" />
+                            <path d="M8 8 L16 8" />
+                            <path d="M8 12 L14 12" />
+                            <path d="M8 16 L12 16" />
+                        </svg>
+                        <span class="nav-label">RzPoint</span>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a href="#quick-cluster" class="nav-link top-link">
@@ -645,8 +656,7 @@ make stop &amp;&amp; make start</code></pre>
                 <h3 class="font-semibold text-gray-800 mb-2">Infrastructure-agnostic, performance-first</h3>
                 <div class="space-y-3 text-gray-700">
                     <p>Roomzin is a standalone binary optimized for microsecond-level latency.
-                        It runs natively on any infrastructure — from dedicated servers to virtual machines
-                        —
+                        It runs natively on any infrastructure — from dedicated servers to virtual machines —
                         without external dependencies.
                         For maximum throughput and deterministic performance, deploy Roomzin directly on the
                         host system and avoid additional runtime layers such as containers or orchestration
@@ -683,8 +693,43 @@ make stop &amp;&amp; make start</code></pre>
                                 class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">codecs.yml</code>
                             file and run.
                         </p>
-                        <div class="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                        <div
+                            class="bg-gray-100 text-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto border border-gray-200">
                             roomzin run --config /path/to/roomzin.yml --codecs /path/to/codecs.yml
+                        </div>
+
+                        <!-- Codecs explanation -->
+                        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 text-sm mb-2">codecs.yml — Rate Features</h4>
+                            <p class="text-sm text-gray-700">
+                                Defines predefined rate policies used in search filtering (breakfast, cancellation,
+                                amenities, etc.).
+                                <span class="font-medium">Maximum 24 entries.</span>
+                            </p>
+                            <div
+                                class="mt-2 bg-gray-100 p-3 rounded border border-gray-200 font-mono text-xs text-gray-800 overflow-x-auto">
+                                rate_features:<br />
+                                &nbsp;&nbsp;- free_cancellation<br />
+                                &nbsp;&nbsp;- non_refundable<br />
+                                &nbsp;&nbsp;- breakfast_included<br />
+                                &nbsp;&nbsp;- late_checkout<br />
+                                &nbsp;&nbsp;# ... up to 24 entries
+                            </div>
+                            <div class="mt-2 p-2 bg-amber-50 border border-amber-200 rounded">
+                                <p class="text-xs text-amber-800">
+                                    <span class="font-semibold">⚠️ Important:</span>
+                                    Changes to <code
+                                        class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">codecs.yml</code>
+                                    invalidate existing queries and require a full restart. All snapshots will be
+                                    dropped.
+                                </p>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                <span class="font-semibold">Note:</span> In cluster mode, codecs are fetched from RzID.
+                                <code
+                                    class="bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded text-xs font-mono">codecs.yml</code>
+                                is only used in standalone mode.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -694,18 +739,19 @@ make stop &amp;&amp; make start</code></pre>
                 <!-- Clustered Deployment -->
                 <div class="bg-white overflow-hidden">
                     <div class="px-6 py-4">
-                        <h3 class="text-xl font-semibold text-gray-800">Clustered Deployment</h3>
+                        <h3 class="text-xl font-semibold text-gray-800">Single Shard Deployment</h3>
                         <p class="text-gray-600 text-sm mt-1">High-availability production cluster</p>
                     </div>
                     <div class="p-6">
                         <div class="mb-6">
                             <p class="text-gray-700 mb-4">
-                                Place the required files (config, codecs, *.pem) on each machine and start the
+                                Place the required files (config, *.pem) on each machine and start the
                                 same binary as shown below. Nodes auto-discover each other—only a single seed is enough
                                 to pull the full peer list, provided the cluster graph stays connected.
                             </p>
                         </div>
 
+                        <!-- Three-node Founding Cluster Example -->
                         <!-- Three-node Founding Cluster Example -->
                         <div class="mb-8">
                             <h4 class="text-lg font-semibold mb-4 text-gray-800">Three-node Founding Cluster Example
@@ -714,147 +760,286 @@ make stop &amp;&amp; make start</code></pre>
                                 Example for <code
                                     class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">shard1</code>,
                                 <code
-                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">zone1</code>:
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">zone1</code>.
+                                Replace <code
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">node1</code>
+                                with
+                                the appropriate node ID on each machine.
                             </p>
 
-                            <div class="space-y-6">
-                                <div class="overflow-hidden">
-                                    <div class="px-4 py-3">
-                                        <span class="font-medium text-gray-800">Machine 1</span>
-                                    </div>
-                                    <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
-                                        ./roomzin run-clustered --config /path/to/roomzin.yml --codecs
-                                        /path/to/codecs.yml
-                                        --node-id node1 --shard-id shard1 --zone-id zone1
-                                        --initial-voters "node1,node2,node3"
-                                    </div>
-                                </div>
-
-                                <div class="overflow-hidden">
-                                    <div class="px-4 py-3">
-                                        <span class="font-medium text-gray-800">Machine 2</span>
-                                    </div>
-                                    <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
-                                        ./roomzin run-clustered --config /path/to/roomzin.yml --codecs
-                                        /path/to/codecs.yml
-                                        --node-id node2 --shard-id shard1 --zone-id zone1
-                                        --initial-voters "node1,node2,node3"
-                                    </div>
-                                </div>
-
-                                <div class="overflow-hidden">
-                                    <div class="px-4 py-3">
-                                        <span class="font-medium text-gray-800">Machine 3</span>
-                                    </div>
-                                    <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
-                                        ./roomzin run-clustered --config /path/to/roomzin.yml --codecs
-                                        /path/to/codecs.yml
-                                        --node-id node3 --shard-id shard1 --zone-id zone1
-                                        --initial-voters "node1,node2,node3"
-                                    </div>
-                                </div>
+                            <div
+                                class="bg-gray-100 text-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto border border-gray-200">
+                                ./roomzin run-clustered --config /path/to/roomzin.yml<br />
+                                &nbsp;&nbsp;--node-id &lt;node-id&gt; --shard-id shard1 --zone-id zone1<br />
+                                &nbsp;&nbsp;--initial-voters "node1,node2,node3"<br />
+                                &nbsp;&nbsp;--cert-path /path/to/cert.pem --key-path /path/to/key.pem<br />
+                                &nbsp;&nbsp;--ca-cert-path /path/to/ca.pem --rzid-addr http://rzid.internal:8080<br />
+                                &nbsp;&nbsp;--rzpoint-addr http://rzpoint.internal:8080
                             </div>
+                            <p class="text-sm text-gray-600 mt-2">
+                                Run this on each of the three founding nodes, changing <code
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">--node-id</code>
+                                to <code
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">node1</code>,
+                                <code
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">node2</code>,
+                                and <code
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">node3</code>
+                                respectively.
+                            </p>
                         </div>
 
-                        <!-- Adding a Learner Node -->
-                        <div class="mb-10">
-                            <h4 class="text-lg font-semibold mb-4 text-gray-800">Adding a Learner Node to Existing
-                                Cluster</h4>
-                            <div class="overflow-hidden">
-                                <div class="px-4 py-3">
-                                    <span class="font-medium text-gray-800">Machine 4 (Learner)</span>
-                                </div>
-                                <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
-                                    ./roomzin run-clustered --config /path/to/roomzin.yml --codecs /path/to/codecs.yml
-                                    --node-id node4 --shard-id shard1 --zone-id zone1 --initial-voters
-                                    "node1,node2,node3"
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Snapshot Restore & Consistency Note -->
-                <div class="border border-gray-200 rounded-lg p-4 mb-4">
-                    <div class="flex items-start mb-4">
-                        <div class="flex-shrink-0">
-                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.346 16.5c-.77.833.192 2.5 1.732 2.5z">
-                                </path>
-                            </svg>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-semibold text-black-900 mb-3">Snapshot restore &amp; consistency
-                                note
+                        <!-- Adding a Node -->
+                        <div class="mb-8">
+                            <h4 class="text-lg font-semibold mb-4 text-gray-800">Horizontal scaling with learner nodes
                             </h4>
-                            <ul class="space-y-3 text-black-800">
-                                <li class="flex items-start">
-                                    <span
-                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                    <span>When starting a brand-new cluster from a snapshot, a <strong
-                                            class="font-semibold">strict majority</strong> of the nodes listed
-                                        in <code
-                                            class="bg-amber-100 text-black-800 px-1.5 py-0.5 rounded text-xs font-mono">--initial_voters</code>
-                                        must be restored with the <strong class="font-semibold">exact same
-                                            snapshot</strong>.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span
-                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                    <span>The remaining founding voters and all learners can start completely
-                                        empty — they will safely download the snapshot from the leader once the
-                                        cluster forms.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span
-                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                    <span>Empty nodes are never conflicting. Only <strong
-                                            class="font-semibold">divergent</strong> log histories cause
-                                        issues.</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span
-                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                    <span>New nodes not listed in <code
-                                            class="bg-amber-100 text-black-800 px-1.5 py-0.5 rounded text-xs font-mono">--initial_voters</code>
-                                        start as learners and wait for the founding voters to elect a leader
-                                        before catching up.</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bulk Import Integration -->
-                <div class="border border-blue-100 rounded-lg p-6">
-                    <div class="flex items-start mb-4">
-                        <div class="flex-shrink-0">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                            </svg>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-semibold text-gray-800 mb-3">Bulk Import &amp; Migration</h4>
                             <p class="text-gray-700 mb-4">
-                                Need to bootstrap or migrate Gigabytes of existing data? See the
-                                <a href="#bulk-import"
-                                    class="text-blue-700 font-medium hover:text-blue-800 hover:underline">
-                                    Bulk Import section
-                                </a>
-                                — Roomzin can ingest a pre-built binary snapshot at over <strong class="text-blue-800">1
-                                    million records per second per node</strong>.
+                                Any node not listed in <code
+                                    class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">--initial-voters</code>
+                                automatically joins the cluster as a <strong>learner</strong>. It catches up from the
+                                leader and
+                                can later be promoted to a voter if needed.
+                                <span>New nodes not listed in <code
+                                        class="bg-amber-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">--initial_voters</code>
+                                    start as learners and wait for the founding voters to elect a leader
+                                    before catching up.</span>
                             </p>
-                            <p class="text-gray-700">
-                                Build the snapshot offline from your current database, distribute it to the cluster, and
-                                start with all historical data instantly available.
-                            </p>
+                        </div>
+
+                        <!-- Snapshot Restore & Consistency Note -->
+                        <div class="border border-gray-200 rounded-lg p-4 mb-4">
+                            <div class="flex items-start mb-4">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.346 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3">Snapshot restore &amp; consistency note
+                                    </h4>
+                                    <ul class="space-y-3 text-gray-800">
+                                        <li class="flex items-start">
+                                            <span
+                                                class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                            <span>When starting a brand-new cluster from a snapshot, a <strong
+                                                    class="font-semibold">strict majority</strong> of the nodes listed
+                                                in <code
+                                                    class="bg-amber-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">--initial_voters</code>
+                                                must be restored with the <strong class="font-semibold">exact same
+                                                    snapshot</strong>.</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span
+                                                class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                            <span>The remaining founding voters and all learners can start completely
+                                                empty — they will safely download the snapshot from the leader once the
+                                                cluster forms.</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span
+                                                class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                            <span>Empty nodes are never conflicting. Only <strong
+                                                    class="font-semibold">divergent</strong> log histories cause
+                                                issues.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bulk Import Integration -->
+                        <div class="border border-blue-100 rounded-lg p-6">
+                            <div class="flex items-start mb-4">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-semibold text-gray-800 mb-3">Bulk Import &amp; Migration</h4>
+                                    <p class="text-gray-700 mb-4">
+                                        Need to bootstrap or migrate Gigabytes of existing data? See the
+                                        <a href="#bulk-import"
+                                            class="text-blue-700 font-medium hover:text-blue-800 hover:underline">
+                                            Bulk Import section
+                                        </a>
+                                        — Roomzin can ingest a pre-built binary snapshot at over <strong
+                                            class="text-blue-800">1
+                                            million records per second per node</strong>.
+                                    </p>
+                                    <p class="text-gray-700">
+                                        Build the snapshot offline from your current database, distribute it to the
+                                        cluster, and
+                                        start with all historical data instantly available.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- ============================================================ -->
+            <!-- PLATFORM COMPONENTS OVERVIEW                                  -->
+            <!-- ============================================================ -->
+            <div class="mt-10 border-t border-gray-200 pt-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Full Platform Deployment</h3>
+                <p class="text-gray-700 mb-4">
+                    Roomzin is the inventory engine. For a complete production deployment, the following
+                    additional components are required:
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- RzBridge -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-semibold text-gray-800">RzBridge</h4>
+                            <a href="https://github.com/m-javani/rzbridge" target="_blank"
+                                class="text-xs text-blue-600 hover:text-blue-800 hover:underline">GitHub →</a>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Shard-aware connector. Routes writes to leader, reads to
+                            followers.</p>
+                    </div>
+
+                    <!-- RzRouter -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-semibold text-gray-800">RzRouter</h4>
+                            <a href="https://github.com/m-javani/rzrouter" target="_blank"
+                                class="text-xs text-blue-600 hover:text-blue-800 hover:underline">GitHub →</a>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Single binary, two modes: Edge (entry point) and Zone
+                            (intra-zone routing).</p>
+                    </div>
+
+                    <!-- RzID -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-semibold text-gray-800">RzID</h4>
+                            <a href="https://github.com/m-javani/rzid" target="_blank"
+                                class="text-xs text-blue-600 hover:text-blue-800 hover:underline">GitHub →</a>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Control-plane registry. Maintains topology and service
+                            identities. Not on the request hot path.</p>
+                    </div>
+
+                    <!-- RzPoint -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-semibold text-gray-800">RzPoint</h4>
+                            <span class="text-xs text-gray-400">Customer-implemented</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">
+                            Resolves logical service identities to hostnames. <span class="font-semibold">Not provided
+                                by Roomzin.</span>
+                            Implement based on your infrastructure (VMs, Kubernetes, cloud).
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1">
+                            <a href="docs.html#rzpoint" class="text-blue-600 hover:underline">Documentation →</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <span class="font-semibold">💡 Deployment order:</span>
+                        Start RzID first, then Roomzin nodes, then RzBridge, then RzRouter (Zone then Edge).
+                        RzPoint must be deployed and available before any component that needs to resolve service
+                        identities.
+                    </p>
+                </div>
+            </div>
         </section>
+
+        <section id="rzpoint" class="content-section hidden">
+            <!-- ============================================================ -->
+            <!-- RZPOINT                                                       -->
+            <!-- ============================================================ -->
+            <div class="mt-8 border-t border-gray-200 pt-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">RzPoint — Customer-Implemented Resolver</h3>
+
+                <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg mb-4">
+                    <p class="text-sm text-amber-800">
+                        <span class="font-semibold">⚠️ Not provided by Roomzin.</span>
+                        RzPoint is a small HTTP service that <span class="font-semibold">you</span> implement
+                        based on your infrastructure.
+                    </p>
+                </div>
+
+                <p class="text-gray-700 mb-4">
+                    Roomzin components work with logical service identities rather than IP addresses.
+                    RzPoint translates these identities into hostnames where services can be reached.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-800 text-sm">Roomzin Nodes &amp; RzBridge</h4>
+                        <p class="text-sm text-gray-600 mt-1">Resolve node identities within a shard:</p>
+                        <code class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded block mt-2 font-mono">
+                GET /shards/{shard_id}/nodes/{node_id}
+            </code>
+                        <p class="text-xs text-gray-500 mt-1">Returns: <code
+                                class="bg-gray-100 px-1 py-0.5 rounded">hostname</code></p>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-800 text-sm">RzRouter</h4>
+                        <p class="text-sm text-gray-600 mt-1">Resolve next-hop routers or bridges:</p>
+                        <code class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded block mt-2 font-mono">
+                Edge: GET /routers/{router_id}
+            </code>
+                        <code class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded block mt-1 font-mono">
+                Zone: GET /bridges/{bridge_id}
+            </code>
+                        <p class="text-xs text-gray-500 mt-1">Returns: <code
+                                class="bg-gray-100 px-1 py-0.5 rounded">hostname</code></p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-800 text-sm mb-2">Implementation Example</h4>
+                    <p class="text-sm text-gray-600 mb-2">
+                        A minimal implementation might use a static mapping or query a service registry:
+                    </p>
+                    <div
+                        class="bg-gray-100 text-gray-800 p-3 rounded-lg font-mono text-xs overflow-x-auto border border-gray-200">
+                        # Static mapping example (YAML)<br />
+                        shards:<br />
+                        &nbsp;&nbsp;shard1:<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;nodes:<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node1: "node1.internal.company"<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node2: "node2.internal.company"<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node3: "node3.internal.company"<br />
+                        routers:<br />
+                        &nbsp;&nbsp;router-edge-1: "router-edge-1.internal.company"<br />
+                        bridges:<br />
+                        &nbsp;&nbsp;bridge-1: "bridge-1.internal.company"
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">
+                        <span class="font-semibold">Note:</span> RzPoint returns <span
+                            class="font-semibold">hostnames</span>, not IP addresses.
+                        Resolution to IPs is handled by the OS DNS layer. In production, you would query Kubernetes API,
+                        Consul,
+                        etcd, or your internal service registry to return the appropriate hostname.
+                    </p>
+                </div>
+
+                <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <span class="font-semibold">💡 Why this matters:</span>
+                        RzPoint separates <span class="font-semibold">service identity</span> from
+                        <span class="font-semibold">network location</span>. Roomzin components stay
+                        infrastructure-agnostic — you decide how hostnames are resolved.
+                    </p>
+                </div>
+            </div>
+        </section>
+
 
         <section id="bulk-import" class="content-section hidden" style="display: block;">
             <h2 class="text-2xl font-semibold mb-6 text-gray-800">Bulk Import into an Offline Snapshot</h2>
@@ -1018,29 +1203,14 @@ make stop &amp;&amp; make start</code></pre>
             <!-- Header -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800">Configuration</h2>
-                <p class="text-gray-600 mt-2">Roomzin is configured via YAML files. Below are the key configuration
-                    files and their purposes.</p>
             </div>
 
             <hr class="my-8">
-
-            <!-- Quick Overview -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <code class="text-sm font-mono text-blue-600">roomzin.yml</code>
-                    <p class="text-sm text-gray-600 mt-1">Main server configuration</p>
-                </div>
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <code class="text-sm font-mono text-blue-600">codecs.yml</code>
-                    <p class="text-sm text-gray-600 mt-1">Predefined rate features (max 24)</p>
-                </div>
-            </div>
 
             <!-- 1. roomzin.yml -->
             <div class="mb-10">
                 <h3 class="text-lg font-semibold text-gray-800 mb-3">
                     <code class="bg-gray-100 text-blue-600 px-2 py-0.5 rounded text-sm font-mono">roomzin.yml</code>
-                    <span class="text-sm font-normal text-gray-500 ml-2">Main configuration</span>
                 </h3>
                 <p class="text-gray-600 text-sm mb-4">Complete example with all available options:</p>
 
@@ -1055,35 +1225,90 @@ make stop &amp;&amp; make start</code></pre>
                         </div>
                         <span class="text-xs text-gray-400">default values shown</span>
                     </div>
-                    <pre class="p-4 overflow-x-auto text-sm"><code class="language-yaml text-gray-800">core_config:
-  sys_cores_count: 0          # 0 = auto (50% of cores)
+                    <pre class="p-4 overflow-x-auto text-sm"><code class="language-yaml text-gray-800"># ========== Core Settings ==========
+# Number of cores reserved for system tasks.
+# 0 = auto-detect (recommended, ~50% of available cores)
+# (optional, default: 0)
+sys_cores_count: 0
 
-tcp:
-  listen_addr: "127.0.0.1"    # Bind address
-  port: 7777                  # Service port
-  max_connections: 10000      # Concurrent connections
-  tcp_user_timeout_ms: 200
-  tcp_keepalive_seconds: 30
-  tcp_recv_buffer_size: 262144
-  tcp_send_buffer_size: 131072
+# Average number of room types per property.
+# Used for internal resource allocation.
+# (optional, default: 6)
+avg_room_types_per_property: 6
 
-cluster:
-  port: 17777                 # Cluster communication port
-  cert_path: ""               # TLS certificate (required for cluster)
-  key_path: ""                # TLS private key
-  ca_cert_path: ""            # CA certificate
-  discovery_kind: "static"    # static | http
-  discovery_yml_path: "./discovery.yml"
-  discovery_http_host: ""
+# ========== TCP Settings ==========
+# TCP port for client connections
+# (optional, default: 7777)
+tcp_port: 7777
 
-api_port: 0                   # Admin API port (e.g., 8080)
-data_dir: ""                  # Data directory (required)
-maintenance_hour: 0           # 0-23 for scheduled maintenance
-max_dates_in_query: 14        # Max dates per search
-query_limit: 200              # Max results per query
-snapshot_interval_sec: 60     # Raft snapshot interval
-snapshot_trigger_count: 10000 # WAL entries before snapshot
-wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
+# Maximum concurrent TCP connections
+# (optional, default: 10000)
+tcp_max_connections: 10000
+
+# TCP user timeout in milliseconds
+# (optional, default: 200)
+tcp_user_timeout_ms: 200
+
+# TCP keepalive interval in seconds
+# (optional, default: 30)
+tcp_keepalive_seconds: 30
+
+# TCP receive buffer size in bytes
+# (optional, default: 262144)
+tcp_recv_buffer_size: 262144
+
+# TCP send buffer size in bytes
+# (optional, default: 131072)
+tcp_send_buffer_size: 131072
+
+# ========== Cluster Settings ==========
+# Port for cluster communication (Raft/RPC)
+# (optional, default: 17777)
+quic_port: 17777
+
+# Raft tick interval in milliseconds
+# (optional, default: 30)
+raft_tick_ms: 30
+
+# Raft election timeout in ticks
+# (optional, default: 60)
+raft_election_tick: 60
+
+# Raft heartbeat interval in ticks
+# (optional, default: 15)
+raft_heartbeat_tick: 15
+
+# RzID heartbeat interval in seconds
+rzid_heartbeat_secs: 5
+
+# ========== Server Settings ==========
+# API port for HTTP endpoints
+# (optional, default: 8080)
+api_port: 8080
+
+# Hour of day for maintenance tasks (0-23)
+# (optional, default: 0)
+maintenance_hour: 3
+
+# Maximum number of dates allowed in a single query
+# (optional, default: 14)
+max_dates_in_query: 14
+
+# Maximum number of results per query
+# (optional, default: 200)
+query_limit: 200
+
+# Snapshot creation interval in seconds
+# (optional, default: 60)
+snapshot_interval_sec: 60
+
+# Number of WAL entries before triggering snapshot
+# (optional, default: 10000)
+snapshot_trigger_count: 10000
+
+# WAL flush threshold (number of entries)
+# (optional, default: 2000)
+wal_flush_threshold: 2000</code></pre>
                 </div>
 
                 <!-- Core allocation note -->
@@ -1092,51 +1317,6 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                         <span class="font-semibold">sys_cores_count:</span>
                         Set to <code class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded text-xs font-mono">0</code>
                         for auto-allocation (~50% of cores to system tasks). Tune only after benchmarking.
-                    </p>
-                </div>
-            </div>
-
-            <!-- 3. codecs.yml -->
-            <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">
-                    <code class="bg-gray-100 text-blue-600 px-2 py-0.5 rounded text-sm font-mono">codecs.yml</code>
-                    <span class="text-sm font-normal text-gray-500 ml-2">Rate features</span>
-                </h3>
-
-                <p class="text-gray-600 text-sm mb-3">
-                    Predefined rate policies used in search filtering (breakfast, cancellation, amenities, etc.).
-                    <span class="font-medium text-gray-700">Maximum 24 entries.</span>
-                </p>
-
-                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center">
-                        <span class="w-3 h-3 rounded-full bg-red-400 mr-1"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-400 mr-1"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-400 mr-3"></span>
-                        <span class="text-xs font-medium text-gray-600">codecs.yml</span>
-                    </div>
-                    <pre class="p-4 overflow-x-auto text-sm"><code class="language-yaml text-gray-800">rate_features:
-  - free_cancellation
-  - non_refundable
-  - breakfast_included
-  - late_checkout
-  # ... up to 24 entries</code></pre>
-                </div>
-
-                <!-- Important warning -->
-                <div class="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                    <p class="text-sm text-amber-800">
-                        <span class="font-semibold">⚠️ Important:</span>
-                        Changes to <code
-                            class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">codecs.yml</code>
-                        invalidate existing queries and require a full cluster restart. All snapshots will be dropped.
-                    </p>
-                </div>
-
-                <div class="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p class="text-sm text-blue-800">
-                        <span class="font-semibold">💡 Note:</span>
-                        The 24-entry limit is a deliberate performance optimization, not a practical constraint.
                     </p>
                 </div>
             </div>
@@ -1152,23 +1332,17 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
             </div>
         </section>
 
+
         <section id="rest-api" class="content-section hidden">
             <h2 class="text-2xl font-semibold mb-4">REST API</h2>
             <hr class="border-gray-300 mb-6" />
 
-            <div class="space-y-6">
+            <div class="space-y-8">
 
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h3 class="text-lg font-medium text-blue-800 mb-2">API Overview</h3>
-                    <p class="text-blue-700">
-                        Roomzin provides a comprehensive HTTP admin API for monitoring and cluster management.
-                    </p>
-                </div>
-
-                <!-- Common Endpoints -->
+                <!-- Standalone API -->
                 <div>
-                    <h3 class="text-xl font-semibold mb-3">Common Endpoints</h3>
-                    <p class="text-gray-600 mb-4">Available in both standalone and clustered modes:</p>
+                    <h3 class="text-xl font-semibold mb-3">Standalone Mode</h3>
+                    <p class="text-gray-600 mb-4">Available when running in standalone mode:</p>
 
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300">
@@ -1178,110 +1352,30 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                     <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Method</th>
                                     <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Description
                                     </th>
-                                    <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Required Role
-                                    </th>
-                                    <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Response Format
-                                    </th>
+                                    <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Response</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <!-- Health Check -->
                                 <tr class="hover:bg-gray-50">
                                     <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/healthz</td>
                                     <td class="border border-gray-300 px-4 py-3">GET</td>
+                                    <td class="border border-gray-300 px-4 py-3">Node health status</td>
                                     <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Node health status</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Standalone: "active" or "unavailable"<br>
-                                                Clustered: "active_leader", "active_follower", or "unavailable"
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">monitoring+</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Status +
-                                            Text</span>
+                                        <span
+                                            class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">"active"</span>
+                                        <span class="text-gray-400">or</span>
+                                        <span
+                                            class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">"unavailable"</span>
                                     </td>
                                 </tr>
-
-                                <!-- Metrics -->
                                 <tr class="hover:bg-gray-50">
                                     <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/metrics</td>
                                     <td class="border border-gray-300 px-4 py-3">GET</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>System metrics in Prometheus format</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Standalone: Filters cluster-specific metrics<br>
-                                                Clustered: Includes all system metrics
-                                            </p>
-                                        </div>
+                                    <td class="border border-gray-300 px-4 py-3">System metrics in Prometheus format
                                     </td>
-                                    <td class="border border-gray-300 px-4 py-3">monitoring+</td>
                                     <td class="border border-gray-300 px-4 py-3">
                                         <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Prometheus
                                             Text</span>
-                                    </td>
-                                </tr>
-
-                                <!-- Save Snapshot -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/save-snapshot</td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Trigger manual snapshot creation</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Initiates immediate snapshot process. Returns conflict if already in
-                                                progress.
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
-                                <!-- Codecs -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/codecs</td>
-                                    <td class="border border-gray-300 px-4 py-3">GET</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Retrieve system codecs</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Returns configured rate features from
-                                                codecs.yml
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">monitoring+</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
-                                <!-- Shutdown -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/shutdown</td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Graceful system shutdown</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                <strong>Request Body:</strong> <code>{"confirm": true}</code><br>
-                                                Must include confirmation flag for safety
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1289,10 +1383,10 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                     </div>
                 </div>
 
-                <!-- Clustered-Only Endpoints -->
+                <!-- Clustered API -->
                 <div>
-                    <h3 class="text-xl font-semibold mb-3">Clustered-Only Endpoints</h3>
-                    <p class="text-gray-600 mb-4">Available only when running in clustered mode:</p>
+                    <h3 class="text-xl font-semibold mb-3">Clustered Mode</h3>
+                    <p class="text-gray-600 mb-4">Available when running in clustered mode:</p>
 
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300">
@@ -1302,13 +1396,50 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                     <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Method</th>
                                     <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Description
                                     </th>
-                                    <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Required Role
-                                    </th>
-                                    <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Response Format
-                                    </th>
+                                    <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Response</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
+                                <!-- Health -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/healthz</td>
+                                    <td class="border border-gray-300 px-4 py-3">GET</td>
+                                    <td class="border border-gray-300 px-4 py-3">Node health status</td>
+                                    <td class="border border-gray-300 px-4 py-3">
+                                        <span
+                                            class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">"active_leader"</span>
+                                        <span class="text-gray-400">or</span>
+                                        <span
+                                            class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">"active_follower"</span>
+                                        <span class="text-gray-400">or</span>
+                                        <span
+                                            class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">"unavailable"</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Metrics -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/metrics</td>
+                                    <td class="border border-gray-300 px-4 py-3">GET</td>
+                                    <td class="border border-gray-300 px-4 py-3">System metrics in Prometheus format
+                                    </td>
+                                    <td class="border border-gray-300 px-4 py-3">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Prometheus
+                                            Text</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Codecs -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/codecs</td>
+                                    <td class="border border-gray-300 px-4 py-3">GET</td>
+                                    <td class="border border-gray-300 px-4 py-3">Retrieve configured rate features</td>
+                                    <td class="border border-gray-300 px-4 py-3">
+                                        <span
+                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
+                                    </td>
+                                </tr>
+
                                 <!-- Node Info -->
                                 <tr class="hover:bg-gray-50">
                                     <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/node-info</td>
@@ -1316,12 +1447,10 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                     <td class="border border-gray-300 px-4 py-3">
                                         <div class="space-y-1">
                                             <p><strong>Get detailed node information</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Returns: leader_id, leader_url, shard_id, zone_id, node_id
-                                            </p>
+                                            <p class="text-sm text-gray-600">Returns: leader_id, shard_id, zone_id,
+                                                node_id</p>
                                         </div>
                                     </td>
-                                    <td class="border border-gray-300 px-4 py-3">monitoring+</td>
                                     <td class="border border-gray-300 px-4 py-3">
                                         <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON
                                             Object</span>
@@ -1332,103 +1461,10 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                 <tr class="hover:bg-gray-50">
                                     <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/leader</td>
                                     <td class="border border-gray-300 px-4 py-3">GET</td>
+                                    <td class="border border-gray-300 px-4 py-3">Get current cluster leader ID</td>
                                     <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Get current cluster leader</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Returns URL of the current leader node
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">monitoring+</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
-                                <!-- Add Cluster Member -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/add-member/{node_id}
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Promote learner to voting member</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                <strong>Parameters:</strong> node_id - Target node identifier<br>
-                                                Elevates learner node to full voting member with consensus participation
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
-                                <!-- Remove Cluster Member -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">
-                                        /remove-member/{node_id}</td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Demote voting member to learner</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                <strong>Parameters:</strong> node_id - Target node identifier<br>
-                                                Converts voting member to learner role, maintaining data replication
-                                                without voting rights
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
-                                <!-- Transfer Leadership -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">
-                                        /transfer-leader/{node_id}</td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Initiate leadership transfer</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                <strong>Parameters:</strong> node_id - New leader candidate
-                                                identifier<br>
-                                                Requests Raft leadership transfer to specified node. Requires target to
-                                                be up-to-date voting member
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
-                                <!-- TLS Rotate -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/tls-rotate</td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Rotate TLS certificates</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Signal TLS certificate rotation for node-to-node QUIC communication
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON
+                                            (string)</span>
                                     </td>
                                 </tr>
 
@@ -1436,18 +1472,46 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                 <tr class="hover:bg-gray-50">
                                     <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/peers</td>
                                     <td class="border border-gray-300 px-4 py-3">GET</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Get cluster peer list</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Returns array of peer node addresses
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">monitoring+</td>
+                                    <td class="border border-gray-300 px-4 py-3">Get cluster peer list</td>
                                     <td class="border border-gray-300 px-4 py-3">
                                         <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON
                                             Array</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Admin: Add Member -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">
+                                        /admin/add-member/{node_id}</td>
+                                    <td class="border border-gray-300 px-4 py-3">POST</td>
+                                    <td class="border border-gray-300 px-4 py-3">Promote learner to voting member</td>
+                                    <td class="border border-gray-300 px-4 py-3">
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">"add in
+                                            progress"</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Admin: Remove Member -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">
+                                        /admin/remove-member/{node_id}</td>
+                                    <td class="border border-gray-300 px-4 py-3">POST</td>
+                                    <td class="border border-gray-300 px-4 py-3">Demote voting member to learner</td>
+                                    <td class="border border-gray-300 px-4 py-3">
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">"remove in
+                                            progress"</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Admin: Transfer Leader -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">
+                                        /admin/transfer-leader/{node_id}</td>
+                                    <td class="border border-gray-300 px-4 py-3">POST</td>
+                                    <td class="border border-gray-300 px-4 py-3">Initiate leadership transfer</td>
+                                    <td class="border border-gray-300 px-4 py-3">
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">"transfer
+                                            in progress"</span>
                                     </td>
                                 </tr>
                             </tbody>
