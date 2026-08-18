@@ -94,19 +94,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#service-discovery" class="nav-link top-link">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="6" cy="6" r="3" />
-                            <circle cx="18" cy="6" r="3" />
-                            <circle cx="12" cy="18" r="3" />
-                            <line x1="8.5" y1="7.5" x2="15.5" y2="16.5" />
-                            <line x1="15.5" y1="7.5" x2="8.5" y2="16.5" />
-                        </svg>
-                        <span class="nav-label">Service Discovery</span>
-                    </a>
-                </li>
-
                 <!-- 4. Configuration -->
                 <li class="nav-item">
                     <a href="#config" class="nav-link top-link">
@@ -150,17 +137,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#faq" class="nav-link top-link">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <line x1="12" y1="17" x2="12.01" y2="17" />
-                        </svg>
-                        <span class="nav-label">FAQ</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a href="#quick-cluster" class="nav-link top-link">
                         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
@@ -178,15 +154,12 @@
                 <div class="logo text-2xl font-semibold">
                     <img src="img/logo.png" style="margin: auto; width: 150px;" />
                 </div>
-                <div class="space-x-4">
+                <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 md:mt-0">
                     <a href="index.html" class="menu-link">Roomzin</a>
-                    <a href="rzgate.html" class="menu-link">RzGate</a>
-                    <a href="sdks.html" class="menu-link">SDKs</a>
-                    <a href="benchmarks.html" class="menu-link">Benchmarks</a>
-                    <a href="download.html" class="menu-link">Download</a>
-
-                    <a href="docs.html" class="menu-link menu-active">Docs</a>
                     <a href="architecture.html" class="menu-link">Architecture</a>
+                    <a href="components.html" class="menu-link">Deployment</a>
+                    <a href="benchmarks.html" class="menu-link">Benchmarks</a>
+                    <a href="docs.html" class="menu-link menu-active">Docs</a>
                     <a href="contact.html" class="menu-link">Contact Us</a>
                 </div>
             </nav>
@@ -215,12 +188,10 @@
                         <li>Learn how to <strong>connect</strong> to Roomzin</li>
                         <li>Learn how to <strong>bulk import</strong> millions of records from CSV files</li>
                         <li>Learn how to <strong>deploy</strong> Roomzin in standalone or clustered mode</li>
-                        <li>Learn how <strong>service discovery</strong> works in the Roomzin platform</li>
-                        <li>Learn the <strong>configuration</strong> and authentication file format</li>
+                        <li>Learn the <strong>configuration</strong></li>
                         <li>Learn what's available in the <strong>REST API</strong></li>
                         <li>Learn about the <strong>metrics</strong> provided for monitoring</li>
                         <li>Learn how to <strong>benchmark</strong> Roomzin with your own data</li>
-                        <li>Read the <strong>FAQ</strong> for quick answers to common questions</li>
                         <li>Use the <strong>Quick Cluster</strong> guide to run a test cluster in Docker Compose</li>
                     </ul>
                 </div>
@@ -275,19 +246,10 @@ make stop &amp;&amp; make start</code></pre>
 
                 <!-- QUICK LINKS -->
                 <div class="flex flex-wrap items-center gap-4 p-4 mt-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <span class="text-sm font-medium text-gray-700">Quick links:</span>
                     <a href="https://github.com/m-javani/roomzin-quickstart" target="_blank" rel="noopener noreferrer"
                         class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium">
-                        Full README
-                        <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
+                        GitHub link
                     </a>
-                    <span class="text-gray-300">|</span>
-                    <a href="sdks.html" class="text-sm text-blue-600 hover:text-blue-800">SDKs</a>
-                    <span class="text-gray-300">|</span>
-                    <a href="rzgate.html" class="text-sm text-blue-600 hover:text-blue-800">RzGate</a>
                 </div>
             </div>
         </section>
@@ -717,13 +679,12 @@ make stop &amp;&amp; make start</code></pre>
                     </div>
                     <div class="p-6">
                         <p class="text-gray-700 mb-4">
-                            Just drop the binary next to its config, auth and <code
+                            Just drop the binary next to its config and <code
                                 class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">codecs.yml</code>
                             file and run.
                         </p>
                         <div class="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-                            roomzin run --config /path/to/roomzin.yml --codecs /path/to/codecs.yml --auth-file
-                            /path/to/auth.yml
+                            roomzin run --config /path/to/roomzin.yml --codecs /path/to/codecs.yml
                         </div>
                     </div>
                 </div>
@@ -738,25 +699,8 @@ make stop &amp;&amp; make start</code></pre>
                     </div>
                     <div class="p-6">
                         <div class="mb-6">
-                            <p class="text-gray-700 text-md">
-                                <strong>Service Discovery:</strong> Roomzin, SDKs and RZGate need to
-                                resolve node identities to network addresses. Roomzin supports
-                                <strong>Static</strong> (YAML file) or <strong>HTTP</strong> (dynamic environments)
-                                discovery. You provide a static resolver file or a simple HTTP endpoint — no embedded
-                                Consul, Kubernetes, or
-                                Istio dependencies. This keeps Roomzin lightweight and infrastructure-agnostic.
-                                Click on the Discovery link on sidebar to see more details
-                            </p>
-                            <p> See
-                                <a href="#service-discovery"
-                                    class="text-blue-700 font-medium hover:text-blue-800 hover:underline">
-                                    Discovery section
-                                </a>
-                            </p>
-                        </div>
-                        <div class="mb-6">
                             <p class="text-gray-700 mb-4">
-                                Place the required files (config, auth, codecs, *.pem) on each machine and start the
+                                Place the required files (config, codecs, *.pem) on each machine and start the
                                 same binary as shown below. Nodes auto-discover each other—only a single seed is enough
                                 to pull the full peer list, provided the cluster graph stays connected.
                             </p>
@@ -781,7 +725,6 @@ make stop &amp;&amp; make start</code></pre>
                                     <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
                                         ./roomzin run-clustered --config /path/to/roomzin.yml --codecs
                                         /path/to/codecs.yml
-                                        --auth-file /path/to/auth.yml
                                         --node-id node1 --shard-id shard1 --zone-id zone1
                                         --initial-voters "node1,node2,node3"
                                     </div>
@@ -794,7 +737,6 @@ make stop &amp;&amp; make start</code></pre>
                                     <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
                                         ./roomzin run-clustered --config /path/to/roomzin.yml --codecs
                                         /path/to/codecs.yml
-                                        --auth-file /path/to/auth.yml
                                         --node-id node2 --shard-id shard1 --zone-id zone1
                                         --initial-voters "node1,node2,node3"
                                     </div>
@@ -807,7 +749,6 @@ make stop &amp;&amp; make start</code></pre>
                                     <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
                                         ./roomzin run-clustered --config /path/to/roomzin.yml --codecs
                                         /path/to/codecs.yml
-                                        --auth-file /path/to/auth.yml
                                         --node-id node3 --shard-id shard1 --zone-id zone1
                                         --initial-voters "node1,node2,node3"
                                     </div>
@@ -825,7 +766,6 @@ make stop &amp;&amp; make start</code></pre>
                                 </div>
                                 <div class="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto">
                                     ./roomzin run-clustered --config /path/to/roomzin.yml --codecs /path/to/codecs.yml
-                                    --auth-file /path/to/auth.yml
                                     --node-id node4 --shard-id shard1 --zone-id zone1 --initial-voters
                                     "node1,node2,node3"
                                 </div>
@@ -1091,10 +1031,6 @@ make stop &amp;&amp; make start</code></pre>
                     <p class="text-sm text-gray-600 mt-1">Main server configuration</p>
                 </div>
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <code class="text-sm font-mono text-blue-600">auth.yml</code>
-                    <p class="text-sm text-gray-600 mt-1">Token-based authentication &amp; RBAC</p>
-                </div>
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
                     <code class="text-sm font-mono text-blue-600">codecs.yml</code>
                     <p class="text-sm text-gray-600 mt-1">Predefined rate features (max 24)</p>
                 </div>
@@ -1140,7 +1076,6 @@ cluster:
   discovery_yml_path: "./discovery.yml"
   discovery_http_host: ""
 
-auth_file: ""                 # Path to auth.yml (required)
 api_port: 0                   # Admin API port (e.g., 8080)
 data_dir: ""                  # Data directory (required)
 maintenance_hour: 0           # 0-23 for scheduled maintenance
@@ -1158,45 +1093,6 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                         Set to <code class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded text-xs font-mono">0</code>
                         for auto-allocation (~50% of cores to system tasks). Tune only after benchmarking.
                     </p>
-                </div>
-            </div>
-
-            <!-- 2. auth.yml -->
-            <div class="mb-10">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">
-                    <code class="bg-gray-100 text-blue-600 px-2 py-0.5 rounded text-sm font-mono">auth.yml</code>
-                    <span class="text-sm font-normal text-gray-500 ml-2">Authentication &amp; RBAC</span>
-                </h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <code class="text-xs font-mono text-gray-700">role: admin</code>
-                        <p class="text-xs text-gray-600 mt-0.5">Full system access</p>
-                    </div>
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <code class="text-xs font-mono text-gray-700">role: client</code>
-                        <p class="text-xs text-gray-600 mt-0.5">SDK commands + monitoring</p>
-                    </div>
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <code class="text-xs font-mono text-gray-700">role: monitoring</code>
-                        <p class="text-xs text-gray-600 mt-0.5">Read-only status API</p>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center">
-                        <span class="w-3 h-3 rounded-full bg-red-400 mr-1"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-400 mr-1"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-400 mr-3"></span>
-                        <span class="text-xs font-medium text-gray-600">auth.yml</span>
-                    </div>
-                    <pre class="p-4 overflow-x-auto text-sm"><code class="language-yaml text-gray-800">tokens:
-  - token: abc123
-    role: admin
-  - token: c789
-    role: client
-  - token: mon456
-    role: monitoring</code></pre>
                 </div>
             </div>
 
@@ -1266,25 +1162,7 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                     <h3 class="text-lg font-medium text-blue-800 mb-2">API Overview</h3>
                     <p class="text-blue-700">
                         Roomzin provides a comprehensive HTTP admin API for monitoring and cluster management.
-                        All endpoints require Bearer token authentication and return JSON responses unless otherwise
-                        specified.
                     </p>
-                </div>
-
-                <!-- Authentication -->
-                <div>
-                    <h3 class="text-xl font-semibold mb-3">Authentication</h3>
-                    <div class="bg-white border border-gray-200 rounded-lg p-4">
-                        <p class="mb-3">All API requests require Bearer token authentication in the Authorization
-                            header:</p>
-                        <div class="bg-black text-green-400 p-4 rounded text-sm font-mono overflow-x-auto">
-                            Authorization: Bearer your-token-here
-                        </div>
-                        <p class="mt-3 text-sm text-gray-600">
-                            Tokens are configured via the authentication system and grant different access levels based
-                            on roles.
-                        </p>
-                    </div>
                 </div>
 
                 <!-- Common Endpoints -->
@@ -1431,25 +1309,6 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <!-- Reload Tokens -->
-                                <tr class="hover:bg-gray-50">
-                                    <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/reload-tokens</td>
-                                    <td class="border border-gray-300 px-4 py-3">POST</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <div class="space-y-1">
-                                            <p><strong>Reload authentication tokens</strong></p>
-                                            <p class="text-sm text-gray-600">
-                                                Refresh authentication tokens from disk without restart
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td class="border border-gray-300 px-4 py-3">admin</td>
-                                    <td class="border border-gray-300 px-4 py-3">
-                                        <span
-                                            class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">JSON</span>
-                                    </td>
-                                </tr>
-
                                 <!-- Node Info -->
                                 <tr class="hover:bg-gray-50">
                                     <td class="border border-gray-300 px-4 py-3 font-mono text-sm">/node-info</td>
@@ -1593,26 +1452,6 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <!-- Usage Examples -->
-                <div>
-                    <h3 class="text-xl font-semibold mb-3">Usage Examples</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-medium mb-2">Basic Health Check</h4>
-                            <div class="bg-black text-green-400 p-4 rounded text-sm font-mono overflow-x-auto">
-                                curl -H "Authorization: Bearer your-token" http://localhost:8080/healthz
-                            </div>
-                        </div>
-
-                        <div>
-                            <h4 class="font-medium mb-2">Get Node Information</h4>
-                            <div class="bg-black text-green-400 p-4 rounded text-sm font-mono overflow-x-auto">
-                                curl -H "Authorization: Bearer your-token" http://localhost:8080/node-info
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -2089,14 +1928,6 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
                                         date</p>
                                 </div>
                             </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">List Segments</h4>
-                                    <p class="text-sm text-gray-600">Lists all segments and their property counts</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -2378,815 +2209,6 @@ wal_flush_threshold: 2000     # WAL flush batch size</code></pre>
             <p class="text-sm text-gray-600 mt-3 text-center">
                 Complete documentation, examples, and source code available on GitHub
             </p>
-        </section>
-
-        <section id="service-discovery" class="content-section hidden">
-            <!-- Header -->
-            <div class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800">Service Discovery</h2>
-                <p class="text-gray-600 mt-2">Roomzin nodes need to discover each other's addresses to form a cluster.
-                    External components — SDKs and RZGate — also need to know how to reach Roomzin nodes.</p>
-            </div>
-
-            <!-- The Challenge -->
-            <p class="text-gray-700 text-md mb-8">
-                <span class="font-semibold">The challenge:</span> Different infrastructures use different discovery
-                mechanisms and certificate identity formats. Roomzin abstracts address resolution and leaves the
-                implementation to you — keeping Roomzin lightweight and your infrastructure choices unconstrained.
-            </p>
-
-            <!-- Discovery Methods -->
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Discovery Methods</h3>
-
-            <div class="space-y-6 mt-8">
-                <!-- Static -->
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h4 class="font-semibold text-gray-800">Static Discovery</h4>
-                        <span class="text-xs text-green-600 font-medium">Simple</span>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-1">When cluster nodes have stable, predictable IPs or hostnames
-                    </p>
-                    <p class="text-sm text-gray-600 mt-1">Provide a static mapping of node identities to addresses. The
-                        client resolves addresses once and never updates them.</p>
-                </div>
-
-                <hr class="border-gray-200">
-
-                <!-- HTTP -->
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h4 class="font-semibold text-gray-800">HTTP Discovery</h4>
-                        <span class="text-xs text-purple-600 font-medium">Dynamic</span>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-1">Configure an HTTP endpoint that returns the current
-                        node-to-address mapping. Clients periodically fetch updates.</p>
-                </div>
-            </div>
-
-            <hr class="border-gray-200 mt-10 mb-5">
-
-            <!-- Static Discovery File -->
-            <div class="flex items-center gap-2 mb-5">
-                <h3 class="text-lg font-semibold text-gray-800">Static Discovery example</h3>
-            </div>
-            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-red-400"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-400"></span>
-                        <span class="text-xs font-medium text-gray-600 ml-2">discovery.yml</span>
-                    </div>
-                </div>
-                <pre class="p-4 overflow-x-auto text-sm"><code class="language-yaml text-gray-800">
-nodes:
-  - node_id: node1
-    host: 10.0.1.11
-    identity:
-      kind: dns
-      value: node1.localhost
-
-  - node_id: node2
-    host: 10.0.1.12
-    identity:
-      kind: dns
-      value: node2.localhost
-
-  - node_id: node3
-    host: 10.0.1.13
-    identity:
-      kind: dns
-      value: node3.localhost</code></pre>
-            </div>
-
-            <hr class="border-gray-200 mt-10 mb-5">
-
-            <!-- HTTP Discovery API Specification -->
-            <div class="mb-10 mt-8">
-                <div class="flex items-center gap-2 mb-3">
-                    <h3 class="text-lg font-semibold text-gray-800">HTTP Discovery API Specification</h3>
-                    <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded">OpenAPI v3.0.0</span>
-                </div>
-                <p class="text-gray-600 text-sm mb-4">
-                    If you choose HTTP discovery, you provide an API endpoint. Roomzin, RZGate, and SDKs query it to
-                    resolve node identities to addresses. Each component requires a slightly different response format
-                    because internal node addresses may not be suitable for external clients.
-                </p>
-
-                <!-- OpenAPI YAML -->
-                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-red-400"></span>
-                            <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-                            <span class="w-3 h-3 rounded-full bg-green-400"></span>
-                            <span class="text-xs font-medium text-gray-600 ml-2">discovery-api.yaml</span>
-                        </div>
-                        <span class="text-xs text-gray-400">Implement these three GET endpoints</span>
-                    </div>
-                    <pre class="p-4 overflow-x-auto text-sm"><code class="language-yaml text-gray-800">openapi: 3.0.0
-info:
-  title: Roomzin Discovery API
-  version: 1.0.0
-  description: |
-    Implement these endpoints to let Roomzin components resolve node identities 
-    to network addresses. The three endpoints return the same cluster information 
-    but formatted for different consumers.
-
-servers:
-  - url: https://your-discovery-service.com
-    description: Your discovery service endpoint
-
-paths:
-  /discovery/roomzin:
-    get:
-      summary: For Roomzin cluster nodes
-      description: |
-        Roomzin nodes use this endpoint when joining a cluster. Returns peer 
-        information including TLS identity for secure node-to-node authentication.
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  version:
-                    type: integer
-                    description: Optional schema version for future compatibility
-                  peers:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - node_id
-                        - host
-                        - identity
-                        - port
-                      properties:
-                        node_id:
-                          type: string
-                          description: Roomzin node identifier
-                        host:
-                          type: string
-                          description: IP address, hostname, or URL
-                        port:
-                          type: integer
-                          description: Port for Roomzin communication
-                        identity:
-                          type: object
-                          description: TLS identity for node authentication
-                          properties:
-                            kind:
-                              type: string
-                              enum: [dns, ip, spiffe]
-                              description: Type of SAN used in the certificate
-                            value:
-                              type: string
-                              description: The identity value (DNS name, IP address, or SPIFFE ID)
-              example:
-                version: 1
-                peers:
-                  - node_id: "node1"
-                    host: "10.0.1.10"
-                    port: 8443
-                    identity:
-                      kind: "ip"
-                      value: "10.0.1.10"
-                  - node_id: "node2"
-                    host: "node2.roomzin.internal"
-                    port: 8443
-                    identity:
-                      kind: "dns"
-                      value: "node2.roomzin.internal"
-
-  /discovery/rzgate:
-    get:
-      summary: For RZGate instances
-      description: RZGate uses this endpoint to discover which Roomzin nodes to route requests to.
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  nodes:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - node_id
-                        - addr
-                      properties:
-                        node_id:
-                          type: string
-                          description: Roomzin node identifier
-                        addr:
-                          type: string
-                          description: Publicly accessible IP or hostname
-                        port:
-                          type: integer
-                          description: Optional port (defaults to RZGate's configured port)
-              example:
-                nodes:
-                  - node_id: "node1"
-                    addr: "10.0.1.10"
-                    port: 8080
-                  - node_id: "node2"
-                    addr: "10.0.1.11"
-                    port: 8080
-
-  /discovery/sdk:
-    get:
-      summary: For SDK clients
-      description: |
-        SDKs fetch this to connect directly to Roomzin nodes. 
-        Separates TCP (data streaming) and API (control) ports.
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  nodes:
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - node_id
-                        - addr
-                      properties:
-                        node_id:
-                          type: string
-                          description: Roomzin node identifier
-                        addr:
-                          type: string
-                          description: Publicly accessible IP or hostname
-                        tcp_port:
-                          type: integer
-                          description: Port for TCP data streaming
-                        api_port:
-                          type: integer
-                          description: Port for HTTP API requests
-              example:
-                nodes:
-                  - node_id: "node1"
-                    addr: "10.0.1.10"
-                    tcp_port: 9090
-                    api_port: 8080
-                  - node_id: "node2"
-                    addr: "10.0.1.11"
-                    tcp_port: 9090
-                    api_port: 8080</code></pre>
-                </div>
-
-                <!-- Note about ports -->
-                <div class="mt-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                    <p class="text-sm text-gray-700">
-                        <span class="font-medium">Port flexibility:</span> Ports are included in the specifications to
-                        support different environments — such as tests or container port mappings — where the same node
-                        might be reachable on different ports. In production, all nodes use the same port for
-                        a given service.
-                    </p>
-                </div>
-            </div>
-
-            <!-- TLS Identity Details -->
-            <div class="bg-gray-50 border border-blue-200 rounded-lg p-5 mb-10 mt-8">
-                <div class="flex items-start">
-                    <svg class="w-5 h-5 text-amber-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                        </path>
-                    </svg>
-                    <div>
-                        <h4 class="font-semibold text-black-900 text-sm">Understanding TLS Identity</h4>
-                        <p class="text-amber-800 text-sm mt-1">
-                            Roomzin uses QUIC for secure node-to-node communication. The QUIC server's TLS library
-                            automatically verifies certificates, but verification can fail if clients use different
-                            Subject Alternative Name (SAN) types.
-                        </p>
-                        <p class="text-black-800 text-sm mt-2">
-                            The <code
-                                class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">identity</code>
-                            field tells Roomzin nodes how to verify each other's identities:
-                        </p>
-                        <ul class="mt-2 space-y-1 text-sm text-black-800 list-disc list-inside pt11">
-                            <li><code
-                                    class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">kind: "dns"</code>
-                                — Certificate SAN contains DNS names, <code
-                                    class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">value</code>
-                                is the DNS name</li>
-                            <li><code
-                                    class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">kind: "ip"</code>
-                                — Certificate SAN contains IP addresses, <code
-                                    class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">value</code>
-                                is the IP address</li>
-                            <li><code
-                                    class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">kind: "spiffe"</code>
-                                — Certificate SAN contains SPIFFE IDs, <code
-                                    class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-xs font-mono">value</code>
-                                is the SPIFFE ID</li>
-                        </ul>
-                        <div class="mt-2 p-2 bg-gray-100 border border-blue-300 rounded-lg mt-4">
-                            <p class="text-xs text-blck-900">
-                                <span class="font-semibold">Important:</span> All nodes in the cluster must use the same
-                                <code
-                                    class="bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded text-xs font-mono">kind</code>
-                                to ensure successful TLS handshakes.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="my-8">
-            <p class="text-gray-500 text-sm">
-                Next: <a href="#quick-cluster" class="text-blue-600 hover:text-blue-800 font-medium">Quick
-                    Cluster</a>
-            </p>
-        </section>
-
-        <section id="faq" class="content-section  hidden">
-            <div class="text-center mb-10">
-                <br />
-                <h2 class="text-3xl font-bold text-gray-800 mb-3">Frequently Asked Questions</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Everything you need to know about Roomzin's architecture and
-                    performance</p>
-            </div>
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>What is Roomzin?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">A fast and light inventory engine built for booking platforms.</p>
-
-            <p class="mb-4">
-                Run it as a single instance behind your backend nodes, or spin up a cluster when you need HA and speed
-                through horizontal scaling.
-            </p>
-
-            <p class="mb-4"><b>What do you mean by light?</b></p>
-            <ul class="list-disc list-inside mb-4 text-base font-12">
-                <li>One self-contained binary (&lt;5 MB) handles single mode, cluster mode, and seed-data ingest. No
-                    extra tools or dependencies.</li>
-                <li>Feed it 5 GB of data and it uses ~2.5 GB RAM.</li>
-                <li>Its portable snapshot on disk is even tinier.</li>
-            </ul>
-            <p class="mb-4"><b>What do you mean by fast?</b><br>
-                Under heavy traffic it answers complicated search queries with big payloads in a few milliseconds,
-                beating every other tool.</p>
-
-            <p class="mb-4"><b>Is that all?</b><br>
-                Of course not. It’s also simple: simple to deploy, simple to use.</p>
-            <br>
-            <br>
-            <!--------------------------------->
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Explain the context</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Planet-wide sharding</b><br>
-                Global booking platforms serve the entire planet by dividing it into regional shards. Traffic is routed
-                to the relevant shard, where multiple nodes provide high availability and load balancing. Each node
-                stores only the inventory for its specific zone..</p>
-
-            <p class="mb-2"><b>Cache is mandatory—yet painful</b><br>
-                A cache layer sits in front of the database to hide disk latency. Sounds easy—until you discover that a
-                cache is just a key-value bucket. Teams must design keys, set TTLs, invalidate on every update, and
-                still make dozens of round-trips to collect scattered bits and join them in memory.</p>
-
-            <p class="mb-2"><b>The ugly query</b><br>
-                And that still doesn’t cover the hard query: “Find me two rooms, under $120 a night, breakfast included,
-                pay-at-property, cancellable, for five nights, in a 4-star business hotel or motel, pet-friendly, with
-                pool, gym, restaurant and a view, somewhere near this lat/lng.” The filter list is 100 k properties
-                long; availability changes by the second; price changes by the minute.</p>
-
-            <p class="mb-2"><b>DB fallback = latency killer</b><br>
-                Fall back to the database? Latency murders high-TPS targets. Replicate for HA? More boxes, more shards,
-                more midnight pages, more budget.</p>
-
-            <p class="mb-4"><b>Roomzin steps in here</b><br>
-                Keep reading to see where Roomzin slips into this picture and makes the noise quiet.</p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>How Roomzin fits in?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Seat at the table</b><br>
-                Roomzin parks right next to your cache, on top of the DB. One round-trip query—faster than any in-memory
-                DB—returns every search hit for the hot window.</p>
-
-            <ul class="list-disc list-inside mb-2 text-base space-y-1  font-12">
-                <li><b>Full-blown DB?</b> Nope. It accelerates only the booking hot-window (next weeks/months) that
-                    absorb ~95 % of live traffic.</li>
-                <li><b>Window cap?</b> None hard-coded. Admins keep only the interval worth RAM—usually 15-90 days.</li>
-                <li><b>Tail-latency guard-rails</b> Admins can soft-cap “max nights” and “max results per query” so a 10
-                    k/s TPS never drags MS into seconds; edge cases spill to the main DB.</li>
-                <li><b>Any constraints on data?</b> Just one: Up to 24 rate features—like cancellation policies,
-                    included breakfast, or WiFi—must be defined in your codecs.yml file to use as package filters. This
-                    limit isn’t fixed by the product, but is set by companies to cover 95% of real‑world cases—a
-                    deliberate trade‑off for speed and simplicity.</li>
-                <li><b>Redis killer?</b> No. Redis stays for static key/value chores; Roomzin adds travel-native schema
-                    and single-query speed for hot searches.</li>
-            </ul>
-
-            <p class="mb-2"><b>Traffic flow in 3 steps</b></p>
-            <ol class="list-decimal list-inside mb-4 text-base space-y-1  font-12">
-                <li>Backend fires one complex search to Roomzin.</li>
-                <li>Roomzin replies with matching property IDs + nightly room details for the whole stay.</li>
-                <li>Client scrolls → platform fetches static hotel info from Redis only for items in view.</li>
-            </ol>
-
-            <p class="mb-4"><b>Result:</b> 95 % of queries finish in milliseconds, Redis keeps doing what it loves, and
-                your DB breathes again.</p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>How easy is it to deploy Roomzin?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Standalone</b><br>
-                One binary, three YAML files (config + auth + codecs list).<br>
-                Run it. Done.</p>
-
-            <p class="mb-2"><b>Cluster</b><br>
-                Same binary on every node; they self-discover, elect a leader, and wire themselves into a secure
-                cluster.<br>
-                You only supply:
-            </p>
-            <ul class="list-disc list-inside mb-2 text-base">
-                <li>a seed list (one node name is enough)</li>
-                <li>certificates (.pem files) for TLS</li>
-            </ul>
-
-            <p class="mb-4"><b>Scale?</b> Add a node → cluster grows. Remove a node → cluster shrinks. Zero config
-                change, zero downtime.</p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>How to connect to Roomzin? Who routes the requests?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>No custom routing layer needed.</b><br>
-                Roomzin lives inside one shard; all traffic stays internal to that shard.</p>
-
-            <p class="mb-2"><b>SDKs do the heavy lifting</b></p>
-            <ul class="list-disc list-inside mb-2 text-base font-12">
-                <li>Go, Java, Python, C#, Node.js</li>
-                <li>Topology-aware: give any single node name, the SDK downloads the cluster map</li>
-                <li>Writes and reads are auto-routed to the fastest node(s) with built-in load-balancing</li>
-                <li>Leader crash? New election? Node disappears? SDK reroutes instantly—no code change, no restart</li>
-                <li><b>Need HTTP?</b> Use <b>RzGate</b> — the standalone HTTP/JSON proxy for legacy systems</li>
-            </ul>
-
-            <p class="mb-4"><b>Only infra requirement:</b> a DNS resolver so cluster and SDKs can resolve node IPs.
-                That’s it.</p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>What does the schema look like?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2">Three primitives:</p>
-            <ul class="list-disc list-inside mb-2 text-base space-y-1 font-12">
-                <li><b>Property</b>: segment · area · property id (uuid or short string) · type · category · stars ·
-                    geo(lat+lon) · amenities
-                </li>
-                <li><b>Room Type</b>: standard . double . deluxe . suite . etc...</li>
-                <li><b>Daily Package</b>: date · availability · final price · rate &amp; features
-                </li>
-            </ul>
-
-            <p class="mb-4">Hot window (15-90 days or more) lives entirely in RAM; update or patch any field in real
-                time while
-                searches stay instant.</p>
-            <p class="mb-4">All commands/queries in SDKs are around these entities for millions of records</p>
-            <br>
-            <br>
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Start fresh or seed from existing DB?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Bulk import in seconds</b><br>
-                Point Roomzin at a CSV snapshot: it ingests &gt; 2.5 M records/sec, zero INSERT queries.</p>
-
-            <p class="mb-2"><b>One-time task per fresh shard</b><br>
-                Run it once for a fresh shard; when the snapshot lands the cluster starts live-sync and never needs a
-                repeat.</p>
-
-            <p class="mb-4"><b>Final whisk</b><br>
-                Stream the last delta (whatever arrived while this process) with SDK.</p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Is data partitioned across Roomzin nodes?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                Nope. Every node keeps the <b>entire state</b> in RAM.
-                The leader replicates each write to all followers; consistent state arrives in <b>single-digit
-                    milliseconds</b>—no sharding keys, no cross-node joins, no surprises.
-            </p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Are writes instant under heavy load?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                Yes. Read and write paths are decoupled; the write channel always gets priority, so even when search
-                traffic floods the queue, updates still commit in milliseconds.
-            </p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Does Roomzin partition data inside a node?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Segments = inner parallelism</b><br>
-                Each node splits its copy of the shard into user-defined segments (think “micro-regions” or “search
-                buckets”).</p>
-
-            <ul class="list-disc list-inside mb-2 text-base space-y-1 font-12">
-                <li>Every segment owns its own processing queue — thousands of Paris properties? Split into 5-10
-                    segments and let
-                    all cores run in parallel.</li>
-                <li>No geography baked into IDs — devs choose segment keys that mirror real-world search patterns
-                    (city name, district, GeoHash, custom hash).</li>
-                <li>Segment is mandatory in every search—just like picking a city</li>
-            </ul>
-
-            <p class="mb-4">Use it when you want to squeeze every last core; skip it when your data is already cozy.</p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>How visible is Roomzin?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Prometheus-native</b><br>
-                Every node exposes metrics in plain Prometheus format: TCP activity, cluster connectivity, request flow,
-                system state, snapshots, WAL ops—Grafana-ready out of the box.</p>
-
-            <p class="mb-4"><b>REST self-description</b><br>
-                Each node also serves health check, node info, known peers, current role, known leader, last snapshot
-                info, and
-                quorum size—no guessing, just query.</p>
-
-            <br>
-            <br>
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Can the REST API do more than read?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2">Absolutely.</p>
-            <p class="mb-4">
-                Admins also <b>write</b>: shutting down a node, update peers, trigger a snapshot, or
-                rotate TLS certs—<b>all without SSH or restart</b>.
-            </p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>How does a node join the cluster?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <ol class="list-decimal list-inside mb-4 text-base space-y-2 font-12">
-                <li><b>Discovery &amp; Quorum</b><br>
-                    Starts in “Joining” mode, replays its local WAL, then knocks on every seed address.
-                    Shard-ID and certificates must match; if the cluster already exists it learns the current leader,
-                    otherwise it jumps into the election game.</li>
-
-                <li><b>State Sync</b><br>
-                    Compares its snapshot with the leader’s.
-                    Missing bytes? Streams the newest snapshot from a same-zone buddy first, falls back to any node,
-                    then rebuilds the in-memory state.</li>
-
-                <li><b>Log Catch-up</b><br>
-                    Downloads the WAL segment that starts right after the snapshot, replays every entry, and keeps
-                    ingesting live writes until it’s byte-perfect with the leader.</li>
-
-                <li><b>Go Active</b><br>
-                    Status flips to “Active”; the node now votes, replicates, and serves reads like every other
-                    member—zero manual steps, zero downtime.</li>
-            </ol>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Auto-maintenance?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                Pick a low-traffic hour to trigger the tasks (single node or whole cluster).
-                Roomzin drops yesterday’s expired data, then snaps a fresh checkpoint—no manual cleanup, no extra
-                scripts.
-            </p>
-            <br>
-            <br>
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Roomzin Distributed Consensus with TiKV Raft</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2">Roomzin implements distributed consensus using the TiKV Raft crate, a
-                production-proven implementation derived from etcd's Raft algorithm and inspired by HashiCorp's Raft
-                research:</p>
-            <ul class="list-disc list-inside mb-2 text-base space-y-1 font-12">
-                <li>Optimized failure detection with automatic node recovery and cluster reconfiguration</li>
-                <li>Leader-based replication with write propagation to majority quorum before client acknowledgment</li>
-                <li>Single-digit millisecond consensus latency with strong consistency guarantees</li>
-                <li>Battle-tested implementation evolved from etcd's core Raft implementation</li>
-            </ul>
-
-            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
-                <p class="text-sm text-blue-800 font-medium">Production-Proven Foundation</p>
-                <p class="text-sm text-blue-700 mt-1">
-                    Our consensus layer builds upon the TiKV Raft implementation, a CNCF graduated project
-                    derived from etcd's battle-tested Raft algorithm with enhancements inspired by HashiCorp's
-                    Raft research. This foundation provides the same reliability used in large-scale
-                    distributed systems across multiple industries, ensuring robust distributed coordination
-                    for Roomzin's real-time collaboration features.
-                </p>
-            </div>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>What protocol do clients speak?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                A custom, binary protocol—zero text parsing, zero wasted bits, built to serve high QPS
-                pipelines full without breaking a sweat.
-            </p>
-            <br>
-            <br>
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>How do nodes talk to each other?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                QUIC + TLS with auto certificate rotation—encrypted by default, zero-handshake latency, fast stream
-                replication, and safe across
-                data-centers. (Just keep valid certs on every node.)
-            </p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>What if my platform only speaks HTTP?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                Use <b>RzGate</b> — roomzin's standalone HTTP/JSON proxy. It sits between your legacy HTTP clients and
-                Roomzin,
-                converting REST/JSON calls to Roomzin's native protocol with only ~10–15% overhead. Perfect for existing
-                booking engines, third-party systems, or quick testing without SDK integration.
-            </p>
-
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Is TLS enabled on the client TCP port?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                Nope. Roomzin sits inside your private mesh; leave TLS termination to the load-balancer or service mesh
-                you already run.
-            </p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Who can do what?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2">Three built-in roles, no extra plugins:</p>
-            <ul class="list-disc list-inside mb-4 text-base space-y-1 font-12">
-                <li><b>monitoring</b> – read metrics &amp; safe GET endpoints only</li>
-                <li><b>client</b> – CRUD on TCP, but just GET on REST</li>
-                <li><b>admin</b> – full control: writes, config, shutdown, snapshots, TLS rotate</li>
-            </ul>
-            <p>Lock them down with sdk credentials or token headers — done.</p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>What language is Roomzin built in?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-4">
-                100 % Rust—zero-GC, fearless concurrency, single 5 MB binary that ships everything it needs.
-            </p>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>What kind of performance can I expect?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <ul class="list-disc list-inside mb-4 text-base space-y-2 font-12">
-                <li><b>Resilient &amp; predictable</b> – under any connection mix, data volume, or traffic</li>
-                <li><b>Median latency</b> – single-digit ms at million-record scale</li>
-                <li><b>Snapshots</b> – &lt; 1 s for millions of records</li>
-                <li><b>Reload</b> – millions of records in (few) second(s)</li>
-                <li><b>Memory footprint</b> – ≤ 50 % of raw data size</li>
-            </ul>
-            <br>
-            <br>
-
-            <h2 class="text-xl font-semibold mb-4">
-                <img src="img/icon.png" class="rzicon rzq">
-                <span>Recap on the key capabilities?</span>
-            </h2>
-            <hr class="border-gray-300 mb-4">
-
-            <p class="mb-2"><b>Built for booking-scale workloads</b></p>
-            <ul class="list-disc list-inside mb-4 text-base space-y-1">
-                <li>Any topology: single node → clustered</li>
-                <li>HA: leader/follower, WAL &amp; snaps</li>
-                <li>Zero-ops: auto-discovery, join, catch-up</li>
-                <li>Secure wire: QUIC + TLS auto-rotate</li>
-                <li>RBAC &amp; realtime metrics</li>
-                <li>Partitioned data for parallel speed</li>
-                <li>Hot snapshots under load in cluster mode</li>
-                <li>Smart SDKs: Java, Go, Python, C#, Node.js</li>
-            </ul>
-
-            <p class="mb-2"><b>Easy integration</b></p>
-            <ul class="list-disc list-inside mb-2 text-base space-y-1">
-                <li>SDKs: auto-route, failover, retry, one-liner install</li>
-                <li>Deployment: &lt;5 MB binary, zero external deps</li>
-                <li>Load from DB: CSV seed at +2.5 M records/sec</li>
-                <li>HTTP access: <b>RzGate</b> proxy for legacy/REST clients</li>
-            </ul>
         </section>
 
     </main>

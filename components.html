@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png">
+    <title>Roomzin Components</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        b {
+            font-weight: bold !important;
+        }
+
+        .component-section {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="bg-white">
+        <nav class="container mx-auto px-4 py-4 flex flex-wrap items-center justify-center md:justify-between">
+            <div class="logo text-2xl font-semibold w-full md:w-auto text-center md:text-left">
+                <img src="img/logo.png" style="width:200px; max-width:80%; margin:0 auto 10px;" alt="Roomzin" />
+            </div>
+            <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 md:mt-0">
+                <a href="index.html" class="menu-link">Roomzin</a>
+                <a href="architecture.html" class="menu-link">Architecture</a>
+                <a href="components.html" class="menu-link menu-active">Deployment</a>
+                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
+                <a href="docs.html" class="menu-link">Docs</a>
+                <a href="contact.html" class="menu-link">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Platform Components</h1>
+        <p class="text-gray-600 mb-8">
+            Roomzin separates inventory storage, request routing, and infrastructure discovery into independent
+            components.
+            Each scales independently.
+        </p>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 1. ROOMZIN                                                    -->
+        <!-- ============================================================ -->
+        <section id="roomzin" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Roomzin</h2>
+            <p class="text-gray-600 text-sm mb-2">Core engine</p>
+            <p class="text-gray-700">
+                Stores the hot booking window in memory using a schema designed for travel inventory.
+                Organized into shards with replication for high availability. Optimized for filtering
+                by location, dates, room type, availability, price, amenities, and policies.
+            </p>
+            <div class="mt-2 flex flex-wrap gap-3 text-sm">
+                <span class="text-gray-500">Download:</span>
+                <a href="https://github.com/m-javani/roomzin-doc/releases/latest/download/roomzin-v1.0.0"
+                    class="text-blue-600 hover:underline">Linux x86_64</a>
+                <a href="https://github.com/m-javani/roomzin-doc/releases/latest/download/roomzin-v1.0.0.sha256"
+                    class="text-blue-600 hover:underline">SHA256</a>
+            </div>
+            <div class="mt-2 text-xs text-gray-600">
+                BUSL-1.1 · Evaluation mode included · Commercial license required for production
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 2. RZBRIDGE                                                   -->
+        <!-- ============================================================ -->
+        <section id="rzbridge" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">RzBridge</h2>
+            <p class="text-gray-600 text-sm mb-2">Shard-aware connector</p>
+            <p class="text-gray-700">
+                Connects the routing layer to a Roomzin shard. Knows which Roomzin nodes belong to the shard
+                and which node is currently the leader. Routes writes to the leader and reads to followers.
+                Isolates shard topology from routers.
+            </p>
+            <div class="mt-2 flex flex-wrap gap-3 text-sm">
+                <a href="https://github.com/m-javani/rzbridge" class="text-blue-600 hover:underline">GitHub</a>
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 3. RZROUTER                                                   -->
+        <!-- ============================================================ -->
+        <section id="rzrouter" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">RzRouter</h2>
+            <p class="text-gray-600 text-sm mb-2">Routing fabric — single binary, two modes</p>
+
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-3">
+                <p class="font-semibold text-gray-800 text-sm">Edge Mode</p>
+                <p class="text-gray-700 text-sm">Entry point for clients. Routes by segment to the right zone.</p>
+            </div>
+
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <p class="font-semibold text-gray-800 text-sm">Zone Mode</p>
+                <p class="text-gray-700 text-sm">Operates inside a zone. Routes by segment to the right shard via
+                    RzBridge.</p>
+            </div>
+
+            <div class="mt-3 text-sm text-gray-600">
+                Routers maintain synchronized routing tables. Routing happens directly in the data path.
+                No external proxy required between Roomzin components.
+            </div>
+
+            <div class="mt-2 flex flex-wrap gap-3 text-sm">
+                <a href="https://github.com/m-javani/rzrouter" class="text-blue-600 hover:underline">GitHub</a>
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 4. RZGATE                                                     -->
+        <!-- ============================================================ -->
+        <section id="rzgate" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">RzGate</h2>
+            <p class="text-gray-600 text-sm mb-2">HTTP/JSON proxy</p>
+            <p class="text-gray-700">
+                Lightweight proxy that accepts HTTP/JSON requests and translates them to Roomzin's internal protocol.
+                Deploy independently, scale horizontally. Perfect for legacy platforms, testing, or third-party
+                integration.
+            </p>
+            <div class="mt-2 text-sm text-gray-600">
+                HTTPS + HTTP/2 + CORS · Token-based RBAC · Prometheus metrics
+            </div>
+            <div class="mt-2 flex flex-wrap gap-3 text-sm">
+                <a href="https://github.com/m-javani/rzgate" class="text-blue-600 hover:underline">GitHub</a>
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 5. SDKS                                                       -->
+        <!-- ============================================================ -->
+        <section id="sdks" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">SDKs</h2>
+            <p class="text-gray-600 text-sm mb-2">Native clients</p>
+            <p class="text-gray-700">
+                SDKs connect directly to Edge Routers. They handle serializationand connection pooling — no need to
+                discover shards, zones, or bridges.
+            </p>
+            <div class="mt-2 grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                <a href="https://github.com/m-javani/roomzin-go" class="text-blue-600 hover:underline">Go</a>
+                <a href="https://github.com/m-javani/roomzin-java" class="text-blue-600 hover:underline">Java</a>
+                <a href="https://github.com/m-javani/roomzin-py" class="text-blue-600 hover:underline">Python</a>
+                <a href="https://github.com/m-javani/roomzin-js" class="text-blue-600 hover:underline">Node.js</a>
+                <a href="https://github.com/m-javani/roomzin-csharp" class="text-blue-600 hover:underline">C# / .NET</a>
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 6. RZID                                                       -->
+        <!-- ============================================================ -->
+        <section id="rzid" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">RzID</h2>
+            <p class="text-gray-600 text-sm mb-2">Control-plane registry</p>
+            <p class="text-gray-700">
+                Lightweight service registry. Components register their identities and send heartbeats.
+                Maintains topology — which shard owns which segments. Routers fetch updated routing information
+                when topology changes.
+            </p>
+            <div class="mt-1 text-sm text-gray-600">
+                <span class="font-semibold">Not on the request hot path.</span> Normal inventory requests do not call
+                RzID.
+            </div>
+            <div class="mt-2 flex flex-wrap gap-3 text-sm">
+                <a href="https://github.com/m-javani/rzid" class="text-blue-600 hover:underline">GitHub</a>
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- 7. RZPOINT                                                   -->
+        <!-- ============================================================ -->
+        <section id="rzpoint" class="component-section mb-10">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">RzPoint</h2>
+            <p class="text-gray-600 text-sm mb-2">Service identity → hostname resolution</p>
+            <p class="text-gray-700">
+                <span class="font-semibold">Not provided by Roomzin.</span> A small HTTP service that you implement
+                based on your infrastructure. Translates logical service identities (e.g.,
+                <code>bridge-europe-03</code>)
+                to hostnames (<code>bridge-europe-03.internal.company</code>).
+            </p>
+            <div class="mt-2 text-sm text-gray-600">
+                Separates service identity from network location. Works with VMs, Kubernetes, cloud, or any
+                infrastructure.
+            </div>
+            <div class="mt-2 flex flex-wrap gap-3 text-sm">
+                <a href="docs.html" class="text-blue-600 hover:underline">Documentation</a>
+            </div>
+        </section>
+
+        <hr class="mb-8" />
+
+        <!-- ============================================================ -->
+        <!-- LICENSE SECTION                                              -->
+        <!-- ============================================================ -->
+        <section id="licensing" class="mb-10 bg-gray-50 border border-gray-200 rounded-xl p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-3">Licensing</h2>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h3 class="font-bold text-green-800">Evaluation Mode</h3>
+                    <p class="text-green-700 text-sm">No license file required</p>
+                    <ul class="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">
+                        <li>Full feature set</li>
+                        <li>No time limit</li>
+                        <li>For testing and development</li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 class="font-bold text-blue-800">Commercial License</h3>
+                    <p class="text-blue-700 text-sm">Required for production use</p>
+                    <ul class="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">
+                        <li>Full feature set</li>
+                        <li>Software updates</li>
+                        <li>Technical support</li>
+                        <li>Per-instance or per-cluster pricing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+                <p class="text-sm text-gray-700">
+                    <span class="font-semibold">How it works:</span> Place your <code
+                        class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">.rzlic</code>
+                    file next to the Roomzin binary, or set <code
+                        class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">ROOMZIN_LICENSE=/path/to/license.rzlic</code>.
+                </p>
+                <p class="text-sm text-gray-600 mt-2">
+                    <a href="contact.html" class="text-blue-600 hover:underline">Contact support</a> to purchase a
+                    commercial license.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2026 Roomzin. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

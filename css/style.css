@@ -123,7 +123,7 @@ section {
 }
 
 .hero-elegant h1 {
-    font-size: 2.75rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1.25rem;
     color: #169dde;
@@ -133,7 +133,7 @@ section {
 }
 
 .hero-elegant .sub-slogan {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: #6b6b8a;
     font-weight: 300;
     font-family: 'Comfortaa', sans-serif;
@@ -162,11 +162,11 @@ section {
 
 @media (min-width: 768px) {
     .hero-elegant h1 {
-        font-size: 2.75rem;
+        font-size: 2rem;
     }
 
     .hero-elegant .sub-slogan {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
 }
 

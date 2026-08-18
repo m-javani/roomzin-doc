@@ -22,15 +22,12 @@
             <div class="logo text-2xl font-semibold">
                 <img src="img/logo.png" style="margin: auto; width: 150px;" />
             </div>
-            <div class="space-x-4">
+            <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 md:mt-0">
                 <a href="index.html" class="menu-link">Roomzin</a>
-                <a href="rzgate.html" class="menu-link">RzGate</a>
-                <a href="sdks.html" class="menu-link">SDKs</a>
-                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
-                <a href="download.html" class="menu-link">Download</a>
-
-                <a href="docs.html" class="menu-link">Docs</a>
                 <a href="architecture.html" class="menu-link menu-active">Architecture</a>
+                <a href="components.html" class="menu-link">Deployment</a>
+                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
+                <a href="docs.html" class="menu-link">Docs</a>
                 <a href="contact.html" class="menu-link">Contact Us</a>
             </div>
         </nav>
@@ -39,13 +36,15 @@
     <div class="bg-gray-900 text-white text-center py-16">
         <h1 class="text-4xl font-bold mb-4 tracking-tight">Architecture Overview</h1>
         <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light">
-            How Roomzin achieves predictable sub-millisecond latency for booking inventory search
+            How Roomzin delivers predictable latency at global scale
         </p>
     </div>
 
+    <!-- ===== PLATFORM ARCHITECTURE DIAGRAM ===== -->
     <div class="bg-white text-center py-12 md:py-16 border-b border-gray-200">
-        <img src="img/architecture.png" class="mx-auto max-w-[80%] pb-8" alt="Roomzin architecture diagram"
+        <img src="img/arch.png" class="mx-auto max-w-[80%] pb-8" alt="Roomzin platform architecture diagram"
             style="max-width: 1000px;" />
+        <p class="text-sm text-gray-500">SDK / RzGate → Edge Router → Zone Router → RzBridge → Roomzin Shard</p>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 py-12">
@@ -72,6 +71,94 @@
             <div class="takeaway mt-4">
                 <strong>Why it matters:</strong> Specialization enables deterministic performance. Roomzin
                 trades general-purpose flexibility for predictable latency on booking workloads.
+            </div>
+        </section>
+
+        <hr class="section-divider" />
+
+        <!-- ============================================================ -->
+        <!--  PLATFORM OVERVIEW                                    -->
+        <!-- ============================================================ -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Platform Overview</h2>
+            <p class="text-gray-600 mb-6">One global inventory service. Distributed underneath.</p>
+
+            <!-- Components -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="border border-gray-200 p-5 bg-white">
+                    <h4 class="font-semibold text-gray-900 mb-1">RzRouter</h4>
+                    <p class="text-sm text-gray-600 mb-2">Single binary, two modes:</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li><strong>Edge Mode</strong> — entry point for clients. Routes by segment to the right zone.
+                        </li>
+                        <li><strong>Zone Mode</strong> — operates inside a zone. Routes by segment to the right shard
+                            via RzBridge.</li>
+                    </ul>
+                </div>
+                <div class="border border-gray-200 p-5 bg-white">
+                    <h4 class="font-semibold text-gray-900 mb-1">RzBridge</h4>
+                    <p class="text-sm text-gray-600 mb-2">Shard-aware connector.</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>Knows which Roomzin nodes belong to the shard</li>
+                        <li>Routes <strong>writes</strong> to leader, <strong>reads</strong> to followers</li>
+                        <li>Isolates shard topology from routers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="border border-gray-200 p-5 bg-white">
+                    <h4 class="font-semibold text-gray-900 mb-1">RzID</h4>
+                    <p class="text-sm text-gray-600">Lightweight control-plane registry.</p>
+                    <ul class="text-sm text-gray-700 space-y-1 mt-1">
+                        <li>Components register and send heartbeats</li>
+                        <li>Maintains topology — which shard owns which segments</li>
+                        <li><strong>Not on the request hot path</strong></li>
+                    </ul>
+                </div>
+                <div class="border border-gray-200 p-5 bg-white">
+                    <h4 class="font-semibold text-gray-900 mb-1">RzPoint</h4>
+                    <p class="text-sm text-gray-600">Customer-provided HTTP service.</p>
+                    <ul class="text-sm text-gray-700 space-y-1 mt-1">
+                        <li>Resolves logical service identities to hostnames</li>
+                        <li>Works with your existing infrastructure (VM, K8s, cloud)</li>
+                        <li>Separates service identity from network location</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Entry points -->
+            <div class="bg-gray-50 border border-gray-200 p-5 mb-4">
+                <h4 class="font-semibold text-gray-900 mb-2">Client Entry Points</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-semibold text-gray-800 text-sm">SDKs</p>
+                        <p class="text-sm text-gray-600">Java · Go · Python · C# · Node.js</p>
+                        <p class="text-xs text-gray-500 mt-1">Connect directly to Edge Routers</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-800 text-sm">RzGate</p>
+                        <p class="text-sm text-gray-600">HTTP/JSON proxy for existing platforms</p>
+                        <p class="text-xs text-gray-500 mt-1">Deploy independently, scale horizontally</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request flow -->
+            <div class="bg-white border border-gray-200 p-5">
+                <h4 class="font-semibold text-gray-900 mb-2">How a Request Travels</h4>
+                <p class="text-sm text-gray-700">
+                    SDK/RzGate → Edge Router (segment-based zone routing) → Zone Router (segment-based shard routing) →
+                    RzBridge (leader/follower routing) → Roomzin
+                </p>
+                <p class="text-xs text-gray-500 mt-2">
+                    The application never knows which zone, shard, bridge, or Roomzin node handled the request.
+                </p>
+            </div>
+
+            <div class="takeaway mt-4">
+                <strong>Why it matters:</strong> The platform handles global distribution. Your application sees one
+                logical inventory service.
             </div>
         </section>
 
@@ -169,7 +256,7 @@
             <!-- 6. Full Replication -->
             <div class="arch-principle">
                 <h3>Full Replication</h3>
-                <div class="why">Every node in the cluster holds the complete dataset. No sharding or distributed joins.
+                <div class="why">Every node in the shard holds the complete dataset. No sharding or distributed joins.
                 </div>
                 <ul>
                     <li>Any follower can serve any read query</li>
@@ -197,22 +284,6 @@
                 </div>
             </div>
 
-            <!-- 8. Topology-Aware SDKs -->
-            <div class="arch-principle">
-                <h3>Topology-Aware SDKs</h3>
-                <div class="why">SDKs discover cluster layout and route requests directly to the appropriate node.</div>
-                <ul>
-                    <li>Writes go to the leader</li>
-                    <li>Reads go to the fastest available follower</li>
-                    <li>Automatic failover on node changes</li>
-                    <li>No proxy overhead for SDK clients</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Clients are part of the routing layer, eliminating a network hop
-                    and reducing tail latency.
-                </div>
-            </div>
-
             <!-- 9. Decoupled Request/Response Channels -->
             <div class="arch-principle">
                 <h3>Decoupled Request/Response Channels</h3>
@@ -232,12 +303,11 @@
         <hr class="section-divider" />
 
         <!-- ============================================================ -->
-        <!--  CLUSTER ARCHITECTURE                                        -->
+        <!--  SHARD CLUSTER ARCHITECTURE                                  -->
         <!-- ============================================================ -->
         <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Cluster Architecture</h2>
-            <p class="text-gray-600 mb-6">A Raft-based consensus layer coordinates writes. Reads are distributed across
-                followers.</p>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Shard Cluster Architecture</h2>
+            <p class="text-gray-600 mb-6">Each shard is a Raft-based cluster. Bridges handle routing into the shard.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white border border-gray-200 p-5">
@@ -245,14 +315,14 @@
                     <ul class="text-sm text-gray-700 space-y-1">
                         <li><strong>Leader</strong> — handles all write operations</li>
                         <li><strong>Followers</strong> — handle read operations</li>
-                        <li><strong>RzGate</strong> — HTTP/2 proxy for non-SDK clients</li>
-                        <li><strong>Discovery</strong> — node address resolution (static YAML or dynamic HTTP)</li>
+                        <li><strong>RzBridge</strong> — routes requests to leader/follower</li>
+                        <li><strong>RzID</strong> — topology registry (not on hot path)</li>
                     </ul>
                 </div>
                 <div class="bg-white border border-gray-200 p-5">
                     <h4 class="font-semibold text-gray-900 mb-2">Connection Protocols</h4>
                     <ul class="text-sm text-gray-700 space-y-1">
-                        <li><span class="badge-tech">TCP</span> SDK ↔ Cluster</li>
+                        <li><span class="badge-tech">TCP</span> SDK/Proxy ↔ Cluster</li>
                         <li><span class="badge-tech">QUIC</span> Node ↔ Node (Raft)</li>
                         <li><span class="badge-tech">HTTP/2</span> RzGate API, Discovery</li>
                     </ul>
@@ -260,15 +330,16 @@
             </div>
 
             <div class="bg-gray-50 border border-gray-200 p-5">
-                <h4 class="font-semibold text-gray-900 mb-2">Routing</h4>
+                <h4 class="font-semibold text-gray-900 mb-2">Routing Within the Shard</h4>
                 <p class="text-sm text-gray-700">
-                    SDKs and RzGate are topology-aware. They route write requests to the leader and
-                    read requests to followers based on current cluster state. No client-side
-                    configuration is required beyond the initial discovery endpoint.
+                    RzBridge is shard-aware. It knows which Roomzin nodes belong to the shard and which node is
+                    currently the leader.
+                    Writes go to the leader. Reads go to an appropriate follower. Routers above the bridge do not need
+                    to know the internal topology.
                 </p>
                 <div class="takeaway mt-3">
-                    <strong>Why it matters:</strong> The routing layer is part of the client—not an external load
-                    balancer—reducing latency and eliminating a single point of failure.
+                    <strong>Why it matters:</strong> Shard internal topology is isolated from the rest of the platform.
+                    Bridges provide a clean interface.
                 </div>
             </div>
         </section>
@@ -407,9 +478,9 @@
             </div>
 
             <div class="footnote">
-                <strong>How it works:</strong> Each request includes a correlation ID. The SDK maintains a
-                mapping; responses are delivered asynchronously. The server uses separate thread pools
-                for request processing and response transmission.
+                <strong>How it works:</strong> Each request includes a correlation ID. The SDK maintains a mapping;
+                responses are delivered asynchronously. The server uses separate thread pools for request processing and
+                response transmission.
             </div>
 
             <div class="takeaway">
@@ -442,7 +513,7 @@
                 </div>
                 <div class="mt-4 p-3 bg-white border border-gray-200 text-sm text-gray-700">
                     <strong>Additional constraints:</strong> Fixed schema (no dynamic fields). Numeric-only query
-                    execution (no string operations). Full replication only (no sharding).
+                    execution (no string operations). Full replication only (no sharding within a shard).
                 </div>
                 <div class="takeaway mt-3">
                     <strong>Why it matters:</strong> Explicit constraints enable deterministic performance. There are no
@@ -468,6 +539,7 @@
                         <li>• No search index synchronization</li>
                         <li>• Follower nodes scale reads naturally</li>
                         <li>• Existing transactional database remains unchanged</li>
+                        <li>• Routing layer isolates topology from clients</li>
                     </ul>
                 </div>
                 <div class="border border-gray-200 p-5">
@@ -477,6 +549,7 @@
                         <li>• Strong consistency for inventory (no overbooking)</li>
                         <li>• Lower tail latency during load spikes</li>
                         <li>• No cross-node joins during query execution</li>
+                        <li>• Segments parallelize across cores</li>
                     </ul>
                 </div>
             </div>
@@ -498,12 +571,12 @@
                 <p class="text-gray-300 leading-relaxed">
                     Roomzin is intentionally specialized. It trades general-purpose flexibility for
                     predictable performance on booking workloads. Every architectural decision—from fixed
-                    schemas and bitmap filtering to segment-based parallelism and topology-aware SDKs—serves
+                    schemas and bitmap filtering to segment-based parallelism and topology-aware routing—serves
                     that single objective.
                 </p>
                 <p class="text-gray-300 leading-relaxed mt-3">
-                    Roomzin integrates mature distributed systems components with storage and indexing
-                    strategies designed specifically for booking inventory.
+                    The platform handles global distribution. The engine handles inventory search.
+                    Together they deliver deterministic latency at any scale.
                 </p>
             </div>
         </section>
