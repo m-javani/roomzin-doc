@@ -19,7 +19,6 @@ body {
     line-height: 2rem !important;
 }
 
-
 header {
     background: #fff;
     color: white;
@@ -279,6 +278,9 @@ pre code {
 
 .pt11 li {
     font-size: 11pt !important;
+    border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+    color: #333;
 }
 
 .pt12nb li {
@@ -1196,4 +1198,8 @@ hr.section-divider {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     margin: 0 auto !important;
+}
+
+li {
+    font-size: 11pt;
 }

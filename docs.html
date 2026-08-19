@@ -650,40 +650,24 @@ make stop &amp;&amp; make start</code></pre>
             </div>
         </section>
 
-        <section id="deployment" class="content-section hidden">
+        <section id="deployment" class="content-section hidden" style="display: block;">
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold mb-3 text-gray-800">Deployment</h2>
-                <h3 class="font-semibold text-gray-800 mb-2">Infrastructure-agnostic, performance-first</h3>
-                <div class="space-y-3 text-gray-700">
-                    <p>Roomzin is a standalone binary optimized for microsecond-level latency.
-                        It runs natively on any infrastructure — from dedicated servers to virtual machines —
-                        without external dependencies.
-                        For maximum throughput and deterministic performance, deploy Roomzin directly on the
-                        host system and avoid additional runtime layers such as containers or orchestration
-                        stacks.</p>
-                </div>
-                <br />
-                <div class="p-6 mb-6">
-                    <div class="flex items-start">
-                        <div class="ml-4">
-                            <div class="mb-4 p-3 border border-red-200 rounded text-red-800 font-medium text-sm">
-                                <strong>Important:</strong> Roomzin detects CPU core changes at runtime.
-                                If the hardware (number of cores) is modified while running, the application will
-                                automatically shut down for safety.
-                                Vertical scaling requires a restart — do not hot-add/remove CPUs without restarting the
-                                process.
-                            </div>
-                        </div>
-                    </div>
+                <div class="mb-2 mt-6 text-red-800 font-medium text-sm">
+                    <strong>Important:</strong> Roomzin detects CPU core changes at runtime.
+                    If the hardware (number of cores) is modified while running, the application will
+                    automatically shut down for safety.
+                    Vertical scaling requires a restart — do not hot-add/remove CPUs without restarting the
+                    process.
                 </div>
             </div>
 
-            <hr />
+            <hr>
 
-            <div class="space-y-10">
+            <div class="space-y-10 pt-6">
                 <!-- Stand-alone Deployment -->
                 <div class="bg-white overflow-hidden">
-                    <div class="px-6 py-4">
+                    <div class="py-4">
                         <h3 class="text-xl font-semibold text-gray-800">Stand-alone Deployment</h3>
                         <p class="text-gray-600 text-sm mt-1">Single-node or development environments</p>
                     </div>
@@ -708,11 +692,11 @@ make stop &amp;&amp; make start</code></pre>
                             </p>
                             <div
                                 class="mt-2 bg-gray-100 p-3 rounded border border-gray-200 font-mono text-xs text-gray-800 overflow-x-auto">
-                                rate_features:<br />
-                                &nbsp;&nbsp;- free_cancellation<br />
-                                &nbsp;&nbsp;- non_refundable<br />
-                                &nbsp;&nbsp;- breakfast_included<br />
-                                &nbsp;&nbsp;- late_checkout<br />
+                                rate_features:<br>
+                                &nbsp;&nbsp;- free_cancellation<br>
+                                &nbsp;&nbsp;- non_refundable<br>
+                                &nbsp;&nbsp;- breakfast_included<br>
+                                &nbsp;&nbsp;- late_checkout<br>
                                 &nbsp;&nbsp;# ... up to 24 entries
                             </div>
                             <div class="mt-2 p-2 bg-amber-50 border border-amber-200 rounded">
@@ -733,12 +717,10 @@ make stop &amp;&amp; make start</code></pre>
                         </div>
                     </div>
                 </div>
-
-                <hr />
-
+                <hr>
                 <!-- Clustered Deployment -->
                 <div class="bg-white overflow-hidden">
-                    <div class="px-6 py-4">
+                    <div class="py-4">
                         <h3 class="text-xl font-semibold text-gray-800">Single Shard Deployment</h3>
                         <p class="text-gray-600 text-sm mt-1">High-availability production cluster</p>
                     </div>
@@ -751,10 +733,10 @@ make stop &amp;&amp; make start</code></pre>
                             </p>
                         </div>
 
-                        <!-- Three-node Founding Cluster Example -->
-                        <!-- Three-node Founding Cluster Example -->
+
+
                         <div class="mb-8">
-                            <h4 class="text-lg font-semibold mb-4 text-gray-800">Three-node Founding Cluster Example
+                            <h4 class="font-semibold text-gray-900 mb-3">Three-node Founding Cluster Example
                             </h4>
                             <p class="text-gray-700 mb-6">
                                 Example for <code
@@ -769,11 +751,11 @@ make stop &amp;&amp; make start</code></pre>
 
                             <div
                                 class="bg-gray-100 text-gray-800 p-4 rounded-lg font-mono text-sm overflow-x-auto border border-gray-200">
-                                ./roomzin run-clustered --config /path/to/roomzin.yml<br />
-                                &nbsp;&nbsp;--node-id &lt;node-id&gt; --shard-id shard1 --zone-id zone1<br />
-                                &nbsp;&nbsp;--initial-voters "node1,node2,node3"<br />
-                                &nbsp;&nbsp;--cert-path /path/to/cert.pem --key-path /path/to/key.pem<br />
-                                &nbsp;&nbsp;--ca-cert-path /path/to/ca.pem --rzid-addr http://rzid.internal:8080<br />
+                                ./roomzin run-clustered --config /path/to/roomzin.yml
+                                &nbsp;&nbsp;--node-id &lt;node-id&gt; --shard-id shard1 --zone-id zone1
+                                &nbsp;&nbsp;--initial-voters "node1,node2,node3"
+                                &nbsp;&nbsp;--cert-path /path/to/cert.pem --key-path /path/to/key.pem
+                                &nbsp;&nbsp;--ca-cert-path /path/to/ca.pem --rzid-addr http://rzid.internal:8080
                                 &nbsp;&nbsp;--rzpoint-addr http://rzpoint.internal:8080
                             </div>
                             <p class="text-sm text-gray-600 mt-2">
@@ -791,7 +773,7 @@ make stop &amp;&amp; make start</code></pre>
 
                         <!-- Adding a Node -->
                         <div class="mb-8">
-                            <h4 class="text-lg font-semibold mb-4 text-gray-800">Horizontal scaling with learner nodes
+                            <h4 class="font-semibold text-gray-900 mb-3">Horizontal scaling with learner nodes
                             </h4>
                             <p class="text-gray-700 mb-4">
                                 Any node not listed in <code
@@ -806,79 +788,52 @@ make stop &amp;&amp; make start</code></pre>
                             </p>
                         </div>
 
-                        <!-- Snapshot Restore & Consistency Note -->
-                        <div class="border border-gray-200 rounded-lg p-4 mb-4">
-                            <div class="flex items-start mb-4">
-                                <div class="flex-shrink-0">
-                                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.346 16.5c-.77.833.192 2.5 1.732 2.5z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="ml-4">
-                                    <h4 class="font-semibold text-gray-900 mb-3">Snapshot restore &amp; consistency note
-                                    </h4>
-                                    <ul class="space-y-3 text-gray-800">
-                                        <li class="flex items-start">
-                                            <span
-                                                class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                            <span>When starting a brand-new cluster from a snapshot, a <strong
-                                                    class="font-semibold">strict majority</strong> of the nodes listed
-                                                in <code
-                                                    class="bg-amber-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">--initial_voters</code>
-                                                must be restored with the <strong class="font-semibold">exact same
-                                                    snapshot</strong>.</span>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <span
-                                                class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                            <span>The remaining founding voters and all learners can start completely
-                                                empty — they will safely download the snapshot from the leader once the
-                                                cluster forms.</span>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <span
-                                                class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                                            <span>Empty nodes are never conflicting. Only <strong
-                                                    class="font-semibold">divergent</strong> log histories cause
-                                                issues.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div class="mt-10 mb-5">
+                            <h4 class="font-semibold text-gray-900 mb-3">Snapshot restore &amp; consistency note
+                            </h4>
+                            <ul class="space-y-3 text-gray-800">
+                                <li class="flex items-start">
+                                    <span
+                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                    <span>When starting a brand-new cluster from a snapshot, a <strong
+                                            class="font-semibold">strict majority</strong> of the nodes listed
+                                        in <code
+                                            class="bg-amber-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono">--initial_voters</code>
+                                        must be restored with the <strong class="font-semibold">exact same
+                                            snapshot</strong>.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span
+                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                    <span>The remaining founding voters and all learners can start completely
+                                        empty — they will safely download the snapshot from the leader once the
+                                        cluster forms.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span
+                                        class="inline-block w-1.5 h-1.5 bg-amber-600 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                    <span>Empty nodes are never conflicting. Only <strong
+                                            class="font-semibold">divergent</strong> log histories cause
+                                        issues.</span>
+                                </li>
+                            </ul>
                         </div>
-
-                        <!-- Bulk Import Integration -->
-                        <div class="border border-blue-100 rounded-lg p-6">
-                            <div class="flex items-start mb-4">
-                                <div class="flex-shrink-0">
-                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                                    </svg>
-                                </div>
-                                <div class="ml-4">
-                                    <h4 class="font-semibold text-gray-800 mb-3">Bulk Import &amp; Migration</h4>
-                                    <p class="text-gray-700 mb-4">
-                                        Need to bootstrap or migrate Gigabytes of existing data? See the
-                                        <a href="#bulk-import"
-                                            class="text-blue-700 font-medium hover:text-blue-800 hover:underline">
-                                            Bulk Import section
-                                        </a>
-                                        — Roomzin can ingest a pre-built binary snapshot at over <strong
-                                            class="text-blue-800">1
-                                            million records per second per node</strong>.
-                                    </p>
-                                    <p class="text-gray-700">
-                                        Build the snapshot offline from your current database, distribute it to the
-                                        cluster, and
-                                        start with all historical data instantly available.
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="mt-10 mb-10">
+                            <h4 class="font-semibold text-gray-800 mb-3">Bulk Import &amp; Migration</h4>
+                            <p class="text-gray-700 mb-4">
+                                Need to bootstrap or migrate Gigabytes of existing data? See the
+                                <a href="#bulk-import"
+                                    class="text-blue-700 font-medium hover:text-blue-800 hover:underline">
+                                    Bulk Import section
+                                </a>
+                                — Roomzin can ingest a pre-built binary snapshot at over <strong class="text-blue-800">1
+                                    million records per second per node</strong>.
+                            </p>
+                            <p class="text-gray-700">
+                                Build the snapshot offline from your current database, distribute it to the
+                                cluster, and
+                                start with all historical data instantly available.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -960,7 +915,7 @@ make stop &amp;&amp; make start</code></pre>
             <!-- ============================================================ -->
             <!-- RZPOINT                                                       -->
             <!-- ============================================================ -->
-            <div class="mt-8 border-t border-gray-200 pt-8">
+            <div class="mt-4">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">RzPoint — Customer-Implemented Resolver</h3>
 
                 <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg mb-4">
@@ -1045,20 +1000,18 @@ make stop &amp;&amp; make start</code></pre>
             <h2 class="text-2xl font-semibold mb-6 text-gray-800">Bulk Import into an Offline Snapshot</h2>
 
             <div class="prose prose-blue max-w-none">
-                <div class="p-4">
-                    <p class="mb-4 text-gray-700 leading-relaxed">
-                        Roomzin enables efficient data initialization by creating snapshots directly from CSV files.
-                        Bulk import approach is significantly faster than insert queries, capable of
-                        ingesting <span class="font-semibold text-blue-600">over 2.5 million records per second</span>.
-                        Use the <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">build-snapshot</code> command
-                        to generate snapshots from CSVs.
-                    </p>
+                <p class="mb-4 text-gray-700 leading-relaxed">
+                    Roomzin enables efficient data initialization by creating snapshots directly from CSV files.
+                    Bulk import approach is significantly faster than insert queries, capable of
+                    ingesting <span class="font-semibold text-blue-600">over 2.5 million records per second</span>.
+                    Use the <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">build-snapshot</code> command
+                    to generate snapshots from CSVs.
+                </p>
 
-                    <div class="p-4">
-                        <p class="text-blue-900">
-                            This is a one-time initialization procedure for new shards.
-                        </p>
-                    </div>
+                <div class="p-4">
+                    <p class="text-blue-900">
+                        This is a one-time initialization procedure for new shards.
+                    </p>
                 </div>
 
                 <h3 class="text-xl font-semibold mb-4 text-gray-800 pt-2">Preparation</h3>
@@ -1848,43 +1801,27 @@ wal_flush_threshold: 2000</code></pre>
             <hr class="border-gray-300 mb-6" />
 
             <div class="space-y-6">
-
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <p class="text-blue-700">
-                        Roomzin provides SDKs in Go, Java, Python, C#, and Node.js for querying and managing the
-                        in-memory
-                        inventory engine over TCP. SDKs handle automatic routing, failover, load balancing, and
-                        connection pooling. Select an SDK from the left menu to view its documentation.
-                    </p>
-                </div>
-
-                <!-- Command Categories -->
                 <div class="space-y-8">
                     <!-- Property Management -->
                     <div class="border-l-4 border-purple-500 pl-4">
-                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Property Management</h3>
+                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Upsert Data</h3>
                         <div class="grid gap-3">
                             <div
                                 class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
                                 <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
                                 <div>
-                                    <h4 class="font-medium text-gray-900">Set Property</h4>
+                                    <h4 class="font-medium text-gray-900">Property</h4>
                                     <p class="text-sm text-gray-600">Adds a new property or updates an existing one in
                                         the system</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Room Package Management -->
-                    <div class="border-l-4 border-purple-500 pl-4">
-                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Room Package Management</h3>
-                        <div class="grid gap-3">
+                        <div class="grid gap-3 mt-4">
                             <div
                                 class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
                                 <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
                                 <div>
-                                    <h4 class="font-medium text-gray-900">Set Room Package</h4>
+                                    <h4 class="font-medium text-gray-900">Room Daily Package</h4>
                                     <p class="text-sm text-gray-600">Sets availability, price, and rate features like
                                         cancellation policies
                                         for a room type on a date</p>
@@ -1895,7 +1832,7 @@ wal_flush_threshold: 2000</code></pre>
 
                     <!-- Availability Management -->
                     <div class="border-l-4 border-purple-500 pl-4">
-                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Availability Management</h3>
+                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Update Availability</h3>
                         <div class="grid gap-3">
                             <div
                                 class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
@@ -2046,25 +1983,6 @@ wal_flush_threshold: 2000</code></pre>
                         </div>
                     </div>
                 </div>
-
-                <!-- Visual Legend -->
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <h4 class="font-medium text-gray-900 mb-3">Command Categories</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div class="flex items-center">
-                            <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
-                            <span class="text-gray-600">Property & Package</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                            <span class="text-gray-600">Search & Query</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                            <span class="text-gray-600">Delete Operations</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -2205,38 +2123,6 @@ wal_flush_threshold: 2000</code></pre>
                     proxy).
                     Supports regular and spike load patterns with customizable queries.
                 </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-                <!-- Roomzin Benchmark -->
-                <div class="bg-white border border-gray-200 rounded-lg p-6">
-                    <h3 class="text-xl font-semibold mb-3 flex items-center">
-                        <span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
-                        Roomzin Benchmark
-                    </h3>
-                    <ul class="space-y-2 text-sm text-gray-600 pt11">
-                        <li>✓ <strong>Direct TCP benchmarking</strong> – measures raw protocol performance</li>
-                        <li>✓ <strong>Search & Update</strong> – benchmark both read and write operations</li>
-                        <li>✓ <strong>Custom queries</strong> – use your own <code>query.yml</code></li>
-                        <li>✓ <strong>CSV data generator</strong> – create realistic test data</li>
-                        <li>✓ <strong>Regular & Spike modes</strong> – sustained and burst load patterns</li>
-                    </ul>
-                </div>
-
-                <!-- RzProxy Benchmark -->
-                <div class="bg-white border border-gray-200 rounded-lg p-6">
-                    <h3 class="text-xl font-semibold mb-3 flex items-center">
-                        <span class="w-3 h-3 bg-amber-500 rounded-full mr-2"></span>
-                        RzProxy Benchmark
-                    </h3>
-                    <ul class="space-y-2 text-sm text-gray-600 pt11">
-                        <li>✓ <strong>HTTP/JSON performance</strong> – complete end-to-end latency</li>
-                        <li>✓ <strong>TLS & HTTP/2</strong> – includes secure communication overhead</li>
-                        <li>✓ <strong>Response validation</strong> – sample responses in <code>http.json</code></li>
-                        <li>✓ <strong>Existing cluster</strong> – benchmarks running RzProxy instances</li>
-                        <li>✓ <strong>~10–15% overhead</strong> – minimal performance impact vs native</li>
-                    </ul>
-                </div>
             </div>
 
             <!-- One-Step Setup -->
