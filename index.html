@@ -221,7 +221,7 @@
     <div class="container mx-auto px-12 py-16 md:py-20">
       <div class="flex items-center gap-3 mb-8">
         <div class="w-8 h-0.5 bg-blue-600 rounded-full"></div>
-        <h2 class="text-2xl font-bold text-gray-800">Core Engine - A Purpose-Built Inventory</h2>
+        <h2 class="text-2xl font-bold text-gray-800 uppercase">search-specific schema</h2>
         <div class="w-8 h-0.5 bg-blue-600 rounded-full"></div>
       </div>
 
@@ -294,27 +294,107 @@
           <div class="w-12 h-0.5 bg-gray-300 mx-auto mt-2"></div>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto">
-          <div class="text-center p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span class="text-sm font-bold text-blue-600">1</span>
+        <!-- How It Works - Three steps -->
+        <div class="max-w-6xl mx-auto">
+          <div class="grid md:grid-cols-3 gap-4">
+
+            <!-- 1. Platform → Query -->
+            <div
+              class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-center">
+              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-sm font-bold text-blue-600">1</span>
+              </div>
+              <p class="font-semibold text-gray-800">Platform → Query</p>
+              <p class="text-sm text-gray-500 mb-3">All filters in one request</p>
+              <div class="bg-gray-50 rounded p-3 text-left">
+                <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono text-gray-600">
+                  <span class="text-gray-400">city</span>
+                  <span>London</span>
+                  <span class="text-gray-400">dates</span>
+                  <span>2026-09-01 → 2026-09-05</span>
+                  <span class="text-gray-400">guests</span>
+                  <span>2 adults</span>
+                  <span class="text-gray-400">property_type</span>
+                  <span>hotel</span>
+                  <span class="text-gray-400">category</span>
+                  <span>5★</span>
+                  <span class="text-gray-400">room_type</span>
+                  <span>double</span>
+                  <span class="text-gray-400">amenities</span>
+                  <span>wifi · pool · parking · gym</span>
+                  <span class="text-gray-400">max_price</span>
+                  <span>350</span>
+                  <span class="text-gray-400">availability</span>
+                  <span>≥ 2 rooms</span>
+                  <span class="text-gray-400">policies</span>
+                  <span>free_cancellation</span>
+                  <span class="text-gray-400">rates</span>
+                  <span>breakfast_included</span>
+                </div>
+              </div>
             </div>
-            <p class="font-semibold text-gray-800">Platform → Query</p>
-            <p class="text-sm text-gray-500">All filters in one request</p>
-          </div>
-          <div class="text-center p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span class="text-sm font-bold text-blue-600">2</span>
+
+            <!-- 2. Roomzin → Matches -->
+            <div
+              class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-center">
+              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-sm font-bold text-blue-600">2</span>
+              </div>
+              <p class="font-semibold text-gray-800">Roomzin → Matches</p>
+              <p class="text-sm text-gray-500 mb-3">Searches internal schema</p>
+              <hr />
+              <div class="text-center pt-4">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Roomzin Response</span>
+              </div>
+              <div class="mt-2 bg-gray-50 rounded p-3 text-left">
+                <div class="text-xs font-mono mt-2">
+                  <div class="bg-white border border-gray-200 rounded px-4 py-1.5 text-gray-700 font-semibold">*
+                    Property
+                    IDs
+                  </div>
+                  <div class="pl-6 mt-1">
+                    <div class="bg-white border border-gray-200 rounded px-4 py-1.5 text-gray-700 font-semibold">*
+                      Staying Dates</div>
+                  </div>
+                  <div class="pl-6 mt-0">
+                    <ul class="pl-6 pt11">
+                      <li>- availability</li>
+                      <li>- price</li>
+                      <li>- rates & policies []</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p class="font-semibold text-gray-800">Roomzin → Matches</p>
-            <p class="text-sm text-gray-500">Returns PropertyIDs + prices + availability</p>
-          </div>
-          <div class="text-center p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span class="text-sm font-bold text-blue-600">3</span>
+
+            <!-- 3. Platform → Details -->
+            <div
+              class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-center">
+              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-sm font-bold text-blue-600">3</span>
+              </div>
+              <p class="font-semibold text-gray-800">Platform → Details</p>
+              <p class="text-sm text-gray-500 mb-3">Static metadata from your existing cache</p>
+              <div class="bg-gray-50 rounded p-3 text-left">
+                <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono text-gray-600">
+                  <span class="text-gray-400">property_id</span>
+                  <span>prop_12345</span>
+                  <span class="text-gray-400">name</span>
+                  <span>"Hotel Name"</span>
+                  <span class="text-gray-400">description</span>
+                  <span class="text-gray-400 text-[10px]">"..."</span>
+                  <span class="text-gray-400">photos</span>
+                  <span>["url1", "url2", ...]</span>
+                  <span class="text-gray-400">reviews</span>
+                  <span>4.8 ★ (2,341)</span>
+                  <span class="text-gray-400">address</span>
+                  <span>"..."</span>
+                  <span class="text-gray-400">contact</span>
+                  <span>"..."</span>
+                </div>
+              </div>
             </div>
-            <p class="font-semibold text-gray-800">Platform → Details</p>
-            <p class="text-sm text-gray-500">Static metadata from your existing cache</p>
+
           </div>
         </div>
 
