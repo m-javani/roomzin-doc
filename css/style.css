@@ -119,6 +119,7 @@ section {
     text-align: center;
     padding: 4rem 2rem 3rem 2rem;
     background: #ffffff;
+    padding-bottom: 0;
 }
 
 .hero-elegant h1 {
