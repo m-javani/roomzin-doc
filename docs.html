@@ -209,62 +209,6 @@
             </div>
         </section>
 
-        <section id="quick-cluster" class="content-section" style="display: block;">
-            <div class="space-y-12">
-
-                <!-- SECTION HEADER -->
-                <div class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-2 text-gray-800">Quick Cluster</h2>
-                    <p class="text-gray-600">
-                        Now that you understand the concepts, spin up a full 3-node HA cluster to test your code in
-                        action.
-                    </p>
-                </div>
-
-                <!-- WARNING -->
-                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                    <div class="flex items-start">
-                        <svg class="w-5 h-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                            </path>
-                        </svg>
-                        <div>
-                            <span class="font-semibold text-amber-800">Testing Environment Only</span>
-                            <p class="text-amber-700 text-sm">Production deployment uses bare metal/VMs for optimal
-                                performance.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CODE BLOCK with Tailwind only -->
-                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                    <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-                        <span class="w-3 h-3 rounded-full bg-green-400"></span>
-                        <span class="text-xs font-medium text-gray-600 ml-2">Terminal</span>
-                        <span class="text-xs text-gray-400 bg-gray-200 px-2 py-0.5 rounded-full ml-auto">Clone &amp;
-                            run</span>
-                    </div>
-                    <div class="p-4 bg-white overflow-x-auto">
-                        <pre class="bg-transparent p-0 m-0 border-none"><code class="language-bash text-sm text-gray-800">git clone https://github.com/m-javani/roomzin-quickstart
-cd roomzin-quickstart
-make stop &amp;&amp; make start</code></pre>
-                    </div>
-                </div>
-
-                <!-- QUICK LINKS -->
-                <div class="flex flex-wrap items-center gap-4 p-4 mt-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <a href="https://github.com/m-javani/roomzin-quickstart" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium">
-                        GitHub link
-                    </a>
-                </div>
-            </div>
-        </section>
-
         <section id="schema" class="content-section hidden">
             <!-- Header -->
             <div class="mb-10">
@@ -2161,6 +2105,52 @@ wal_flush_threshold: 2000</code></pre>
             </div>
             <p class="text-sm text-gray-600 mt-3 text-center">
                 Complete documentation, examples, and source code available on GitHub
+            </p>
+        </section>
+
+        <section id="quick-cluster" class="content-section hidden">
+            <h2 class="text-2xl font-semibold mb-4">Quick Cluster — Run Roomzin in Minutes</h2>
+
+            <div class="p-2 mb-4">
+                <p class="text-gray-700">
+                    <span class="font-semibold">A complete Roomzin cluster with one command.</span><br>
+                    Pre-configured distributed inventory system with 2 shards, full routing stack, and matching sample
+                    queries.
+                    Perfect for local development, testing, and evaluation.
+                </p>
+            </div>
+
+            <!-- One-Step Setup -->
+            <div class="p-2 mb-6">
+                <h3 class="text-lg font-semibold mb-3">Quick Setup</h3>
+                <div class="bg-gray-900 text-white rounded-lg p-4 font-mono text-sm overflow-x-auto">
+                    curl -sSL https://raw.githubusercontent.com/m-javani/roomzin-quickstart/main/setup.sh | bash
+                </div>
+                <p class="text-sm text-gray-600 mt-3">
+                    One command downloads everything: binaries, certificates, configurations, and test data.
+                    Then <code class="bg-gray-200 px-1 py-0.5 rounded">make start</code> to launch the full cluster.
+                </p>
+            </div>
+
+            <div class="mb-6">
+                <div class="p-2">
+                    <h4 class="font-semibold text-gray-800 text-sm">Note</h4>
+                    <p class="text-sm text-gray-700 mt-1">
+                        The downloaded files include a <code
+                            class="bg-gray-200 px-1 py-0.5 rounded">quick-start.txt</code> file with complete
+                        instructions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://github.com/m-javani/roomzin-quickstart"
+                    class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 text-lg font-semibold text-center">
+                    GitHub Repository →
+                </a>
+            </div>
+            <p class="text-sm text-gray-600 mt-3 text-center">
+                Complete documentation and source code available on GitHub
             </p>
         </section>
 
