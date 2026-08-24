@@ -338,7 +338,15 @@
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-4">
                     <p class="text-sm text-gray-700">
                         <strong class="text-blue-900">Rate features</strong> - up to 24 searchable policy tags
-                        (breakfast, cancellation, room amenities) from admin-defined YAML configs
+                        (breakfast, cancellation, room amenities) from admin-defined YAML config named codecs.
+                    </p>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-4">
+                    <p class="text-sm text-gray-700">
+                        <strong class="text-blue-900">Codecs</strong> - are predefined by admin
+                        and is kept in RzID service. All shards fetch codecs from that service as an immutable copy.
+                        <br /> codecs are converted to bitmasks and used in queries. any change to codecs after building
+                        initial snapshot, invalidates the state.
                     </p>
                 </div>
             </div>
@@ -1007,7 +1015,7 @@ bridges:
                 <div class="mb-6">
                     <div class="bg-gray-800 text-gray-100 p-4 rounded-lg font-mono text-sm overflow-x-auto">
                         roomzin build-snapshot --shard-id &lt;shard_id&gt; --input-path /path/to/csvs --output-path
-                        /path/to/snapshot
+                        /path/to/snapshot --rzid-addr
                     </div>
                 </div>
 
@@ -1031,6 +1039,14 @@ bridges:
                                 --output-path</div>
                             <div class="text-gray-700">Directory to save snapshot files (should match <code
                                     class="bg-gray-100 px-1 py-0.5 rounded text-xs">data_dir</code> in configuration)
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-gray-100 text-gray-800 font-mono text-sm px-3 py-1 rounded mr-3">
+                                --rzid-addr</div>
+                            <div class="text-gray-700">
+                                RzID service address to fetch codecs. If provided, codecs are fetched from RzID.
+                                If not provided, falls back to static codecs.yml in the input_path directory.
                             </div>
                         </div>
                     </div>
@@ -1087,7 +1103,8 @@ bridges:
                         <li><strong>Date:</strong> Date in short string format (e.g., "2025-10-03")</li>
                         <li><strong>Availability:</strong> Number of available rooms (e.g., 7)</li>
                         <li><strong>FinalPrice:</strong> Price for the room on that date (e.g., 120)</li>
-                        <li><strong>RateFeature:</strong> Pipe-separated (|) list of rate feature options</li>
+                        <li><strong>RateFeature:</strong> Pipe-separated (|) list of rate feature options - should match
+                            codecs fetched from RzID or static codecs.yml</li>
                     </ul>
                 </div>
 
