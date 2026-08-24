@@ -176,14 +176,101 @@
                         indexes with a single binary. It solves consistency and performance issues via instant
                         updates and deterministic queries—eliminating cache invalidation—while built-in high
                         availability ensures reliability. It handles complex booking searches in one round-trip
-                        within the live hot-window, complementing Redis for static data. </p>
+                        within the live hot-window, complementing Redis for static data.
+                    </p>
                 </div>
+
+                <hr />
+
+                <!-- The Big Picture: From Zero to Production -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">The Big Picture — From Zero to Production</h3>
+                    <p class="text-gray-700 mb-4">
+                        Running Roomzin as a complete global platform requires four steps. Each step is independent,
+                        and you can start small—a single shard—then scale out as your inventory grows.
+                    </p>
+
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <!-- Step 1 -->
+                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                    1</div>
+                                <span class="font-semibold text-gray-800 text-sm">Implement RzPoint</span>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                A small HTTP service you provide. Resolves logical service IDs (e.g., <code
+                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">node1</code>) to hostnames.
+                                Works with any infrastructure — VMs, Kubernetes, or cloud.
+                            </p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                    2</div>
+                                <span class="font-semibold text-gray-800 text-sm">Prepare CSVs &amp; Build
+                                    Snapshots</span>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                For each shard, export two CSV files from your database: <code
+                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">properties.csv</code> and <code
+                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">packages.csv</code>.
+                                Run <code class="bg-gray-100 px-1 py-0.5 rounded text-xs">build-snapshot</code> to
+                                create the initial snapshot.
+                            </p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                    3</div>
+                                <span class="font-semibold text-gray-800 text-sm">Start RzID + Shards</span>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                Launch RzID (lightweight registry). Then start your Roomzin shard nodes. Nodes
+                                auto-discover,
+                                elect a leader, and load the snapshot. Your inventory is now live and searchable.
+                            </p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-8 h-8 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                    4</div>
+                                <span class="font-semibold text-gray-800 text-sm">Add Routing + RzProxy
+                                    (optional)</span>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                Deploy RzRouter (Edge + Zone modes) for global routing. Add RzProxy if you need
+                                HTTP/JSON access.
+                                Your platform is now ready to serve global inventory queries.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Visual Flow -->
+                    <div class="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+                        <p class="text-sm text-gray-700 font-mono">
+                            RzPoint (you) → CSVs → Snapshot → RzID + Shards → RzRouter → RzProxy (optional) → <span
+                                class="font-semibold text-blue-600">Ready to Query</span>
+                        </p>
+                    </div>
+                </div>
+
                 <hr />
 
                 <!-- What You'll Learn -->
                 <div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-3">What You'll Learn</h3>
-                    <ul class="list-disc pl-6 space-y-2 text-gray-700 leading-relaxed pt11">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3">What You'll Learn in This Documentation</h3>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700 leading-relaxed">
                         <li>Learn the <strong>data model</strong> used in Roomzin</li>
                         <li>Learn the <strong>commands</strong> available for CRUD operations</li>
                         <li>Learn how to <strong>connect</strong> to Roomzin</li>
@@ -201,12 +288,12 @@
         <section id="schema" class="content-section hidden">
             <!-- Header -->
             <div class="mb-10">
-                <h2 class="text-2xl font-semibold mb-3 text-gray-800">Data Model at a Glance</h2>
+                <h2 class="text-2xl font-semibold mb-3 text-gray-800">Data Model</h2>
                 <p class="text-lg text-blue-600 font-medium mb-6">
-                    Roomzin stores only the fields that are used as search parameters
+                    Two tables. Only the fields used in searches.
                 </p>
 
-                <!-- Corrected two-part model description -->
+                <!-- Two-table model -->
                 <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="text-center">
@@ -214,29 +301,30 @@
                                 class="w-12 h-12 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-3">
                                 1
                             </div>
-                            <h4 class="font-semibold text-gray-800">Property</h4>
-                            <p class="text-sm text-gray-600">Hotel or accommodation unit</p>
+                            <h4 class="font-semibold text-gray-800">Properties</h4>
+                            <p class="text-sm text-gray-600">Hotels and accommodation units</p>
                         </div>
                         <div class="text-center">
                             <div
                                 class="w-12 h-12 bg-purple-100 text-purple-800 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-3">
                                 2
                             </div>
-                            <h4 class="font-semibold text-gray-800">Daily Package</h4>
-                            <p class="text-sm text-gray-600">Bookable daily inventory with room type</p>
+                            <h4 class="font-semibold text-gray-800">Daily Packages</h4>
+                            <p class="text-sm text-gray-600">Room type + date + availability + price</p>
                         </div>
                     </div>
 
                     <div class="mt-4 pt-4 border-t border-gray-100 text-center">
                         <p class="text-gray-700 text-sm mt-4">
-                            Roomzin maintains an in-memory <span class="text-md font-bold">hot window</span> (days
-                            to months) that supports real-time mutations.
+                            Roomzin stores only the <span class="font-bold">hot window</span> — the days to months that
+                            users actually search.
+                            Everything else stays in your database.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Property Details -->
+            <!-- ===== PROPERTIES ===== -->
             <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-blue-100 p-2 rounded-lg mr-3">
@@ -246,41 +334,39 @@
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800">Property</h3>
+                    <h3 class="text-xl font-semibold text-gray-800">Properties</h3>
                 </div>
+
                 <p class="text-gray-700 mb-4">
                     A hotel or accommodation unit. Roomzin uses <strong>Segment</strong> and <strong>Area</strong>
-                    instead of user-selected locations such as country, city, neighborhood, region, or landmark.
+                    instead of country, city, or neighborhood.
+                    <span class="block text-sm text-gray-500 mt-1">Segment is required in every search query.</span>
                 </p>
-                <div class="bg-blue-50 p-4 rounded-lg mb-3">
-                    <div class="font-medium text-blue-800 mb-2">Property Fields</div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="font-medium text-blue-800 mb-2">Fields</div>
                     <div class="flex flex-wrap gap-2">
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">segment</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">segment</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">area</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">area</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">property-id</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">property_id</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">type</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">type</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">category</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">category</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">stars</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">stars</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">geo</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">geo</span>
                         <span
-                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm">amenities</span>
+                            class="bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-mono">amenities</span>
                     </div>
-                </div>
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                    <p class="text-sm text-gray-700">
-                        <strong class="text-blue-900">Segment</strong> is a required field in all search queries.
-                    </p>
                 </div>
             </div>
 
-            <!-- Daily Package Details (includes Room Type) -->
+            <!-- ===== DAILY PACKAGES ===== -->
             <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
                 <div class="flex items-center mb-4">
                     <div class="bg-purple-100 p-2 rounded-lg mr-3">
@@ -290,98 +376,103 @@
                             </path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800">Daily Package</h3>
+                    <h3 class="text-xl font-semibold text-gray-800">Daily Packages</h3>
                 </div>
+
                 <p class="text-gray-700 mb-4">
-                    For each property, there is a list of daily packages. Each package represents a specific
-                    <strong>room type</strong> (Standard Double, Deluxe Suite, etc.) for a specific date, including
-                    availability and pricing.
+                    Each property has a list of daily packages. A package represents <strong>one room type</strong>
+                    (Standard Double, Deluxe Suite, etc.)
+                    for <strong>one specific date</strong> — with availability, price, and policy tags.
                 </p>
+
                 <div class="bg-purple-50 p-4 rounded-lg">
-                    <div class="font-medium text-purple-800 mb-2">Daily Package Fields</div>
+                    <div class="font-medium text-purple-800 mb-2">Fields</div>
                     <div class="flex flex-wrap gap-2">
                         <span
-                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm">room-type</span>
+                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm font-mono">room_type</span>
                         <span
-                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm">date</span>
+                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm font-mono">date</span>
                         <span
-                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm">availability</span>
+                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm font-mono">availability</span>
                         <span
-                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm">final-price</span>
+                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm font-mono">final_price</span>
                         <span
-                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm">rate-features</span>
+                            class="bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-sm font-mono">rate_features</span>
                     </div>
                 </div>
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-4">
-                    <p class="text-sm text-gray-700">
-                        <strong class="text-blue-900">Rate features</strong> - up to 24 searchable policy tags
-                        (breakfast, cancellation, room amenities) from admin-defined YAML config named codecs.
-                    </p>
-                </div>
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 mt-4">
-                    <p class="text-sm text-gray-700">
-                        <strong class="text-blue-900">Codecs</strong> - are predefined by admin
-                        and is kept in RzID service. All shards fetch codecs from that service as an immutable copy.
-                        <br /> Codecs are converted to bitmasks and used in queries. Any change to codecs after building
-                        initial snapshot invalidates the state.
-                    </p>
+
+                <!-- Rate Features + Codecs -->
+                <div class="mt-4 space-y-3">
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                        <p class="text-sm text-gray-700">
+                            <strong class="text-blue-900">Rate features</strong> — up to 24 policy tags per package:
+                            <span class="text-gray-500">breakfast, cancellation policy, room amenities, and more.</span>
+                        </p>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                        <p class="text-sm text-gray-700">
+                            <strong class="text-blue-900">Codecs</strong> — a YAML file that defines the list of rate
+                            features.
+                            Stored in <span class="font-mono text-sm bg-gray-200 px-1.5 py-0.5 rounded">RzID</span>,
+                            fetched by all shards as an immutable copy.
+                            <span class="block text-amber-700 text-xs mt-1">⚠️ Changing codecs invalidates all existing
+                                snapshots — plan ahead.</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Shard Architecture (unchanged) -->
+            <!-- ===== SHARD ARCHITECTURE ===== -->
             <div class="text-center mb-10">
                 <p class="text-lg text-gray-600 leading-relaxed mx-auto">
                     Roomzin clusters are deployed per shard — isolated, independent, and unaware of each other.
                     <br>
                     Each shard is partitioned into <span class="font-semibold text-gray-800">segments</span>,
-                    the fundamental unit of geographic isolation for searches.
+                    the unit of geographic isolation for searches.
                 </p>
             </div>
 
+            <!-- ===== EXAMPLE ===== -->
             <div class="bg-white border border-gray-200 rounded-xl p-8 mb-8 shadow-sm">
                 <div class="text-center mb-6">
-                    <p class="text-sm font-medium text-gray-600 uppercase tracking-wider">Example For A Medium Shard
-                    </p>
-                    <p class="text-sm text-gray-500 mt-1">Your numbers will vary based on your platform</p>
+                    <p class="text-sm font-medium text-gray-600 uppercase tracking-wider">Example: One Medium Shard</p>
+                    <p class="text-sm text-gray-500 mt-1">Your numbers will vary</p>
                 </div>
                 <div class="flex flex-wrap items-center justify-center gap-3 md:gap-6">
                     <div class="text-center">
                         <div class="text-3xl font-bold text-gray-400">4</div>
                         <p class="text-sm text-gray-500 font-medium">Segments</p>
-                        <p class="text-sm text-gray-400">in shard</p>
                     </div>
                     <span class="text-gray-300 text-2xl font-light">×</span>
                     <div class="text-center">
                         <div class="text-3xl font-bold text-gray-400">25K</div>
                         <p class="text-sm text-gray-500 font-medium">Properties</p>
-                        <p class="text-sm text-gray-400">per segment</p>
                     </div>
                     <span class="text-gray-300 text-2xl font-light">×</span>
                     <div class="text-center">
                         <div class="text-3xl font-bold text-gray-400">10</div>
                         <p class="text-sm text-gray-500 font-medium">Room Types</p>
-                        <p class="text-sm text-gray-400">per property</p>
                     </div>
                     <span class="text-gray-300 text-2xl font-light">×</span>
                     <div class="text-center">
                         <div class="text-3xl font-bold text-gray-400">60</div>
                         <p class="text-sm text-gray-500 font-medium">Days</p>
-                        <p class="text-sm text-gray-400">hot window</p>
                     </div>
                     <span class="text-gray-300 text-2xl font-light">=</span>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-gray-600">60M</div>
-                        <p class="text-sm text-gray-500 font-medium">Records</p>
-                        <p class="text-sm text-gray-400">in-memory</p>
+                        <div class="text-3xl font-bold text-blue-600">60M</div>
+                        <p class="text-sm text-gray-500 font-medium">Records in-memory</p>
                     </div>
                 </div>
                 <div class="mt-6 pt-6 border-t border-gray-100 text-center">
-                    <p class="text-md text-gray-700 mt-1">
-                        Memory footprint is less than 4.2GB for 60M records. Even smaller than normalized data size.
+                    <p class="text-md text-gray-700">
+                        Memory footprint: <span class="font-semibold">&lt;4.2GB</span> for 60M records.
+                        <span class="text-gray-500 text-sm block">Even smaller than normalized data size.</span>
                     </p>
                 </div>
             </div>
 
+            <!-- ===== THREE KEY CONCEPTS ===== -->
             <div class="grid md:grid-cols-3 gap-4">
                 <div class="text-center p-5 bg-white rounded-xl border border-gray-200 shadow-sm">
                     <div class="text-2xl font-bold text-gray-300 mb-1">01</div>
@@ -403,8 +494,7 @@
             <div class="mt-6 text-center bg-gray-50 border border-gray-200 rounded-lg p-4">
                 <p class="text-sm text-gray-600">
                     <span class="font-semibold text-gray-700">Segment</span>
-                    can be a City or a region with multiple less busy cities or even part of a busy city like New
-                    York.
+                    can be a city, a region with multiple smaller cities, or even part of a busy city like New York.
                 </p>
             </div>
         </section>
@@ -582,259 +672,169 @@
                 </div>
             </div>
 
-            <div class="space-y-8">
-                <!-- ============================================================ -->
-                <!-- SINGLE SHARD DEPLOYMENT                                       -->
-                <!-- ============================================================ -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
-                        <h3 class="text-xl font-semibold text-gray-900">Single Shard Deployment</h3>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            Production Ready
-                        </span>
+            <!-- ============================================================ -->
+            <!-- STAND-ALONE (simplest, put first)                            -->
+            <!-- ============================================================ -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-8">
+                <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
+                    <h3 class="text-xl font-semibold text-gray-900">Stand-alone</h3>
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                        Dev / Single-Node
+                    </span>
+                </div>
+                <div class="px-6 py-5">
+                    <p class="text-sm text-gray-700 mb-4">
+                        Drop the binary next to its config and <code
+                            class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">codecs.yml</code>, then run:
+                    </p>
+                    <div class="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto mb-4">
+                        roomzin run --config /path/to/roomzin.yml --codecs /path/to/codecs.yml
                     </div>
-                    <div class="px-6 py-5 space-y-6">
-                        <p class="text-gray-700 text-sm">
-                            Place the required files (config, <code
-                                class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">*.pem</code>)
-                            on each machine and start the
-                            same binary as shown below. Nodes auto-discover each other—only a single seed is enough
-                            to pull the full peer list, provided the cluster graph stays connected.
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r text-sm text-yellow-800">
+                        <strong>Note:</strong> In cluster mode, codecs are fetched from RzID.
+                        The local <code class="bg-yellow-100 px-1.5 py-0.5 rounded text-xs font-mono">codecs.yml</code>
+                        is only used in standalone mode.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- CLUSTERED (production)                                       -->
+            <!-- ============================================================ -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-8">
+                <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
+                    <h3 class="text-xl font-semibold text-gray-900">Clustered (Production)</h3>
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Production Ready
+                    </span>
+                </div>
+                <div class="px-6 py-5 space-y-6">
+
+                    <!-- Quick summary -->
+                    <p class="text-sm text-gray-700">
+                        Nodes auto-discover each other. Only one seed is needed to pull the full peer list, provided the
+                        cluster graph stays connected.
+                    </p>
+
+                    <!-- Command -->
+                    <div>
+                        <h4 class="font-semibold text-gray-900 mb-2">Starting a Three-Node Cluster</h4>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Replace <code
+                                class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">&lt;node-id&gt;</code>
+                            with <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">node1</code>,
+                            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">node2</code>, or
+                            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">node3</code> on each
+                            machine.
                         </p>
-
-                        <!-- Founding Cluster -->
-                        <div class="pt-4 border-t border-gray-100">
-                            <h4 class="font-semibold text-gray-900 mb-2">Three-node Founding Cluster</h4>
-                            <p class="text-sm text-gray-600 mb-3">
-                                Example for <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">shard1</code>,
-                                <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">zone1</code>.
-                                Replace <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">&lt;node-id&gt;</code>
-                                with the appropriate node ID on each machine.
-                            </p>
-
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
-                                <div class="flex items-center gap-1.5 px-4 py-2 bg-gray-100 border-b border-gray-200">
-                                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                                    <span class="text-xs text-gray-600 ml-2 font-mono">run roomzin</span>
-                                </div>
-                                <pre class="p-4 overflow-x-auto text-sm font-mono text-gray-800 bg-white"><code>./roomzin run-clustered \
-  --config /path/to/roomzin.yml \
-  --node-id &lt;node-id&gt; \
-  --shard-id shard1 \
-  --zone-id zone1 \
-  --initial-voters "node1,node2,node3" \
-  --cert-path /path/to/cert.pem \
-  --key-path /path/to/key.pem \
-  --ca-cert-path /path/to/ca.pem \
-  --rzid-addr http://rzid.internal:8080 \
-  --rzpoint-addr http://rzpoint.internal:8080</code></pre>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-2">
-                                Run this on each of the three founding nodes, changing <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">--node-id</code>
-                                to <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">node1</code>,
-                                <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">node2</code>,
-                                and <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">node3</code>
-                                respectively.
-                            </p>
+                        <div class="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+                            ./roomzin run-clustered \
+                            --config /path/to/roomzin.yml \
+                            --node-id &lt;node-id&gt; \
+                            --shard-id shard1 \
+                            --zone-id zone1 \
+                            --initial-voters "node1,node2,node3" \
+                            --cert-path /path/to/cert.pem \
+                            --key-path /path/to/key.pem \
+                            --ca-cert-path /path/to/ca.pem \
+                            --rzid-addr http://rzid.internal:8080 \
+                            --rzpoint-addr http://rzpoint.internal:8080
                         </div>
+                    </div>
 
-                        <!-- Horizontal Scaling -->
-                        <div class="pt-4 border-t border-gray-100">
-                            <h4 class="font-semibold text-gray-900 mb-2">Horizontal Scaling with Learner Nodes</h4>
-                            <div class="bg-gray-50 border-l-4 border-gray-400 p-3 rounded-r text-sm text-gray-700">
-                                <p>New nodes not listed in <code
-                                        class="bg-gray-200 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">--initial_voters</code>
-                                    automatically join the cluster as a <strong>learner</strong>. They catch up from the
-                                    leader and can later be promoted to a voter if needed. Learners wait for the
-                                    founding voters to elect a leader before catching up.</p>
-                            </div>
+                    <!-- Key concepts -->
+                    <div class="grid md:grid-cols-3 gap-4 pt-2">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h5 class="font-semibold text-gray-800 text-sm">Learner Nodes</h5>
+                            <p class="text-sm text-gray-600">New nodes not in <code
+                                    class="bg-gray-200 px-1 py-0.5 rounded text-xs font-mono">--initial-voters</code>
+                                join as learners. They catch up from the leader and can be promoted later.</p>
                         </div>
-
-                        <!-- Snapshot Restore -->
-                        <div class="pt-4 border-t border-gray-100">
-                            <h4 class="font-semibold text-gray-900 mb-2">Snapshot Restore &amp; Consistency</h4>
-                            <ul class="space-y-2 text-sm text-gray-700">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-blue-600 font-bold mt-0.5">▹</span>
-                                    <span>When starting a brand-new cluster from a snapshot, a <strong>strict
-                                            majority</strong> of the nodes listed in <code
-                                            class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">--initial_voters</code>
-                                        must be restored with the <strong>exact same snapshot</strong>.</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-blue-600 font-bold mt-0.5">▹</span>
-                                    <span>The remaining founding voters and all learners can start completely empty —
-                                        they will safely download the snapshot from the leader once the cluster
-                                        forms.</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-blue-600 font-bold mt-0.5">▹</span>
-                                    <span>Empty nodes are never conflicting. Only <strong>divergent</strong> log
-                                        histories cause issues.</span>
-                                </li>
-                            </ul>
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h5 class="font-semibold text-gray-800 text-sm">Snapshot Restore</h5>
+                            <p class="text-sm text-gray-600">A strict majority of <code
+                                    class="bg-gray-200 px-1 py-0.5 rounded text-xs font-mono">--initial-voters</code>
+                                must have the exact same snapshot. Empty nodes download from the leader.</p>
                         </div>
-
-                        <!-- Bulk Import -->
-                        <div class="pt-4 border-t border-gray-100">
-                            <h4 class="font-semibold text-gray-900 mb-2">Bulk Import &amp; Migration</h4>
-                            <p class="text-sm text-gray-700 mb-2">
-                                Need to bootstrap or migrate Gigabytes of existing data? See the
-                                <a href="#bulk-import" class="text-blue-600 hover:underline font-medium">Bulk Import
-                                    section</a>
-                                — Roomzin can ingest a pre-built binary snapshot at over <strong class="text-blue-700">1
-                                    million records per second per node</strong>.
-                            </p>
-                            <p class="text-sm text-gray-700">
-                                Build the snapshot offline from your current database, distribute it to the cluster, and
-                                start with all historical data instantly available.
-                            </p>
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h5 class="font-semibold text-gray-800 text-sm">Bulk Import</h5>
+                            <p class="text-sm text-gray-600">Build snapshots offline from CSVs. See <a
+                                    href="#bulk-import" class="text-blue-600 hover:underline">Bulk Import</a> for
+                                details.</p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- ============================================================ -->
-                <!-- FULL PLATFORM DEPLOYMENT                                      -->
-                <!-- ============================================================ -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
-                        <h3 class="text-xl font-semibold text-gray-900">Full Platform Deployment</h3>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Required
-                        </span>
-                    </div>
-                    <div class="px-6 py-5 space-y-6">
-                        <p class="text-gray-700 text-sm">
-                            Roomzin is the inventory engine. For a complete production deployment, the following
-                            additional components are required:
-                        </p>
-
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <!-- RzBridge -->
-                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-semibold text-gray-900 text-sm">RzBridge</h4>
-                                    <a href="https://github.com/m-javani/rzbridge" target="_blank"
-                                        class="text-xs text-blue-600 hover:underline">GitHub →</a>
-                                </div>
-                                <p class="text-sm text-gray-600">Shard-aware connector. Routes writes to leader, reads
-                                    to followers.</p>
-                            </div>
-
-                            <!-- RzRouter -->
-                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-semibold text-gray-900 text-sm">RzRouter</h4>
-                                    <a href="https://github.com/m-javani/rzrouter" target="_blank"
-                                        class="text-xs text-blue-600 hover:underline">GitHub →</a>
-                                </div>
-                                <p class="text-sm text-gray-600">Single binary, two modes: Edge (entry point) and Zone
-                                    (intra-zone routing).</p>
-                            </div>
-
-                            <!-- RzID -->
-                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-semibold text-gray-900 text-sm">RzID</h4>
-                                    <a href="https://github.com/m-javani/rzid" target="_blank"
-                                        class="text-xs text-blue-600 hover:underline">GitHub →</a>
-                                </div>
-                                <p class="text-sm text-gray-600">Control-plane registry. Maintains topology and service
-                                    identities. Not on the request hot path.</p>
-                            </div>
-
-                            <!-- RzPoint -->
-                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-semibold text-gray-900 text-sm">RzPoint</h4>
-                                    <span
-                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">Customer-implemented</span>
-                                </div>
-                                <p class="text-sm text-gray-600">
-                                    Resolves logical service identities to hostnames. <strong>Not provided by
-                                        Roomzin.</strong>
-                                    Implement based on your infrastructure (VMs, Kubernetes, cloud).
-                                </p>
-                                <a href="docs.html#rzpoint"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Documentation →</a>
-                            </div>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r">
-                            <p class="text-sm text-blue-800">
-                                <strong>💡 Deployment order:</strong>
-                                Start RzID first, then Roomzin nodes, then RzBridge, then RzRouter (Zone then Edge).
-                                RzPoint must be deployed and available before any component that needs to resolve
-                                service
-                                identities.
-                            </p>
-                        </div>
-                    </div>
+            <!-- ============================================================ -->
+            <!-- FULL PLATFORM (all components)                               -->
+            <!-- ============================================================ -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
+                    <h3 class="text-xl font-semibold text-gray-900">Full Platform</h3>
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        All Components
+                    </span>
                 </div>
+                <div class="px-6 py-5 space-y-6">
+                    <p class="text-sm text-gray-700">
+                        Roomzin is the inventory engine. A complete production deployment requires these additional
+                        components:
+                    </p>
 
-                <!-- ============================================================ -->
-                <!-- STAND-ALONE DEPLOYMENT                                        -->
-                <!-- ============================================================ -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
-                        <h3 class="text-xl font-semibold text-gray-900">Stand-alone Deployment</h3>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                            Dev / Single-Node
-                        </span>
-                    </div>
-                    <div class="px-6 py-5 space-y-6">
-                        <p class="text-sm text-gray-700">
-                            Drop the binary next to its config and <code
-                                class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">codecs.yml</code>
-                            file and run.
-                        </p>
-
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
-                            <pre
-                                class="p-4 overflow-x-auto text-sm font-mono text-gray-800"><code>roomzin run --config /path/to/roomzin.yml --codecs /path/to/codecs.yml</code></pre>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-semibold text-gray-900 text-sm">RzID</h4>
+                                <a href="https://github.com/m-javani/rzid" target="_blank"
+                                    class="text-xs text-blue-600 hover:underline">GitHub →</a>
+                            </div>
+                            <p class="text-sm text-gray-600">Control-plane registry. Topology + service identities. Not
+                                on the hot path.</p>
                         </div>
 
-                        <div class="pt-4 border-t border-gray-100">
-                            <h4 class="font-semibold text-gray-900 mb-2"><code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">codecs.yml</code>
-                                — Rate Features</h4>
-                            <p class="text-sm text-gray-600 mb-3">Defines predefined rate policies used in search
-                                filtering. Maximum 24 entries.</p>
-
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
-                                <pre class="p-4 overflow-x-auto text-sm font-mono text-gray-800"><code>rate_features:
-  - free_cancellation
-  - non_refundable
-  - breakfast_included
-  - late_checkout</code></pre>
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-semibold text-gray-900 text-sm">RzPoint</h4>
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">You
+                                    implement</span>
                             </div>
+                            <p class="text-sm text-gray-600">Resolves logical service IDs to hostnames. Works with VMs,
+                                Kubernetes, or cloud. <a href="docs.html#rzpoint"
+                                    class="text-blue-600 hover:underline text-xs">Docs →</a></p>
+                        </div>
 
-                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r mt-4">
-                                <p class="text-sm text-yellow-800">
-                                    <strong>Important:</strong> Changes to <code
-                                        class="bg-yellow-100 px-1.5 py-0.5 rounded text-xs font-mono text-yellow-800">codecs.yml</code>
-                                    require a full restart. All snapshots will be dropped.
-                                </p>
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-semibold text-gray-900 text-sm">RzBridge</h4>
+                                <a href="https://github.com/m-javani/rzbridge" target="_blank"
+                                    class="text-xs text-blue-600 hover:underline">GitHub →</a>
                             </div>
-
-                            <p class="text-xs text-gray-500 mt-3">
-                                <strong>Note:</strong> In cluster mode, codecs are fetched from RzID. <code
-                                    class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-800">codecs.yml</code>
-                                is only used in standalone mode.
+                            <p class="text-sm text-gray-600">Shard-aware connector. Writes → leader, reads → followers.
                             </p>
                         </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-semibold text-gray-900 text-sm">RzRouter</h4>
+                                <a href="https://github.com/m-javani/rzrouter" target="_blank"
+                                    class="text-xs text-blue-600 hover:underline">GitHub →</a>
+                            </div>
+                            <p class="text-sm text-gray-600">Single binary, two modes: Edge (entry point) and Zone
+                                (intra-zone routing).</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r">
+                        <p class="text-sm text-blue-800">
+                            <strong>💡 Deployment order:</strong>
+                            RzID → Roomzin nodes → RzBridge → RzRouter (Zone then Edge).
+                            RzPoint must be available before any component that resolves service identities.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -932,168 +932,183 @@ bridges:
         </section>
 
 
-        <section id="bulk-import" class="content-section hidden" style="display: block;">
-            <h2 class="text-2xl font-semibold mb-6 text-gray-800">Bulk Import into an Offline Snapshot</h2>
+        <section id="bulk-import" class="content-section hidden">
+            <h2 class="text-2xl font-semibold mb-2 text-gray-800">Bulk Import</h2>
+            <p class="text-gray-600 mb-6">Initialize a shard by building a snapshot from CSV files.</p>
 
-            <div class="prose prose-blue max-w-none">
-                <p class="mb-4 text-gray-700 leading-relaxed">
-                    Roomzin enables efficient data initialization by creating snapshots directly from CSV files.
-                    Bulk import approach is significantly faster than insert queries, capable of
-                    ingesting <span class="font-semibold text-blue-600">over 2.5 million records per second</span>.
-                    Use the <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">build-snapshot</code> command
-                    to generate snapshots from CSVs.
-                </p>
+            <!-- ===== OVERVIEW ===== -->
+            <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-4">
+                    <div class="bg-blue-100 p-2 rounded-lg flex-shrink-0">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-700">
+                            Roomzin builds snapshots directly from CSV files — much faster than insert queries.
+                            <span class="font-semibold text-blue-600">Over 2.5 million records per second.</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">
+                            This is a one-time initialization for new shards.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-                <div class="p-4">
-                    <p class="text-blue-900">
-                        This is a one-time initialization procedure for new shards.
+            <!-- ===== TWO FILES ===== -->
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">What You Need</h3>
+            <p class="text-gray-600 mb-4">Two CSV files per shard, placed in the same directory:</p>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <div class="border border-gray-200 rounded-lg p-4 bg-white">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span
+                            class="bg-blue-100 text-blue-700 text-xs font-mono px-2 py-0.5 rounded">properties.csv</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Hotels and their attributes</p>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-white">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span
+                            class="bg-purple-100 text-purple-700 text-xs font-mono px-2 py-0.5 rounded">packages.csv</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Room types + dates + availability + prices</p>
+                </div>
+            </div>
+
+            <!-- ===== COMMAND ===== -->
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Command</h3>
+            <div class="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto mb-3">
+                roomzin build-snapshot --shard-id &lt;shard_id&gt; --input-path /path/to/csvs --output-path
+                /path/to/snapshot --rzid-addr
+            </div>
+
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
+                <div class="grid md:grid-cols-2 gap-3 text-sm">
+                    <div>
+                        <span class="font-mono text-xs bg-gray-200 px-2 py-0.5 rounded">--shard-id</span>
+                        <span class="text-gray-600 ml-2">Unique shard identifier, e.g. <code
+                                class="bg-gray-200 px-1 py-0.5 rounded text-xs">shard1</code></span>
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs bg-gray-200 px-2 py-0.5 rounded">--input-path</span>
+                        <span class="text-gray-600 ml-2">Directory with both CSV files</span>
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs bg-gray-200 px-2 py-0.5 rounded">--output-path</span>
+                        <span class="text-gray-600 ml-2">Where to save the snapshot (matches <code
+                                class="bg-gray-200 px-1 py-0.5 rounded text-xs">data_dir</code>)</span>
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs bg-gray-200 px-2 py-0.5 rounded">--rzid-addr</span>
+                        <span class="text-gray-600 ml-2">Fetches codecs from RzID; falls back to <code
+                                class="bg-gray-200 px-1 py-0.5 rounded text-xs">codecs.yml</code> in input
+                            directory</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FILE FORMATS ===== -->
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">File Formats</h3>
+
+            <!-- properties.csv -->
+            <div class="bg-white border border-gray-200 rounded-lg p-5 mb-4">
+                <h4 class="font-medium text-gray-800 mb-2 flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-700 text-xs font-mono px-2 py-0.5 rounded">properties.csv</span>
+                </h4>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 font-mono text-sm overflow-x-auto mb-3">
+                    <span
+                        class="text-gray-500">PropertyID,Segment,Area,PropertyType,Category,Stars,Latitude,Longitude,Amenities</span><br>
+                    prop_1,segment_1,New York,hotel,test,4,40.713800,-74.005000,wifi|pool|gym|parking
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">PropertyID</span> <span
+                            class="text-gray-600">Unique ID</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Segment</span> <span
+                            class="text-gray-600">Required — search partition key</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Area</span> <span
+                            class="text-gray-600">Secondary grouping</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">PropertyType</span> <span
+                            class="text-gray-600">e.g. hotel, motel</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Category</span> <span
+                            class="text-gray-600">e.g. test, premium</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Stars</span> <span
+                            class="text-gray-600">1-5 rating</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Latitude,Longitude</span>
+                        <span class="text-gray-600">Coordinates for geo-search</span>
+                    </div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Amenities</span> <span
+                            class="text-gray-600">Pipe-separated list</span></div>
+                </div>
+            </div>
+
+            <!-- packages.csv -->
+            <div class="bg-white border border-gray-200 rounded-lg p-5 mb-6">
+                <h4 class="font-medium text-gray-800 mb-2 flex items-center gap-2">
+                    <span
+                        class="bg-purple-100 text-purple-700 text-xs font-mono px-2 py-0.5 rounded">packages.csv</span>
+                </h4>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 font-mono text-sm overflow-x-auto mb-3">
+                    <span class="text-gray-500">PropertyID,RoomType,Date,Availability,FinalPrice,RateFeature</span><br>
+                    prop_1,room_1,2025-10-03,7,120,free_cancellation|non_refundable|pay_at_property|includes_breakfast
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">PropertyID</span> <span
+                            class="text-gray-600">Must match properties.csv</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">RoomType</span> <span
+                            class="text-gray-600">Identifier, e.g. room_1</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Date</span> <span
+                            class="text-gray-600">YYYY-MM-DD</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">Availability</span> <span
+                            class="text-gray-600">Number of rooms</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">FinalPrice</span> <span
+                            class="text-gray-600">Price for that date</span></div>
+                    <div><span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">RateFeature</span> <span
+                            class="text-gray-600">Pipe-separated — must match codecs</span></div>
+                </div>
+            </div>
+
+            <!-- ===== IMPORTANT NOTES ===== -->
+            <div class="space-y-3 mb-6">
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r">
+                    <p class="text-sm text-yellow-800">
+                        <strong>⚠️ RateFeature must match codecs.</strong>
+                        The pipe-separated values in <code
+                            class="bg-yellow-100 px-1.5 py-0.5 rounded text-xs">RateFeature</code> must exactly match
+                        the rate features defined in your codecs (from RzID or <code
+                            class="bg-yellow-100 px-1.5 py-0.5 rounded text-xs">codecs.yml</code>).
+                        Mismatches will cause import failures.
                     </p>
                 </div>
-
-                <h3 class="text-xl font-semibold mb-4 text-gray-800 pt-2">Preparation</h3>
-                <p class="mb-6 text-gray-700">
-                    To create a snapshot, prepare these two CSV files and place them in a directory:
-                </p>
-
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                    <div class="border border-gray-200 rounded-lg p-5 bg-white shadow-sm">
-                        <div class="flex items-center mb-3">
-                            <div class="bg-blue-100 p-2 rounded-md mr-3">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <h4 class="font-medium text-gray-800">properties.csv</h4>
-                        </div>
-                        <p class="text-gray-600 text-sm">Defines properties with their details and attributes</p>
-                    </div>
-
-                    <div class="border border-gray-200 rounded-lg p-5 bg-white shadow-sm">
-                        <div class="flex items-center mb-3">
-                            <div class="bg-green-100 p-2 rounded-md mr-3">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <h4 class="font-medium text-gray-800">packages.csv</h4>
-                        </div>
-                        <p class="text-gray-600 text-sm">Defines room types, availability, pricing, and rate
-                            cancellation details</p>
-                    </div>
-                </div>
-
-                <h3 class="text-xl font-semibold mb-4 text-gray-800 pt-2">Command</h3>
-                <div class="mb-6">
-                    <div class="bg-gray-800 text-gray-100 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-                        roomzin build-snapshot --shard-id &lt;shard_id&gt; --input-path /path/to/csvs --output-path
-                        /path/to/snapshot --rzid-addr
-                    </div>
-                </div>
-
-                <div class="mb-8">
-                    <h4 class="font-medium text-gray-700 mb-3">Parameters</h4>
-                    <div class="space-y-3">
-                        <div class="flex items-start">
-                            <div class="bg-gray-100 text-gray-800 font-mono text-sm px-3 py-1 rounded mr-3">--shard-id
-                            </div>
-                            <div class="text-gray-700">Unique shard identifier (e.g., "shard1")</div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-gray-100 text-gray-800 font-mono text-sm px-3 py-1 rounded mr-3">--input-path
-                            </div>
-                            <div class="text-gray-700">Directory containing <code
-                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">properties.csv</code> and <code
-                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">packages.csv</code></div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-gray-100 text-gray-800 font-mono text-sm px-3 py-1 rounded mr-3">
-                                --output-path</div>
-                            <div class="text-gray-700">Directory to save snapshot files (should match <code
-                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">data_dir</code> in configuration)
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-gray-100 text-gray-800 font-mono text-sm px-3 py-1 rounded mr-3">
-                                --rzid-addr</div>
-                            <div class="text-gray-700">
-                                RzID service address to fetch codecs. If provided, codecs are fetched from RzID.
-                                If not provided, falls back to static codecs.yml in the input_path directory.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h3 class="text-xl font-semibold mb-4 text-gray-800 pt-2">CSV File Formats</h3>
-
-                <div class="mb-8">
-                    <h4 class="font-medium text-gray-900 mb-3">properties.csv</h4>
-                    <div class="mb-4">
-                        <div class="bg-gray-50 border border-gray-200 p-4 rounded-lg text-md overflow-x-auto"
-                            style="font-family: monospace;">
-                            <span
-                                class="text-gray-900">PropertyID,Segment,Area,PropertyType,Category,Stars,Latitude,Longitude,Amenities</span><br>
-                            prop_1,segment_1,New York,hotel,test,4,40.713800,-74.005000,wifi|pool|gym|parking
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <ul class="pt11">
-                            <li><strong>PropertyID:</strong> UUID string (36 characters) or ASCII text (max 14
-                                characters). Examples: "550e8400-e29b-41d4-a716-446655440000" or "prop_1"</li>
-                            <li><strong>Segment:</strong> Primary grouping key for data partitioning and sharding.
-                                Choose segments that evenly distribute your properties (e.g., geographic regions,
-                                business units, or logical groups). This is a required field in search queries and
-                                critically impacts performance.</li>
-                            <li><strong>Area:</strong> Secondary grouping for finer data organization within a segment.
-                                Use areas to further categorize properties (e.g., neighborhoods, districts) for more
-                                targeted searches.</li>
-                            <li><strong>PropertyType:</strong> Type (e.g., "hotel")</li>
-                            <li><strong>Category:</strong> Category (e.g., "test")</li>
-                            <li><strong>Stars:</strong> Star rating (e.g., 4)</li>
-                            <li><strong>Latitude/Longitude:</strong> Geographic coordinates</li>
-                            <li><strong>Amenities:</strong> Pipe-separated (|) list of amenities</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="mb-8">
-                    <h4 class="font-medium text-gray-900 mb-3">packages.csv</h4>
-                    <div class="mb-4">
-                        <div class="bg-gray-50 border border-gray-200 p-4 rounded-lg text-md overflow-x-auto"
-                            style="font-family: monospace;">
-                            <span
-                                class="text-gray-900">PropertyID,RoomType,Date,Availability,FinalPrice,RateFeature</span><br>
-                            prop_1,room_1,2025-10-03,7,120,free_featurelation|non_refundable|pay_at_property|includes_breakfast
-                        </div>
-                    </div>
-
-                    <ul class="pt11">
-                        <li><strong>PropertyID:</strong> Matches a property in <code>properties.csv</code></li>
-                        <li><strong>RoomType:</strong> Room type identifier (e.g., "room_1"; up to 256 types,
-                            recommended &lt;10 for optimal performance)</li>
-                        <li><strong>Date:</strong> Date in short string format (e.g., "2025-10-03")</li>
-                        <li><strong>Availability:</strong> Number of available rooms (e.g., 7)</li>
-                        <li><strong>FinalPrice:</strong> Price for the room on that date (e.g., 120)</li>
-                        <li><strong>RateFeature:</strong> Pipe-separated (|) list of rate feature options - should match
-                            codecs fetched from RzID or static codecs.yml</li>
-                    </ul>
-                </div>
-
-                <div class="mt-2 p-4 rounded-lg border border-gray-200">
-                    <h4 class="font-medium text-gray-800 mb-3">Next Step</h4>
-                    <p class="mb-4 text-gray-700">
-                        After running the command, place the generated snapshot files in the
-                        <code class="bg-gray-200 px-1.5 py-0.5 rounded text-sm">data_dir</code> configured in
-                        <code class="bg-gray-200 px-1.5 py-0.5 rounded text-sm">roomzin.yml</code>.
-                        Snapshots load quickly at startup, as demonstrated in our benchmarks.
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r">
+                    <p class="text-sm text-amber-800">
+                        <strong>🔒 Codecs are immutable.</strong>
+                        If you change the codec list after building a snapshot, all snapshots become invalid.
+                        Plan your rate features carefully before importing.
                     </p>
                 </div>
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
+                    <p class="text-sm text-blue-800">
+                        <strong>💡 Room type limit.</strong>
+                        Up to 256 room types per property. For best performance, keep it under 10.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ===== NEXT STEP ===== -->
+            <div class="bg-white border border-gray-200 rounded-lg p-5">
+                <h4 class="font-medium text-gray-800 mb-2">Next Step</h4>
+                <p class="text-sm text-gray-600">
+                    Place the generated snapshot files in the <code
+                        class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">data_dir</code>
+                    configured in <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">roomzin.yml</code>.
+                    The snapshot loads at startup.
+                </p>
+                <p class="text-xs text-gray-400 mt-2">
+                    See <a href="#deployment" class="text-blue-600 hover:underline">Deployment</a> for cluster setup.
+                </p>
             </div>
         </section>
 
