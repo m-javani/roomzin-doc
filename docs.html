@@ -106,23 +106,13 @@
                         Configuration
                     </a>
                 </li>
-                <!-- REST API -->
+                <!-- API -->
                 <li class="nav-item">
                     <a href="#rest-api" class="nav-link top-link">
                         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M16 16l4-4-4-4M8 8l-4 4 4 4M12 4v16" />
                         </svg>
-                        <span class="nav-label">REST API</span>
-                    </a>
-                </li>
-
-                <!-- Metrics -->
-                <li class="nav-item">
-                    <a href="#metrics" class="nav-link top-link">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 3v18h18M7 14l5-5 4 4 5-5" />
-                        </svg>
-                        <span class="nav-label">Metrics</span>
+                        <span class="nav-label">API</span>
                     </a>
                 </li>
                 <!-- Benchmark -->
@@ -136,6 +126,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#quick-cluster" class="nav-link top-link">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                        </svg>
+                        <span class="nav-label">Quic Cluster</span>
+                    </a>
+                </li>
+                <hr class="border-gray-200">
+                <li class="nav-item">
                     <a href="#rzpoint" class="nav-link top-link">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M4 4 L20 4 L20 20 L4 20 Z" />
@@ -144,15 +143,6 @@
                             <path d="M8 16 L12 16" />
                         </svg>
                         <span class="nav-label">RzPoint</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#quick-cluster" class="nav-link top-link">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                        </svg>
-                        <span class="nav-label">Quic Cluster</span>
                     </a>
                 </li>
             </ul>
@@ -200,8 +190,7 @@
                         <li>Learn how to <strong>bulk import</strong> millions of records from CSV files</li>
                         <li>Learn how to <strong>deploy</strong> Roomzin in standalone or clustered mode</li>
                         <li>Learn the <strong>configuration</strong></li>
-                        <li>Learn what's available in the <strong>REST API</strong></li>
-                        <li>Learn about the <strong>metrics</strong> provided for monitoring</li>
+                        <li>Learn what's available in the <strong>API</strong></li>
                         <li>Learn how to <strong>benchmark</strong> Roomzin with your own data</li>
                         <li>Use the <strong>Quick Cluster</strong> guide to run a test cluster in Docker Compose</li>
                     </ul>
@@ -1234,7 +1223,7 @@ wal_flush_threshold: 2000</code></pre>
 
 
         <section id="rest-api" class="content-section hidden">
-            <h2 class="text-2xl font-semibold mb-4">REST API</h2>
+            <h2 class="text-2xl font-semibold mb-4">API</h2>
             <hr class="border-gray-300 mb-6" />
 
             <div class="space-y-8">
@@ -1421,515 +1410,169 @@ wal_flush_threshold: 2000</code></pre>
             </div>
         </section>
 
-        <section id="metrics" class="content-section hidden">
-            <div class="mb-8">
-                <h2 class="text-2xl font-semibold mb-2 text-gray-800">Metrics Overview</h2>
-                <p class="text-gray-600">Prometheus metrics for monitoring roomzin performance. TCP metrics are
-                    available in both standalone and clustered modes.</p>
-            </div>
-
-            <div class="space-y-8">
-                <!-- TCP Server Metrics (Available in Both Modes) -->
-                <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">TCP Server Metrics</h3>
-                            <p class="text-gray-600 text-sm">Available in standalone and clustered modes</p>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Active Connections</span>
-                                <span class="metric-type">Gauge</span>
-                            </div>
-                            <code class="metric-name">tcp_connections</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Commands Processed</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_commands_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Bytes Received</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_bytes_received_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Bytes Sent</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_bytes_sent_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Server Errors</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_errors_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Client Errors</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_client_errors_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Client Disconnections</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_client_disconnects_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Failed Logins</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_client_login_fail_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Request Timeouts</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_timeouts_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Rejected Connections</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_rejected_connections_total</code>
-                        </div>
-
-                        <div class="metric-card">
-                            <div class="metric-header">
-                                <span class="metric-label">Rejected Requests</span>
-                                <span class="metric-type">Counter</span>
-                            </div>
-                            <code class="metric-name">tcp_rejected_request_total</code>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cluster Metrics (Clustered Mode Only) -->
-                <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-purple-100 p-2 rounded-lg mr-3">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
-                                </path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Cluster Metrics</h3>
-                            <p class="text-gray-600 text-sm">Available only in clustered mode</p>
-                        </div>
-                    </div>
-
-                    <!-- Connection Metrics -->
-                    <div class="mb-8">
-                        <h4 class="text-lg font-semibold mb-4 text-gray-800">Connection Metrics</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Connections Opened</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_connection_opened_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Connections Accepted</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_connection_accepted_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Connections Rejected</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_connection_rejected_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Connection Errors</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_connection_error_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Connections Dropped</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_connection_dropped_total</code>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Request/Response Metrics -->
-                    <div class="mb-8">
-                        <h4 class="text-lg font-semibold mb-4 text-gray-800">Request/Response Metrics</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Messages Sent</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_message_sent_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Messages Received</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_message_received_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Bytes Sent</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_bytes_sent_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Bytes Received</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_bytes_received_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Send Errors</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_send_error_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Receive Errors</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_receive_error_total</code>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Condition Metrics -->
-                    <div class="mb-8">
-                        <h4 class="text-lg font-semibold mb-4 text-gray-800">Condition Metrics</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Leader Changes</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_leader_changed_total</code>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Snapshot Metrics -->
-                    <div class="mb-8">
-                        <h4 class="text-lg font-semibold mb-4 text-gray-800">Snapshot Metrics</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Snapshots Produced</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_produced_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Snapshot Size</span>
-                                    <span class="metric-type">Gauge</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_size_bytes</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Save Duration</span>
-                                    <span class="metric-type">Gauge</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_save_duration_ms</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Write Pause Duration</span>
-                                    <span class="metric-type">Gauge</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_write_pause_duration_ms</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Load Duration</span>
-                                    <span class="metric-type">Gauge</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_load_duration_ms</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Snapshot Failures</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_failed_count_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Snapshot Transfers</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_transfer_count_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Transfer Duration</span>
-                                    <span class="metric-type">Gauge</span>
-                                </div>
-                                <code class="metric-name">cluster_snapshot_transfer_duration_ms</code>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- WAL Metrics -->
-                    <div>
-                        <h4 class="text-lg font-semibold mb-4 text-gray-800">Write-Ahead Logging (WAL) Metrics</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">WAL Flushes</span>
-                                    <span class="metric-type">Counter</span>
-                                </div>
-                                <code class="metric-name">cluster_wal_flush_count_total</code>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-header">
-                                    <span class="metric-label">Last Applied WAL Index</span>
-                                    <span class="metric-type">Gauge</span>
-                                </div>
-                                <code class="metric-name">cluster_last_applied_wal_index</code>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="commands" class="content-section hidden">
-            <h2 class="text-2xl font-semibold mb-4">Commands</h2>
+        <section id="commands" class="content-section">
+            <h2 class="text-2xl font-semibold mb-4">Core Commands</h2>
             <hr class="border-gray-300 mb-6" />
 
-            <div class="space-y-6">
-                <div class="space-y-8">
-                    <!-- Property Management -->
-                    <div class="border-l-4 border-purple-500 pl-4">
-                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Upsert Data</h3>
-                        <div class="grid gap-3">
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Property</h4>
-                                    <p class="text-sm text-gray-600">Adds a new property or updates an existing one in
-                                        the system</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid gap-3 mt-4">
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Room Daily Package</h4>
-                                    <p class="text-sm text-gray-600">Sets availability, price, and rate features like
-                                        cancellation policies
-                                        for a room type on a date</p>
-                                </div>
+            <!-- Main Commands -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-purple-700 mb-3">Primary Operations</h3>
+                <div class="space-y-3">
+                    <div class="p-4 bg-gray-50 border-l-4 border-purple-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-purple-700 w-48 flex-shrink-0">SETPROP</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Add or Update Property</div>
+                                <div class="text-sm text-gray-600 mt-1">Register a new property or update existing
+                                    property metadata including segment, area, category, star rating, location, and
+                                    amenities.</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Availability Management -->
-                    <div class="border-l-4 border-purple-500 pl-4">
-                        <h3 class="text-lg font-semibold text-purple-700 mb-4">Update Availability</h3>
-                        <div class="grid gap-3">
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Set Room Availability</h4>
-                                    <p class="text-sm text-gray-600">Sets the exact availability for a room type on a
-                                        specific date</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Increment Room Availability</h4>
-                                    <p class="text-sm text-gray-600">Increases the availability for a room type on a
-                                        specific date</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Decrement Room Availability</h4>
-                                    <p class="text-sm text-gray-600">Decreases the availability for a room type on a
-                                        specific date</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Search & Query -->
-                    <div class="border-l-4 border-blue-500 pl-4">
-                        <h3 class="text-lg font-semibold text-blue-700 mb-4">Search & Query</h3>
-                        <div class="grid gap-3">
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Search for Availability</h4>
-                                    <p class="text-sm text-gray-600">Queries the system based on search params like room
-                                        type, dates, price, etc.</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Search Properties</h4>
-                                    <p class="text-sm text-gray-600">Searches properties by segment, area, type, or
-                                        other criteria</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Property Exists</h4>
-                                    <p class="text-sm text-gray-600">Checks if a property exists in the system</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Room Type Exists</h4>
-                                    <p class="text-sm text-gray-600">Checks if a specific room type exists for a
-                                        property</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">List Room Types</h4>
-                                    <p class="text-sm text-gray-600">Lists all room types for a given property</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">List Dates of a Room Type</h4>
-                                    <p class="text-sm text-gray-600">Lists dates set for one of a given property's room
-                                        type</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Get Room Day Details</h4>
-                                    <p class="text-sm text-gray-600">Retrieves details for a room type on a specific
-                                        date</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Delete Operations -->
-                    <div class="border-l-4 border-red-500 pl-4">
-                        <h3 class="text-lg font-semibold text-red-700 mb-4">Delete Operations</h3>
-                        <div class="grid gap-3">
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Delete Day for a Room Type</h4>
-                                    <p class="text-sm text-gray-600">Removes a room's package for a specific date</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Delete Day for a Property</h4>
-                                    <p class="text-sm text-gray-600">Removes all packages of a property on a specific
-                                        date</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Delete a Room Type</h4>
-                                    <p class="text-sm text-gray-600">Removes a specific room type from a property with
-                                        all its packages</p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Delete Property</h4>
-                                    <p class="text-sm text-gray-600">Removes a property and cascade purges its packages
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                class="flex items-start p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mt-1 mr-3 flex-shrink-0"></div>
-                                <div>
-                                    <h4 class="font-medium text-gray-900">Delete Segment</h4>
-                                    <p class="text-sm text-gray-600">Removes a segment with all properties within the
-                                        segment</p>
-                                </div>
+                    <div class="p-4 bg-gray-50 border-l-4 border-purple-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-purple-700 w-48 flex-shrink-0">SETROOMPKG</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Set Room Daily Package</div>
+                                <div class="text-sm text-gray-600 mt-1">Configure availability, pricing, and rate
+                                    features for a specific room type on a specific date.</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Search Commands -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-blue-700 mb-3">Search & Query</h3>
+                <div class="space-y-3">
+                    <div class="p-4 bg-gray-50 border-l-4 border-blue-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-blue-700 w-48 flex-shrink-0">SEARCHAVAIL</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Search for Availability</div>
+                                <div class="text-sm text-gray-600 mt-1">Find available rooms across properties with
+                                    flexible filtering by dates, price, location, amenities, and more.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-gray-50 border-l-4 border-blue-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-blue-700 w-48 flex-shrink-0">SEARCHPROP</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Search Properties</div>
+                                <div class="text-sm text-gray-600 mt-1">Discover properties by segment, geographic area,
+                                    type, star rating, category, amenities, or location proximity.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Availability Management -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-green-700 mb-3">Availability Management</h3>
+                <div class="space-y-3">
+                    <div class="p-4 bg-gray-50 border-l-4 border-green-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-green-700 w-48 flex-shrink-0">SETROOMAVL</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Set Availability</div>
+                                <div class="text-sm text-gray-600 mt-1">Set exact availability count for a room type on
+                                    a specific date.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-gray-50 border-l-4 border-green-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-green-700 w-48 flex-shrink-0">INCROOMAVL</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Increase Availability</div>
+                                <div class="text-sm text-gray-600 mt-1">Increment availability count for a room type on
+                                    a specific date.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-gray-50 border-l-4 border-green-500 rounded-r">
+                        <div class="flex items-start">
+                            <span class="font-mono font-semibold text-green-700 w-48 flex-shrink-0">DECROOMAVL</span>
+                            <div>
+                                <div class="font-medium text-gray-900">Decrease Availability</div>
+                                <div class="text-sm text-gray-600 mt-1">Decrement availability count for a room type on
+                                    a specific date.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Query Commands -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-indigo-700 mb-3">Utility Queries</h3>
+                <div class="space-y-2">
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-indigo-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">PROPEXISTS</span>
+                        <span class="text-sm text-gray-600">Check if a property exists in the system</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-indigo-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">PROPROOMEXIST</span>
+                        <span class="text-sm text-gray-600">Verify if a room type exists for a specific property</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-indigo-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">LISTPROPROOMS</span>
+                        <span class="text-sm text-gray-600">Retrieve all room types configured for a property</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-indigo-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">PROPROOMDATELIST</span>
+                        <span class="text-sm text-gray-600">List all dates with availability set for a room type</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-indigo-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">GETPROPROOMDAY</span>
+                        <span class="text-sm text-gray-600">Fetch complete details for a room on a specific date</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Operations -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-red-700 mb-3">Delete Operations</h3>
+                <div class="space-y-2">
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-red-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">DELROOMDAY</span>
+                        <span class="text-sm text-gray-600">Remove availability data for a room type on a specific
+                            date</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-red-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">DELPROPDAY</span>
+                        <span class="text-sm text-gray-600">Delete all room packages for a property on a given
+                            date</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-red-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">DELPROPROOM</span>
+                        <span class="text-sm text-gray-600">Remove a room type and all its associated data</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-red-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">DELPROP</span>
+                        <span class="text-sm text-gray-600">Delete a property and cascade delete all its packages</span>
+                    </div>
+                    <div class="flex items-baseline p-3 bg-gray-50 border-l-4 border-red-500">
+                        <span class="font-mono font-medium text-gray-900 w-48 flex-shrink-0">DELSEG</span>
+                        <span class="text-sm text-gray-600">Remove an entire segment and all properties within it</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SDK & Documentation Reference -->
+            <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p class="text-sm text-gray-700">
+                    For detailed rules and payload structures of all commands refer to the specifications of
+                    SDKs/RzProxy
+                    on their repository.
+                </p>
             </div>
         </section>
 
