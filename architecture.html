@@ -4,17 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roomzin Architecture</title>
+    <link rel="icon" type="image/x-icon" href="img/icon-sm.png" />
+    <title>Performance benchmarks at booking scale</title>
+    <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- we use zero custom CSS, only Tailwind classes -->
 </head>
 
-<body>
-
-    <!-- header -->
-    <header class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between">
-            <div class="text-2xl font-semibold tracking-tight text-gray-800">Roomzin</div>
+<body class="bg-black-50">
+    <header class="bg-white border-gray-200">
+        <nav class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+            <div class="logo">
+                <img src="img/logo.png" alt="Roomzin Logo" class="w-36" />
+            </div>
             <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 md:mt-0">
                 <a href="index.html" class="menu-link">Roomzin</a>
                 <a href="architecture.html" class="menu-link menu-active">Architecture</a>
@@ -23,14 +24,16 @@
                 <a href="docs.html" class="menu-link">Docs</a>
                 <a href="contact.html" class="menu-link">Contact Us</a>
             </div>
-        </div>
+        </nav>
     </header>
 
     <!-- hero with image (exactly as the original: full architecture diagram) -->
-    <section class="bg-gray-900 text-white text-center py-16">
-        <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">Architecture</h1>
-        <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Overview</p>
-    </section>
+    <div class="bg-gray-900 text-white text-center py-16">
+        <h1 class="text-4xl font-bold mb-4 tracking-tight">Architecture Overview</h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light">
+            How Roomzin delivers predictable latency at global scale
+        </p>
+    </div>
 
     <!-- architecture image – full flow diagram -->
     <div class="bg-white py-12 border-b border-gray-200">
