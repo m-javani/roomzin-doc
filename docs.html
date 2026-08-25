@@ -166,122 +166,116 @@
             </nav>
         </header>
 
-        <section id="overview" class="content-section hidden" style="display: block;">
-            <div class="space-y-8">
-                <!-- What is Roomzin -->
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900 mb-3">What is Roomzin?</h2>
-                    <p class="text-md text-gray-700 leading-relaxed">
-                        Roomzin is a compact, in-memory inventory engine that replaces complex caches and search
-                        indexes with a single binary. It solves consistency and performance issues via instant
-                        updates and deterministic queries—eliminating cache invalidation—while built-in high
-                        availability ensures reliability. It handles complex booking searches in one round-trip
-                        within the live hot-window, complementing Redis for static data.
+        <section id="overview" class="content-section hidden">
+            <h3
+                class="mt-4 text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight border-l-4 border-blue-600 pl-4">
+                The Big Picture — From Zero to Production
+            </h3>
+            <p class="mt-3 text-base sm:text-lg text-gray-700 leading-relaxed pl-5">
+                Running Roomzin as a complete global platform requires five steps.<br />
+                Each step is independent,
+                and you can start small—a single shard—then scale out as your inventory grows.
+            </p>
+
+            <!-- Steps – vertical rows -->
+            <div class="mt-6 space-y-4">
+
+                <!-- Step 1 -->
+                <div class="bg-white rounded-xl border border-gray-200/70 p-4">
+                    <div class="flex items-center gap-3 mb-1">
+                        <div
+                            class="w-8 h-8 bg-purple-100 text-purple-800 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                            1</div>
+                        <span class="font-semibold text-gray-800 text-sm sm:text-base">Implement RzPoint</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed mt-0.5">
+                        A small HTTP service you provide. Resolves logical service IDs (e.g. <code
+                            class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-700">node1</code>)
+                        to hostnames. Works with any infrastructure.
                     </p>
                 </div>
 
-                <hr />
-
-                <!-- The Big Picture: From Zero to Production -->
-                <div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">The Big Picture — From Zero to Production</h3>
-                    <p class="text-gray-700 mb-4">
-                        Running Roomzin as a complete global platform requires four steps. Each step is independent,
-                        and you can start small—a single shard—then scale out as your inventory grows.
+                <!-- Step 2 -->
+                <div class="bg-white rounded-xl border border-gray-200/70 p-4">
+                    <div class="flex items-center gap-3 mb-1">
+                        <div
+                            class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                            2</div>
+                        <span class="font-semibold text-gray-800 text-sm sm:text-base">Prepare CSVs &amp;
+                            Snapshots</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed mt-0.5">
+                        Export <code
+                            class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-700">properties.csv</code>
+                        and <code
+                            class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-700">packages.csv</code>.
+                        Run <code
+                            class="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-700">build-snapshot</code>
+                        to create the initial snapshot.
                     </p>
-
-                    <div class="grid md:grid-cols-4 gap-4">
-                        <!-- Step 1 -->
-                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div
-                                    class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold text-sm">
-                                    1</div>
-                                <span class="font-semibold text-gray-800 text-sm">Implement RzPoint</span>
-                            </div>
-                            <p class="text-sm text-gray-600">
-                                A small HTTP service you provide. Resolves logical service IDs (e.g., <code
-                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">node1</code>) to hostnames.
-                                Works with any infrastructure — VMs, Kubernetes, or cloud.
-                            </p>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div
-                                    class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm">
-                                    2</div>
-                                <span class="font-semibold text-gray-800 text-sm">Prepare CSVs &amp; Build
-                                    Snapshots</span>
-                            </div>
-                            <p class="text-sm text-gray-600">
-                                For each shard, export two CSV files from your database: <code
-                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">properties.csv</code> and <code
-                                    class="bg-gray-100 px-1 py-0.5 rounded text-xs">packages.csv</code>.
-                                Run <code class="bg-gray-100 px-1 py-0.5 rounded text-xs">build-snapshot</code> to
-                                create the initial snapshot.
-                            </p>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div
-                                    class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-bold text-sm">
-                                    3</div>
-                                <span class="font-semibold text-gray-800 text-sm">Start RzID + Shards</span>
-                            </div>
-                            <p class="text-sm text-gray-600">
-                                Launch RzID (lightweight registry). Then start your Roomzin shard nodes. Nodes
-                                auto-discover,
-                                elect a leader, and load the snapshot. Your inventory is now live and searchable.
-                            </p>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div
-                                    class="w-8 h-8 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold text-sm">
-                                    4</div>
-                                <span class="font-semibold text-gray-800 text-sm">Add Routing + RzProxy
-                                    (optional)</span>
-                            </div>
-                            <p class="text-sm text-gray-600">
-                                Deploy RzRouter (Edge + Zone modes) for global routing. Add RzProxy if you need
-                                HTTP/JSON access.
-                                Your platform is now ready to serve global inventory queries.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Visual Flow -->
-                    <div class="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
-                        <p class="text-sm text-gray-700 font-mono">
-                            RzPoint (you) → CSVs → Snapshot → RzID + Shards → RzRouter → RzProxy (optional) → <span
-                                class="font-semibold text-blue-600">Ready to Query</span>
-                        </p>
-                    </div>
                 </div>
 
-                <hr />
-
-                <!-- What You'll Learn -->
-                <div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-3">What You'll Learn in This Documentation</h3>
-                    <ul class="list-disc pl-6 space-y-2 text-gray-700 leading-relaxed">
-                        <li>Learn the <strong>data model</strong> used in Roomzin</li>
-                        <li>Learn the <strong>commands</strong> available for CRUD operations</li>
-                        <li>Learn how to <strong>connect</strong> to Roomzin</li>
-                        <li>Learn how to <strong>bulk import</strong> millions of records from CSV files</li>
-                        <li>Learn how to <strong>deploy</strong> Roomzin in standalone or clustered mode</li>
-                        <li>Learn the <strong>configuration</strong></li>
-                        <li>Learn what's available in the <strong>API</strong></li>
-                        <li>Learn how to <strong>benchmark</strong> Roomzin with your own data</li>
-                        <li>Use the <strong>Quick Cluster</strong> guide to run a test cluster in Docker Compose</li>
-                    </ul>
+                <!-- Step 3 -->
+                <div class="bg-white rounded-xl border border-gray-200/70 p-4">
+                    <div class="flex items-center gap-3 mb-1">
+                        <div
+                            class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                            3</div>
+                        <span class="font-semibold text-gray-800 text-sm sm:text-base">Start RzID +
+                            Shards</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed mt-0.5">
+                        Launch RzID (registry). Start Roomzin shard nodes. Nodes auto-discover, elect a leader,
+                        and load the snapshot.
+                    </p>
                 </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white rounded-xl border-2 border-gray-200/70 p-4">
+                    <div class="flex items-center gap-3 mb-1">
+                        <div
+                            class="w-8 h-8 bg-cyan-100 text-cyan-700 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                            4</div>
+                        <span class="font-semibold text-gray-800 text-sm sm:text-base">RzBridge(s)</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed mt-0.5">
+                        Run a bridge for each shard. The bridge is <strong
+                            class="font-semibold text-gray-800">shard-aware</strong> — it knows the leader and
+                        followers. It routes writes to the leader and reads to followers. Routers cannot connect
+                        to shards without a bridge.
+                    </p>
+                </div>
+
+                <!-- Step 5 – without RzProxy -->
+                <div class="bg-white rounded-xl border border-gray-200/70 p-4">
+                    <div class="flex items-center gap-3 mb-1">
+                        <div
+                            class="w-8 h-8 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                            5</div>
+                        <span class="font-semibold text-gray-800 text-sm sm:text-base">Add RzRouter(s)</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed mt-0.5">
+                        Deploy RzRouter (Edge + Zone modes) for global routing. Your platform is now ready.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Flow bar – simplified, removed RzProxy -->
+            <div class="mt-8 bg-slate-50/80 rounded-2xl border border-gray-200/60 px-4 py-3 text-center">
+                <p class="text-xs sm:text-sm font-mono text-gray-700 tracking-wide break-words">
+                    RzPoint → CSVs → Snapshot → RzID + Shards → RzBridge → RzRouter
+                </p>
+            </div>
+
+            <!-- New row: platform ready, connect via SDKs or RzProxy -->
+            <div class="mt-6 bg-white rounded-xl border border-gray-200/70 p-4 text-center">
+                <p class="text-base sm:text-lg text-gray-800 font-medium">
+                    The platform is ready — you can connect to it using
+                    <span class="font-semibold text-blue-700">native SDKs</span>
+                    or run
+                    <span class="font-semibold text-blue-700">RzProxy</span>
+                    as an HTTP proxy alternative.
+                </p>
             </div>
         </section>
 
@@ -469,25 +463,6 @@
                         Memory footprint: <span class="font-semibold">&lt;4.2GB</span> for 60M records.
                         <span class="text-gray-500 text-sm block">Even smaller than normalized data size.</span>
                     </p>
-                </div>
-            </div>
-
-            <!-- ===== THREE KEY CONCEPTS ===== -->
-            <div class="grid md:grid-cols-3 gap-4">
-                <div class="text-center p-5 bg-white rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-2xl font-bold text-gray-300 mb-1">01</div>
-                    <p class="font-semibold text-gray-800 text-sm">Shard Isolation</p>
-                    <p class="text-sm text-gray-500">Clusters are unaware of each other</p>
-                </div>
-                <div class="text-center p-5 bg-white rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-2xl font-bold text-gray-300 mb-1">02</div>
-                    <p class="font-semibold text-gray-800 text-sm">Segment Design</p>
-                    <p class="text-sm text-gray-500">Partition by geography that matches your search patterns</p>
-                </div>
-                <div class="text-center p-5 bg-white rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-2xl font-bold text-gray-300 mb-1">03</div>
-                    <p class="font-semibold text-gray-800 text-sm">Hot Window</p>
-                    <p class="text-sm text-gray-500">Covers your hot traffic interval — in memory</p>
                 </div>
             </div>
 
