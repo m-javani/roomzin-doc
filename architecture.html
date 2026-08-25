@@ -2,853 +2,485 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="img/icon-sm.png">
-    <title>Roomzin Architecture — Purpose-Built for Booking</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roomzin Architecture</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        section {
-            padding-bottom: 20px;
-        }
-
-        .arch-principle {
-            border-left: 3px solid #d1d5db;
-            padding-left: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .arch-principle h3 {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #111827;
-            margin-bottom: 0.25rem;
-        }
-
-        .arch-principle .why {
-            font-size: 0.875rem;
-            color: #4b5563;
-            margin-bottom: 0.5rem;
-        }
-
-        .arch-principle ul {
-            list-style: disc;
-            padding-left: 1.25rem;
-            font-size: 0.9rem;
-            color: #374151;
-            margin: 0.5rem 0;
-        }
-
-        .arch-principle ul li {
-            margin-bottom: 0.15rem;
-        }
-
-        .takeaway {
-            font-size: 0.875rem;
-            color: #1f2937;
-            background-color: #f9fafb;
-            padding: 0.75rem 1rem;
-            margin-top: 0.75rem;
-            border: 1px solid #e5e7eb;
-        }
-
-        .takeaway strong {
-            color: #111827;
-        }
-
-        .code-example {
-            background-color: #f3f4f6;
-            padding: 0.75rem 1rem;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #1f2937;
-            margin: 0.5rem 0;
-            border: 1px solid #e5e7eb;
-        }
-
-        .code-example .comment {
-            color: #6b7280;
-        }
-
-        .code-example .highlight {
-            color: #2563eb;
-            font-weight: 600;
-        }
-
-        .badge-tech {
-            background-color: #f3f4f6;
-            padding: 0.1rem 0.5rem;
-            font-size: 0.75rem;
-            font-family: monospace;
-            border: 1px solid #d1d5db;
-        }
-
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        @media (max-width: 640px) {
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .comparison-box {
-            padding: 1.25rem;
-            border: 1px solid #e5e7eb;
-            background-color: #ffffff;
-        }
-
-        .comparison-box h4 {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #111827;
-            margin-bottom: 0.5rem;
-        }
-
-        .comparison-box ul {
-            list-style: disc;
-            padding-left: 1.25rem;
-            font-size: 0.875rem;
-            color: #374151;
-        }
-
-        .comparison-box ul li {
-            margin-bottom: 0.15rem;
-        }
-
-        .footnote {
-            background-color: #f9fafb;
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-            color: #374151;
-            border: 1px solid #e5e7eb;
-            margin-top: 1rem;
-        }
-
-        .component-layer {
-            border-left: 3px solid #d1d5db;
-            padding-left: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .component-layer .layer-label {
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #6b7280;
-            display: inline-block;
-            width: 5rem;
-            flex-shrink: 0;
-        }
-
-        .component-layer .layer-content {
-            font-size: 0.9rem;
-            color: #374151;
-        }
-
-        .component-layer .layer-content strong {
-            color: #111827;
-        }
-
-        .component-layer .layer-content .sub {
-            color: #6b7280;
-            font-size: 0.8rem;
-        }
-
-        .request-flow {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.5rem 0.25rem;
-            padding: 1rem;
-            border: 1px solid #e5e7eb;
-            background-color: #fafafa;
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-        }
-
-        .request-flow .hop {
-            background-color: #f3f4f6;
-            padding: 0.25rem 0.75rem;
-            border: 1px solid #d1d5db;
-            font-weight: 500;
-            color: #1f2937;
-        }
-
-        .request-flow .arrow {
-            color: #9ca3af;
-            font-weight: 300;
-        }
-
-        .request-flow .hop.edge {
-            border-color: #93c5fd;
-            background-color: #eff6ff;
-        }
-
-        .request-flow .hop.zone {
-            border-color: #93c5fd;
-            background-color: #eff6ff;
-        }
-
-        .request-flow .hop.bridge {
-            border-color: #6ee7b7;
-            background-color: #ecfdf5;
-        }
-
-        .request-flow .hop.storage {
-            border-color: #c4b5fd;
-            background-color: #f5f3ff;
-        }
-
-        .section-divider {
-            border: 0;
-            border-top: 1px solid #e5e7eb;
-            margin: 2.5rem 0;
-        }
-    </style>
+    <!-- we use zero custom CSS, only Tailwind classes -->
 </head>
 
 <body>
-    <header class="bg-white">
-        <nav class="container mx-auto px-4 py-4 flex flex-wrap items-center justify-center md:justify-between">
-            <div class="logo text-2xl font-semibold w-full md:w-auto text-center md:text-left">
-                <img src="img/logo.png" style="width:150px; max-width:80%; margin:0 auto;" alt="Roomzin" />
-            </div>
-            <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 md:mt-0">
-                <a href="index.html" class="menu-link">Roomzin</a>
-                <a href="architecture.html" class="menu-link menu-active">Architecture</a>
-                <a href="download.html" class="menu-link">Download</a>
-                <a href="benchmarks.html" class="menu-link">Benchmarks</a>
-                <a href="docs.html" class="menu-link">Docs</a>
-                <a href="contact.html" class="menu-link">Contact Us</a>
-            </div>
-        </nav>
+
+    <!-- header -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between">
+            <div class="text-2xl font-semibold tracking-tight text-gray-800">Roomzin</div>
+            <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-gray-600">
+                <a href="#" class="hover:text-gray-900">Product</a>
+                <a href="#" class="text-gray-900 border-b-2 border-blue-500 pb-0.5">Architecture</a>
+                <a href="#" class="hover:text-gray-900">Docs</a>
+                <a href="#" class="hover:text-gray-900">Benchmarks</a>
+                <a href="#" class="hover:text-gray-900">Download</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="bg-gray-900 text-white text-center py-16">
-        <h1 class="text-4xl font-bold mb-4 tracking-tight">Architecture Overview</h1>
-        <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light">
-            How Roomzin delivers predictable latency at global scale
-        </p>
+    <!-- hero with image (exactly as the original: full architecture diagram) -->
+    <section class="bg-gray-900 text-white text-center py-16">
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">Architecture</h1>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Overview</p>
+    </section>
+
+    <!-- architecture image – full flow diagram -->
+    <div class="bg-white py-12 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <img src="./img/archicture.png" alt="Roomzin platform architecture diagram"
+                class="w-full h-auto mx-auto rounded shadow-sm border border-gray-200" />
+            <p class="text-sm text-gray-500 text-center mt-3">SDK / RzProxy → Edge Router → Zone Router → RzBridge →
+                Roomzin Shard</p>
+        </div>
     </div>
 
-    <!-- ===== PLATFORM ARCHITECTURE DIAGRAM ===== -->
-    <div class="bg-white text-center py-12 md:py-16 border-b border-gray-200">
-        <img src="img/archicture.png" class="mx-auto pb-8" alt="Roomzin platform architecture diagram"
-            style="max-width: 1200px;" />
-        <p class="text-sm text-gray-500">SDK / RzProxy → Edge Router → Zone Router → RzBridge → Roomzin Shard</p>
-    </div>
+    <!-- main content -->
+    <main class="max-w-5xl mx-auto px-4 py-12 space-y-16">
 
-    <div class="max-w-5xl mx-auto px-4 py-12">
+        <!-- Overview -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Overview</h2>
+            <p class="text-gray-700 leading-relaxed">Roomzin is a distributed in-memory inventory engine designed for
+                booking workloads.</p>
+            <p class="text-gray-700 mt-4 leading-relaxed">The application uses one logical inventory endpoint. Routing,
+                shard topology, replication, and node failures are handled internally.</p>
+        </section>
 
-        <!-- ============================================================ -->
-        <!--  WHY BOOKING INVENTORY IS DIFFERENT                          -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Why Booking Inventory Is Different</h2>
-            <p class="text-gray-700 leading-relaxed mb-4">
-                Generic search engines optimize for text relevance. Transactional databases optimize for
-                ACID compliance with flexible schemas. Caches optimize for repeated read patterns.
+        <!-- Why Booking Inventory Is Different -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Why Booking Inventory Is Different</h2>
+            <p class="text-gray-700 leading-relaxed">Booking queries combine availability, dates, geography, room types,
+                pricing, amenities, and policies. Roomzin uses a fixed schema and specialized in-memory execution to
+                make these queries predictable.</p>
+        </section>
+
+        <!-- Platform Architecture -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Platform Architecture</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Request Flow</h3>
+            <ul class="list-disc list-inside text-gray-700 mt-3 space-y-1">
+                <li><span class="font-medium">SDK /
+                        <a href="https://github.com/m-javani/rzproxy" target="_blank"
+                            class="text-blue-600 hover:text-blue-800">RzProxy</a>
+                    </span> — client access</li>
+                <li><span class="font-medium">Edge <a href="https://github.com/m-javani/rzrouter" target="_blank"
+                            class="text-blue-600 hover:text-blue-800">Router</a></span> — routes requests to the
+                    appropriate zone</li>
+                <li><span class="font-medium">Zone <a href="https://github.com/m-javani/rzrouter" target="_blank"
+                            class="text-blue-600 hover:text-blue-800">Router</a></span> — routes requests to the
+                    appropriate shard</li>
+                <li><span class="font-medium"><a href="https://github.com/m-javani/rzbridge" target="_blank"
+                            class="text-blue-600 hover:text-blue-800">RzBridge</a></span> — routes within the shard</li>
+                <li><span class="font-medium">Roomzin</span> — executes the query</li>
+            </ul>
+            <p class="text-gray-700 mt-3 leading-relaxed">Applications do not need to know the active zone, shard, node,
+                or leader.</p>
+        </section>
+
+        <!-- Access Layer -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Access Layer</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">SDKs</h3>
+            <p class="text-gray-700">Supported SDKs:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li><a href="https://github.com/m-javani/roomzin-java" target="_blank"
+                        class="text-blue-600 hover:text-blue-800">Java</a></li>
+                <li><a href="https://github.com/m-javani/roomzin-go" target="_blank"
+                        class="text-blue-600 hover:text-blue-800">Go</a></li>
+                <li><a href="https://github.com/m-javani/roomzin-py" target="_blank"
+                        class="text-blue-600 hover:text-blue-800">Python</a></li>
+                <li><a href="https://github.com/m-javani/roomzin-csharp" target="_blank"
+                        class="text-blue-600 hover:text-blue-800">C#</a></li>
+                <li><a href="https://github.com/m-javani/roomzin-js" target="_blank"
+                        class="text-blue-600 hover:text-blue-800">Node.js</a></li>
+            </ul>
+            <p class="text-gray-700 mt-3">Characteristics:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Native binary protocol</li>
+                <li>Connection pooling</li>
+                <li>Asynchronous request/response</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">RzProxy</h3>
+            <p class="text-gray-700">HTTP/JSON interface for legacy or non-native clients.</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Independently deployable</li>
+                <li>Horizontally scalable</li>
+                <li>Prometheus metrics</li>
+                <li>HTTP/2 API</li>
+            </ul>
+        </section>
+
+        <!-- Routing Layer -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Routing Layer</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">RzRouter</h3>
+            <p class="text-gray-700">One binary with two operating modes.</p>
+            <h4 class="font-semibold text-gray-800 mt-3">Edge Mode</h4>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Client-facing entry point</li>
+                <li>Routes requests to the appropriate zone</li>
+                <li>Uses synchronized routing tables</li>
+            </ul>
+            <h4 class="font-semibold text-gray-800 mt-3">Zone Mode</h4>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Runs inside a zone</li>
+                <li>Routes requests to the appropriate shard</li>
+                <li>Uses RzBridge for shard-level routing</li>
+            </ul>
+            <p class="text-gray-700 mt-2">Routing occurs directly in the request path. No external proxy is required.
             </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-                Booking inventory combines <strong>availability, pricing, room types, policies, dates, and
-                    geography</strong> in every request. Each query is a high-dimensional filter that must be
-                consistent—overbooking is unacceptable. This workload is not well-served by general-purpose
-                systems without substantial application-layer complexity.
+        </section>
+
+        <!-- Bridge Layer -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Bridge Layer</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">RzBridge</h3>
+            <p class="text-gray-700">Shard-aware connector between routers and Roomzin nodes.</p>
+            <p class="text-gray-700 mt-2">RzBridge knows:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Nodes belonging to the shard</li>
+                <li>Current shard leader</li>
+                <li>Available followers</li>
+            </ul>
+            <p class="text-gray-700 mt-2">Routing:</p>
+            <div
+                class="bg-gray-50 border border-gray-200 rounded-md p-3 font-mono text-sm text-gray-800 whitespace-pre overflow-x-auto">
+                Writes → Leader<br />
+                Reads → Followers
+            </div>
+            <p class="text-gray-700 mt-2">RzBridge isolates shard topology from the routing layer.</p>
+            <p class="text-gray-700 mt-1">Leader changes and node failures do not require application-level topology
+                changes.</p>
+        </section>
+
+        <!-- Storage Layer -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Storage Layer</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Roomzin</h3>
+            <p class="text-gray-700">Roomzin is an in-memory inventory engine.</p>
+            <p class="text-gray-700 mt-2">The hot booking window is stored in memory and organized into replicated
+                shards.</p>
+            <p class="text-gray-700 mt-2">The query engine is optimized for:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Geography</li>
+                <li>Dates</li>
+                <li>Availability</li>
+                <li>Room type</li>
+                <li>Price</li>
+                <li>Amenities</li>
+                <li>Policies</li>
+            </ul>
+            <p class="text-gray-700 mt-2">Each shard contains the complete dataset for that shard.</p>
+        </section>
+
+        <!-- Query Execution -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Query Execution</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Fixed Schema</h3>
+            <p class="text-gray-700">Booking attributes use fixed-size representations.</p>
+            <p class="text-gray-700 mt-1">Attributes are represented as a bitmasks and numbers.</p>
+            <p class="text-gray-700 mt-2">Benefits:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Bitwise filtering</li>
+                <li>SIMD-friendly execution</li>
+                <li>No string comparisons</li>
+                <li>No runtime hash lookups</li>
+                <li>Compact memory layout</li>
+                <li>Cache-friendly access</li>
+            </ul>
+            <div
+                class="bg-gray-50 border border-gray-200 rounded-md p-3 font-mono text-sm text-gray-800 whitespace-pre overflow-x-auto mt-3">
+                attributes<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br />
+                bitmasks and numbers<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br />
+                bitwise filtering
+            </div>
+            <p class="text-gray-700 mt-2">Maximum: <span class="font-medium">24 boolean attributes per each daily
+                    package.</span>
             </p>
-            <p class="text-gray-700 leading-relaxed">
-                Roomzin is purpose-built for this domain. The architecture that follows is a direct
-                consequence of these characteristics.
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Numeric Encoding</h3>
+            <p class="text-gray-700">Human-readable values are converted to numeric identifiers during ingestion.</p>
+            <div
+                class="bg-gray-50 border border-gray-200 rounded-md p-3 font-mono text-sm text-gray-800 whitespace-pre overflow-x-auto mt-2">
+                "pool" → bit position 2<br />
+                "Hilton" → 16-bit ID 142
+            </div>
+            <p class="text-gray-700 mt-2">The query path operates on integers.</p>
+            <p class="text-gray-700">There is no runtime parsing or string interning.</p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Geospatial Indexing</h3>
+            <p class="text-gray-700">Roomzin uses <span class="font-medium">H3</span> for geographic indexing.</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Hierarchical hexagonal grid</li>
+                <li>Numeric cell identifiers</li>
+                <li>Radius/area filtering</li>
+                <li>Variable geographic resolution</li>
+                <li>No tree traversal in the query path</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Segment-Based Execution</h3>
+            <p class="text-gray-700">Inventory is partitioned into independent segments.
             </p>
-            <div class="takeaway mt-4">
-                <strong>Why it matters:</strong> Specialization enables deterministic performance. Roomzin
-                trades general-purpose flexibility for predictable latency on booking workloads.
+            <div
+                class="bg-gray-50 border border-gray-200 rounded-md p-3 font-mono text-sm text-gray-800 whitespace-pre overflow-x-auto mt-2">
+                Query<br />
+                &nbsp;&nbsp;│<br />
+                &nbsp;&nbsp;├── Segment A → Core 1<br />
+                &nbsp;&nbsp;├── Segment B → Core 2<br />
+                &nbsp;&nbsp;├── Segment C → Core 3<br />
+                &nbsp;&nbsp;└── Segment D → Core 4
+            </div>
+            <p class="text-gray-700 mt-2">Properties:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Independent processing queues</li>
+                <li>No cross-segment locking</li>
+                <li>No cross-segment synchronization</li>
+                <li>Large segments can be split across cores</li>
+                <li>CPU/core pinning for cache locality</li>
+            </ul>
+            <p class="text-gray-700 mt-2">Segments execute in parallel and results are combined after processing.</p>
+        </section>
+
+        <!-- Request / Response Pipeline -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Request / Response Pipeline</h2>
+            <p class="text-gray-700">Roomzin uses independent request and response streams.</p>
+            <h4 class="font-semibold text-gray-800 mt-3">Request stream</h4>
+            <p class="text-gray-700">Clients can send multiple requests without waiting for previous responses.</p>
+            <h4 class="font-semibold text-gray-800 mt-3">Response stream</h4>
+            <p class="text-gray-700">Responses are returned asynchronously and may arrive out of order.</p>
+            <p class="text-gray-700 mt-1">Each request contains a correlation ID.</p>
+            <div
+                class="bg-gray-50 border border-gray-200 rounded-md p-3 font-mono text-sm text-gray-800 whitespace-pre overflow-x-auto mt-2">
+                Request 1 ─────┐<br />
+                Request 2 ─────┼──→ Processing<br />
+                Request 3 ─────┘<br />
+                <br />
+                Response 2 ←──────<br />
+                Response 1 ←──────<br />
+                Response 3 ←──────
+            </div>
+            <p class="text-gray-700 mt-2">This avoids connection-level head-of-line blocking.</p>
+        </section>
+
+        <!-- Replication -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Replication</h2>
+            <p class="text-gray-700">Each shard is a <span class="font-medium">Raft cluster</span>.</p>
+            <h4 class="font-semibold text-gray-800 mt-3">Leader</h4>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Handles writes</li>
+                <li>Replicates state through Raft</li>
+            </ul>
+            <h4 class="font-semibold text-gray-800 mt-3">Followers</h4>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Hold the complete shard dataset</li>
+                <li>Serve reads</li>
+            </ul>
+            <h4 class="font-semibold text-gray-800 mt-3">Full Replication</h4>
+            <p class="text-gray-700">Every node in a shard contains the complete shard dataset.</p>
+            <p class="text-gray-700 mt-1">Therefore:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Reads do not require cross-node joins</li>
+                <li>Any follower can serve any read</li>
+                <li>Read capacity increases by adding followers</li>
+                <li>Shard queries require no distributed coordination</li>
+            </ul>
+        </section>
+
+        <!-- Persistence -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Persistence</h2>
+            <p class="text-gray-700">Roomzin uses lock-free snapshots for persistence.</p>
+            <p class="text-gray-700 mt-1">Implementation uses Rust atomic references and copy-on-write.</p>
+            <p class="text-gray-700 mt-2">Current characteristics:</p>
+            <div class="overflow-x-auto mt-2">
+                <table class="min-w-full border border-gray-200 text-sm text-gray-700">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="border border-gray-200 px-4 py-2 text-left font-medium">Metric</th>
+                            <th class="border border-gray-200 px-4 py-2 text-right font-medium">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">Snapshot pause</td>
+                            <td class="border border-gray-200 px-4 py-2 text-right">4–10 ms</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">60M record load</td>
+                            <td class="border border-gray-200 px-4 py-2 text-right">~3 seconds</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">Snapshot size</td>
+                            <td class="border border-gray-200 px-4 py-2 text-right">~90MB for 5.3GB of raw data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-gray-700 mt-2">Snapshot creation does not block query execution.</p>
+        </section>
+
+        <!-- Global Distribution -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Global Distribution</h2>
+            <p class="text-gray-700">Roomzin distributes inventory through zones and shards.</p>
+            <div
+                class="bg-gray-50 border border-gray-200 rounded-md p-3 font-mono text-sm text-gray-800 whitespace-pre overflow-x-auto mt-2">
+                Global<br />
+                &nbsp;├── Zone A<br />
+                &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── Shard 1<br />
+                &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── Shard 2<br />
+                &nbsp;│<br />
+                &nbsp;├── Zone B<br />
+                &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── Shard 3<br />
+                &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── Shard 4<br />
+                &nbsp;│<br />
+                &nbsp;└── Zone C<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Shard 5<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Shard 6
+            </div>
+            <p class="text-gray-700 mt-2">Routing tables determine:</p>
+            <p class="text-gray-700 font-mono text-sm bg-gray-50 border border-gray-200 rounded-md p-2 inline-block">
+                Segment → Zone → Shard → Node</p>
+            <p class="text-gray-700 mt-2">The application only sees the logical Roomzin service.</p>
+        </section>
+
+        <!-- Control Plane -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Control Plane</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">RzID</h3>
+            <p class="text-gray-700">Lightweight service registry.</p>
+            <p class="text-gray-700 mt-1">Responsibilities:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>Component registration</li>
+                <li>Heartbeats</li>
+                <li>Topology management</li>
+                <li>Segment → shard ownership</li>
+            </ul>
+            <p class="text-gray-700 mt-1">RzID is <span class="font-medium">not on the request hot path</span>.</p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">RzPoint</h3>
+            <p class="text-gray-700">Customer-provided HTTP service for resolving logical service identities to
+                hostnames.</p>
+            <p class="text-gray-700 mt-1">Works with:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5">
+                <li>VMs</li>
+                <li>Kubernetes</li>
+                <li>Cloud infrastructure</li>
+                <li>Custom infrastructure</li>
+            </ul>
+            <p class="text-gray-700 mt-1">RzPoint separates logical service identity from physical deployment.</p>
+        </section>
+
+        <!-- Network Protocols -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Network Protocols</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border border-gray-200 text-sm text-gray-700">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="border border-gray-200 px-4 py-2 text-left font-medium">Connection</th>
+                            <th class="border border-gray-200 px-4 py-2 text-left font-medium">Protocol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">SDK / RzProxy ↔ Cluster</td>
+                            <td class="border border-gray-200 px-4 py-2">TCP</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">Roomzin Node ↔ Node</td>
+                            <td class="border border-gray-200 px-4 py-2">QUIC</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">RzProxy API</td>
+                            <td class="border border-gray-200 px-4 py-2">HTTP/2</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-4 py-2">Discovery / RzPoint</td>
+                            <td class="border border-gray-200 px-4 py-2">HTTP</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Core Technologies</h3>
+            <ul class="list-disc list-inside text-gray-700 space-y-0.5">
+                <li><span class="font-medium">Rust</span> — Roomzin implementation</li>
+                <li><span class="font-medium">TiKV Raft</span> — consensus and replication</li>
+                <li><span class="font-medium">Tokio</span> — asynchronous runtime</li>
+                <li><span class="font-medium">QUIC</span> — internal node-to-node transport</li>
+                <li><span class="font-medium">H3</span> — geospatial indexing</li>
+            </ul>
+        </section>
+
+        <!-- Architectural Constraints -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Architectural Constraints</h2>
+            <p class="text-gray-700">Roomzin intentionally limits the query model.</p>
+            <ul class="list-disc list-inside text-gray-700 mt-2 space-y-0.5">
+                <li>Maximum <span class="font-medium">24 attributes</span> for room policy and rates</li>
+                <li>Fixed schema</li>
+                <li>Numeric-only query execution</li>
+                <li>Full replication within a shard</li>
+                <li>No distributed joins within a shard</li>
+                <li>Hot booking window held in memory</li>
+            </ul>
+            <p class="text-gray-700 mt-2">These constraints are part of the execution model rather than configuration
+                options.</p>
+        </section>
+
+        <!-- Architecture Summary -->
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Architecture Summary</h2>
+            <p class="text-gray-700 mt-4 font-medium">Key properties:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-1 space-y-0.5 columns-1 md:columns-2">
+                <li>Fixed-size data representation</li>
+                <li>In-memory execution</li>
+                <li>Parallel segment processing</li>
+                <li>Full shard replication</li>
+                <li>Raft-based consistency</li>
+                <li>Follower read scaling</li>
+                <li>Topology-aware routing</li>
+                <li>Lock-free snapshots</li>
+                <li>Asynchronous request/response</li>
+                <li>Custom binary protocol</li>
+            </ul>
+        </section>
+
+        <!-- Benchmarks -->
+        <section class="border-t border-gray-200 pt-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Benchmarks</h2>
+            <p class="text-gray-700">Run Roomzin against real booking inventory data.</p>
+            <div class="flex flex-wrap gap-4 mt-4">
+                <a href="/benchmarks.html" target="_blank"
+                    class="inline-block bg-gray-900 text-white px-6 py-2.5 text-sm font-medium rounded hover:bg-gray-800 transition">View
+                    Benchmarks</a>
+                <a href="/download.html" target="_blank"
+                    class="inline-block bg-white text-gray-900 px-6 py-2.5 text-sm font-medium rounded border border-gray-300 hover:bg-gray-50 transition">Download
+                    Roomzin</a>
             </div>
         </section>
 
-        <hr class="section-divider" />
+    </main>
 
-        <!-- ============================================================ -->
-        <!--  PLATFORM ARCHITECTURE                                        -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Platform Architecture</h2>
-            <p class="text-gray-600 mb-6">One logical inventory service. Distributed underneath.</p>
-
-            <!-- Request Flow -->
-            <div class="request-flow">
-                <span class="hop">SDK</span>
-                <span class="text-gray-400 text-xs">or</span>
-                <span class="hop">RzProxy</span>
-                <span class="arrow">→</span>
-                <span class="hop edge">Edge Router</span>
-                <span class="arrow">→</span>
-                <span class="hop zone">Zone Router</span>
-                <span class="arrow">→</span>
-                <span class="hop bridge">RzBridge</span>
-                <span class="arrow">→</span>
-                <span class="hop storage">Roomzin Shard</span>
-            </div>
-            <p class="text-xs text-gray-500 -mt-2 mb-6">Application never knows which zone, shard, or node handled the
-                request</p>
-
-            <!-- Components by Layer -->
-            <div class="space-y-4">
-
-                <!-- Access Layer -->
-                <div class="component-layer">
-                    <div class="flex items-start">
-                        <span class="layer-label">Access</span>
-                        <div class="layer-content">
-                            <p><strong>SDKs</strong> — Java, Go, Python, C#, Node.js. Connect directly to Edge Routers.
-                                <span class="sub">Native binary protocol, connection pooling.</span>
-                            </p>
-                            <p class="mt-1"><strong>RzProxy</strong> — HTTP/JSON proxy for legacy platforms.
-                                Provides Prometheus metrics. <span class="sub">Deploy independently, scale
-                                    horizontally.</span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Routing Layer -->
-                <div class="component-layer" style="border-left-color: #60a5fa;">
-                    <div class="flex items-start">
-                        <span class="layer-label" style="color: #2563eb;">Routing</span>
-                        <div class="layer-content">
-                            <p><strong>RzRouter</strong> — Single binary, two modes:</p>
-                            <ul class="list-disc pl-5 mt-1 text-gray-700">
-                                <li><strong>Edge Mode</strong> — Entry point for clients. Routes by segment to the right
-                                    zone.</li>
-                                <li><strong>Zone Mode</strong> — Operates inside a zone. Routes by segment to the right
-                                    shard via RzBridge.</li>
-                            </ul>
-                            <p class="text-gray-500 text-xs mt-1">Routers maintain synchronized routing tables. Routing
-                                happens directly in the data path. No external proxy required.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bridge Layer -->
-                <div class="component-layer" style="border-left-color: #34d399;">
-                    <div class="flex items-start">
-                        <span class="layer-label" style="color: #059669;">Bridge</span>
-                        <div class="layer-content">
-                            <p><strong>RzBridge</strong> — Shard-aware connector.</p>
-                            <ul class="list-disc pl-5 mt-1 text-gray-700">
-                                <li>Knows which Roomzin nodes belong to the shard and which is leader</li>
-                                <li><strong>Writes</strong> → leader · <strong>Reads</strong> → followers</li>
-                                <li>Isolates shard topology from routers</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Storage Layer -->
-                <div class="component-layer" style="border-left-color: #a78bfa;">
-                    <div class="flex items-start">
-                        <span class="layer-label" style="color: #7c3aed;">Storage</span>
-                        <div class="layer-content">
-                            <p><strong>Roomzin</strong> — In-memory inventory engine.</p>
-                            <ul class="list-disc pl-5 mt-1 text-gray-700">
-                                <li>Stores hot booking window with schema for travel inventory</li>
-                                <li>Organized into shards with Raft-based replication</li>
-                                <li>Optimized for filtering by location, dates, room type, availability, price,
-                                    amenities, policies</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Control Plane -->
-                <div class="component-layer" style="border-left-color: #9ca3af;">
-                    <div class="flex items-start">
-                        <span class="layer-label" style="color: #6b7280;">Control</span>
-                        <div class="layer-content">
-                            <p><strong>RzID</strong> — Lightweight service registry. Components register and send
-                                heartbeats. Maintains topology — which shard owns which segments. <span
-                                    class="font-semibold text-gray-600">Not on request hot path.</span></p>
-                            <p class="mt-1"><strong>RzPoint</strong> — <span
-                                    class="text-gray-500">Customer-provided</span> HTTP service. Resolves logical
-                                service identities to hostnames. Works with any infrastructure (VM, K8s, cloud).</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Why This Architecture -->
-            <div class="border border-gray-200 p-5 mt-6 bg-gray-50">
-                <h4 class="font-semibold text-gray-900 mb-2">Why This Architecture</h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div>
-                        <span class="font-semibold text-gray-800">Decoupled Layers</span>
-                        <p class="text-gray-600">Storage, routing, and discovery are independent. Each scales without
-                            affecting others.</p>
-                    </div>
-                    <div>
-                        <span class="font-semibold text-gray-800">Topology Isolation</span>
-                        <p class="text-gray-600">Application sees one endpoint. Zones, shards, and node failures are
-                            transparent.</p>
-                    </div>
-                    <div>
-                        <span class="font-semibold text-gray-800">Infrastructure Agnostic</span>
-                        <p class="text-gray-600">RzPoint decouples logical identities from physical infrastructure.
-                            Works with VMs, containers, or cloud.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  CORE ENGINE DESIGN DECISIONS                                -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Core Engine Design Decisions</h2>
-            <p class="text-gray-600 mb-8">Every architectural choice follows from the characteristics of booking
-                inventory search.</p>
-
-            <!-- 1. Fixed Schema -->
-            <div class="arch-principle">
-                <h3>Fixed Schema</h3>
-                <div class="why">Booking attributes are represented as a fixed bitmap rather than variable-length
-                    strings.</div>
-                <ul>
-                    <li>Bitwise filtering (single CPU cycle per attribute check)</li>
-                    <li>SIMD-friendly for batch processing</li>
-                    <li>No string comparisons or hash lookups during query execution</li>
-                    <li>Cache-friendly memory layout</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Filtering becomes a deterministic arithmetic operation rather than
-                    a variable-cost lookup.
-                </div>
-            </div>
-
-            <!-- 2. Numeric Encoding -->
-            <div class="arch-principle">
-                <h3>Numeric Encoding</h3>
-                <div class="why">All human-readable values (brand names, amenity labels, policy types) are converted to
-                    numeric identifiers during ingestion.</div>
-                <ul>
-                    <li>Query execution operates entirely on integers</li>
-                    <li>No runtime parsing or string interning</li>
-                    <li>Smaller memory footprint</li>
-                </ul>
-                <div class="code-example">
-                    <span class="comment">// Example: amenity encoding</span><br>
-                    "pool" &rarr; <span class="highlight">bit position 2</span><br>
-                    "Hilton" &rarr; <span class="highlight">16-bit ID: 142</span>
-                </div>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Numeric operations are deterministic and CPU-predictable.
-                </div>
-            </div>
-
-            <!-- 3. H3 Geospatial Indexing -->
-            <div class="arch-principle">
-                <h3>H3 Geospatial Indexing</h3>
-                <div class="why">Uber's H3 hexagonal grid provides constant-time radius lookups without tree traversal
-                    overhead.</div>
-                <ul>
-                    <li>O(1) radius search instead of O(log n) R-tree</li>
-                    <li>Hierarchical resolution for variable precision</li>
-                    <li>No index maintenance overhead during updates</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Location filtering does not degrade as the dataset grows.
-                </div>
-            </div>
-
-            <!-- 4. Segment-Based Execution -->
-            <div class="arch-principle">
-                <h3>Segment-Based Execution</h3>
-                <div class="why">Data is partitioned into independent segments (e.g., by geographic zone) that execute
-                    in parallel without coordination.</div>
-                <ul>
-                    <li>Each segment processes on a dedicated core</li>
-                    <li>No cross-segment locking or synchronization</li>
-                    <li>Linear CPU scaling with dataset size</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Throughput scales predictably with hardware parallelism.
-                </div>
-            </div>
-
-            <!-- 5. Custom Binary Protocol -->
-            <div class="arch-principle">
-                <h3>Custom Binary Protocol</h3>
-                <div class="why">A zero-parsing wire format replaces HTTP/JSON for client-cluster communication.</div>
-                <ul>
-                    <li>No serialization overhead</li>
-                    <li>Compact payload size</li>
-                    <li>Deterministic parsing latency</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Network round-trips contribute minimal variable latency.
-                </div>
-            </div>
-
-            <!-- 6. Full Replication -->
-            <div class="arch-principle">
-                <h3>Full Replication</h3>
-                <div class="why">Every node in the shard holds the complete dataset. No sharding or distributed joins.
-                </div>
-                <ul>
-                    <li>Any follower can serve any read query</li>
-                    <li>No cross-node coordination during reads</li>
-                    <li>Consistent 1–2ms read latency</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Read scaling is additive. Adding followers reduces per-node load
-                    without increasing complexity.
-                </div>
-            </div>
-
-            <!-- 7. Lock-Free Snapshots -->
-            <div class="arch-principle">
-                <h3>Lock-Free Snapshots</h3>
-                <div class="why">Rust's atomic references and copy-on-write enable snapshot creation without blocking
-                    queries.</div>
-                <ul>
-                    <li>Snapshot pause time: 4–10 ms</li>
-                    <li>60M record load time: ~3 seconds</li>
-                    <li>Snapshot size: ~15% of raw data</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Persistence does not impact query latency.
-                </div>
-            </div>
-
-            <!-- 8. Decoupled Request/Response Channels -->
-            <div class="arch-principle">
-                <h3>Decoupled Request/Response Channels</h3>
-                <div class="why">Request streams and response streams are independent, allowing full pipeline
-                    utilization.</div>
-                <ul>
-                    <li>Clients can send multiple requests without blocking</li>
-                    <li>Responses arrive out-of-order and are demultiplexed by correlation ID</li>
-                    <li>No head-of-line blocking</li>
-                </ul>
-                <div class="takeaway">
-                    <strong>Why it matters:</strong> Network utilization is maximized even with mixed request sizes.
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  SHARD CLUSTER ARCHITECTURE                                  -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Shard Cluster Architecture</h2>
-            <p class="text-gray-600 mb-6">Each shard is a Raft-based cluster. Bridges handle routing into the shard.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-2">Components</h4>
-                    <ul class="text-sm text-gray-700 space-y-1 list-disc list-inside">
-                        <li><strong>Leader</strong> — handles all write operations</li>
-                        <li><strong>Followers</strong> — handle read operations</li>
-                        <li><strong>RzBridge</strong> — routes requests to leader/follower</li>
-                        <li><strong>RzID</strong> — topology registry (not on hot path)</li>
-                    </ul>
-                </div>
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-2">Connection Protocols</h4>
-                    <ul class="text-sm text-gray-700 space-y-1 list-disc list-inside">
-                        <li><span class="badge-tech">TCP</span> SDK/Proxy ↔ Cluster</li>
-                        <li><span class="badge-tech">QUIC</span> Node ↔ Node (Raft)</li>
-                        <li><span class="badge-tech">HTTP/2</span> RzProxy API, Discovery</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 p-5 bg-gray-50">
-                <h4 class="font-semibold text-gray-900 mb-2">Routing Within the Shard</h4>
-                <p class="text-sm text-gray-700">
-                    RzBridge is shard-aware. It knows which Roomzin nodes belong to the shard and which node is
-                    currently the leader.
-                    Writes go to the leader. Reads go to an appropriate follower. Routers above the bridge do not need
-                    to know the internal topology.
-                </p>
-                <div class="takeaway mt-3">
-                    <strong>Why it matters:</strong> Shard internal topology is isolated from the rest of the platform.
-                    Bridges provide a clean interface.
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  CORE TECHNOLOGIES                                           -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Core Technologies</h2>
-            <p class="text-gray-600 mb-6">Roomzin reuses mature distributed systems components rather than reinventing
-                consensus or networking.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-1">TiKV Raft</h4>
-                    <p class="text-sm text-gray-600">CNCF-graduated consensus implementation. Same reliability as etcd.
-                        Single-digit ms leader election.</p>
-                </div>
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-1">Tokio</h4>
-                    <p class="text-sm text-gray-600">Async runtime with custom thread pool configuration. 10k+
-                        concurrent connections per node.</p>
-                </div>
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-1">QUIC</h4>
-                    <p class="text-sm text-gray-600">Encrypted, multiplexed transport for internal Raft communication.
-                        Avoids head-of-line blocking.</p>
-                </div>
-            </div>
-
-            <div class="takeaway mt-4">
-                <strong>Why it matters:</strong> Using battle-tested components reduces risk and allows the team to
-                focus on the storage and indexing layers that are specific to booking inventory.
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  SEGMENT-BASED PARALLELISM                                   -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Segment-Based Parallelism</h2>
-            <p class="text-gray-600 mb-6">Data is partitioned into logical segments that execute independently on CPU
-                cores.</p>
-
-            <div class="border border-gray-200 p-6 mb-6 bg-gray-50">
-                <div class="flex flex-col md:flex-row gap-6">
-                    <div class="md:w-2/5">
-                        <div class="border border-gray-200 p-4 bg-white">
-                            <div class="text-center text-sm font-medium text-gray-500 mb-3">Segment Distribution</div>
-                            <div class="space-y-2">
-                                <div class="flex items-center text-sm">
-                                    <span
-                                        class="w-6 h-6 bg-gray-100 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3 border border-gray-200">1</span>
-                                    <span class="text-gray-700">Paris North</span>
-                                    <span class="ml-auto text-xs text-gray-500">360 properties</span>
-                                </div>
-                                <div class="flex items-center text-sm">
-                                    <span
-                                        class="w-6 h-6 bg-gray-100 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3 border border-gray-200">2</span>
-                                    <span class="text-gray-700">Paris South</span>
-                                    <span class="ml-auto text-xs text-gray-500">420 properties</span>
-                                </div>
-                                <div class="flex items-center text-sm">
-                                    <span
-                                        class="w-6 h-6 bg-gray-100 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3 border border-gray-200">3</span>
-                                    <span class="text-gray-700">Paris Central</span>
-                                    <span class="ml-auto text-xs text-gray-500">510 properties</span>
-                                </div>
-                                <div class="text-center text-gray-400 text-xs">⋮</div>
-                                <div class="flex items-center text-sm">
-                                    <span
-                                        class="w-6 h-6 bg-gray-100 text-gray-700 flex items-center justify-center text-xs font-medium rounded mr-3 border border-gray-200">N</span>
-                                    <span class="text-gray-700">Large Segment</span>
-                                    <span class="ml-auto text-xs text-gray-500">multiple processors</span>
-                                </div>
-                            </div>
-                            <div class="mt-3 pt-3 border-t border-gray-200 text-xs text-gray-500 text-center">
-                                Each segment maps to a CPU core
-                            </div>
-                        </div>
-                    </div>
-                    <div class="md:w-3/5">
-                        <h4 class="font-semibold text-gray-900 mb-2">How It Works</h4>
-                        <ul class="text-sm text-gray-700 space-y-2 list-disc list-inside">
-                            <li>Segments are defined by partition key (e.g., geographic zone)</li>
-                            <li>Each segment has its own processing queue</li>
-                            <li>No cross-segment synchronization or locking</li>
-                            <li>Large segments can be split across multiple cores</li>
-                            <li>Processors are pinned to cores for cache efficiency</li>
-                        </ul>
-                        <div class="takeaway mt-3">
-                            <strong>Why it matters:</strong> Throughput scales linearly with core count. Adding CPU
-                            resources improves performance without architectural changes.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  DECOUPLED CHANNELS                                          -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Decoupled Request/Response Channels</h2>
-            <p class="text-gray-600 mb-6">Traditional blocking request/response limits throughput. Roomzin uses
-                independent streams.</p>
-
-            <div class="comparison-grid">
-                <div class="comparison-box">
-                    <h4>Traditional Blocking</h4>
-                    <ul>
-                        <li>Client sends request</li>
-                        <li>Connection blocks waiting for response</li>
-                        <li>Server processes request</li>
-                        <li>Server sends response</li>
-                        <li>Client can send next request</li>
-                    </ul>
-                    <div class="text-xs text-gray-500 mt-2">Connection idle while processing</div>
-                </div>
-                <div class="comparison-box">
-                    <h4>Roomzin Decoupled</h4>
-                    <ul>
-                        <li><strong>Request Stream</strong> — client sends multiple requests</li>
-                        <li><strong>Processing</strong> — server processes in parallel</li>
-                        <li><strong>Demux</strong> — responses routed by correlation ID</li>
-                        <li><strong>Streaming</strong> — responses arrive out-of-order</li>
-                    </ul>
-                    <div class="text-xs text-gray-500 mt-2">Full pipeline utilization</div>
-                </div>
-            </div>
-
-            <div class="footnote">
-                <strong>How it works:</strong> Each request includes a correlation ID. The SDK maintains a mapping;
-                responses are delivered asynchronously. The server uses separate thread pools for request processing and
-                response transmission.
-            </div>
-
-            <div class="takeaway">
-                <strong>Why it matters:</strong> Eliminates head-of-line blocking. Throughput is limited by processing
-                capacity, not connection overhead.
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  DELIBERATE CONSTRAINTS                                      -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Deliberate Constraints</h2>
-            <p class="text-gray-600 mb-6">Roomzin makes intentional trade-offs. These are documented, not hidden.</p>
-
-            <div class="border border-gray-200 p-6 bg-gray-50">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="border border-gray-200 p-4 bg-white">
-                        <h4 class="font-semibold text-gray-900 mb-1">Constraint</h4>
-                        <p class="text-sm text-gray-700">Maximum 24 boolean attributes per property</p>
-                    </div>
-                    <div class="border border-gray-200 p-4 bg-white">
-                        <h4 class="font-semibold text-gray-900 mb-1">Rationale</h4>
-                        <p class="text-sm text-gray-700">Booking systems rarely require hundreds of searchable boolean
-                            attributes. This limit allows all attributes to fit in a single 24-bit integer, enabling
-                            constant-time filtering.</p>
-                    </div>
-                </div>
-                <div class="mt-4 p-3 bg-white border border-gray-200 text-sm text-gray-700">
-                    <strong>Additional constraints:</strong> Fixed schema (no dynamic fields). Numeric-only query
-                    execution (no string operations). Full replication only (no sharding within a shard).
-                </div>
-                <div class="takeaway mt-3">
-                    <strong>Why it matters:</strong> Explicit constraints enable deterministic performance. There are no
-                    hidden scalability cliffs.
-                </div>
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  PRACTICAL BENEFITS                                          -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Practical Benefits</h2>
-            <p class="text-gray-600 mb-6">Observable engineering outcomes from the architecture described above.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-2">Operational</h4>
-                    <ul class="text-sm text-gray-700 space-y-1 list-disc list-inside">
-                        <li>No cache invalidation logic</li>
-                        <li>No search index synchronization</li>
-                        <li>Follower nodes scale reads naturally</li>
-                        <li>Existing transactional database remains unchanged</li>
-                        <li>Routing layer isolates topology from clients</li>
-                    </ul>
-                </div>
-                <div class="border border-gray-200 p-5 bg-white">
-                    <h4 class="font-semibold text-gray-900 mb-2">Performance</h4>
-                    <ul class="text-sm text-gray-700 space-y-1 list-disc list-inside">
-                        <li>Predictable sub-millisecond read latency</li>
-                        <li>Strong consistency for inventory (no overbooking)</li>
-                        <li>Lower tail latency during load spikes</li>
-                        <li>No cross-node joins during query execution</li>
-                        <li>Segments parallelize across cores</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="takeaway mt-4">
-                <strong>Why it matters:</strong> Fewer moving parts reduce operational complexity. Predictable
-                performance removes the need for defensive caching.
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- ============================================================ -->
-        <!--  DESIGN PHILOSOPHY                                           -->
-        <!-- ============================================================ -->
-        <section class="mb-16">
-            <div class="bg-gray-900 text-white p-8">
-                <p class="text-2xl font-bold mb-3 text-white">Design Philosophy</p>
-                <p class="text-gray-300 leading-relaxed">
-                    Roomzin is intentionally specialized. It trades general-purpose flexibility for
-                    predictable performance on booking workloads. Every architectural decision—from fixed
-                    schemas and bitmap filtering to segment-based parallelism and topology-aware routing—serves
-                    that single objective.
-                </p>
-                <p class="text-gray-300 leading-relaxed mt-3">
-                    The platform handles global distribution. The engine handles inventory search.
-                    Together they deliver deterministic latency at any scale.
-                </p>
-            </div>
-        </section>
-
-        <!-- ============================================================ -->
-        <!--  CALL TO ACTION                                              -->
-        <!-- ============================================================ -->
-        <section class="text-center py-12 bg-gray-50 border border-gray-200">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Evaluate Roomzin</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto mb-6">
-                Run your own benchmarks against real booking inventory data.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="benchmarks.html"
-                    class="bg-gray-900 text-white px-6 py-3 font-medium hover:bg-gray-800 transition-colors">
-                    View Benchmarks
-                </a>
-                <a href="download.html"
-                    class="bg-white text-gray-900 px-6 py-3 font-medium border border-gray-300 hover:bg-gray-50 transition-colors">
-                    Download Roomzin
-                </a>
-            </div>
-        </section>
-
-    </div>
-
-    <footer class="bg-gray-800 text-white text-center py-8">
-        <p>&copy; 2026 Roomzin. All rights reserved.</p>
+    <!-- footer -->
+    <footer class="bg-gray-800 text-white text-center py-6 mt-8">
+        <p class="text-sm">&copy; 2026 Roomzin. All rights reserved.</p>
     </footer>
+
 </body>
 
 </html>
